@@ -1,0 +1,91 @@
+package org.code.jarvis.model.core;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * Created by KimChheng on 5/9/2017.
+ */
+@MappedSuperclass
+public abstract class AbstractEntity implements Serializable {
+
+    protected Long id;
+    protected String code;
+    protected String desc;
+    @JsonIgnore
+    protected String userCreate;
+    @JsonIgnore
+    protected Date createDate;
+    @JsonIgnore
+    protected String userUpdate;
+    @JsonIgnore
+    protected Date updateDate;
+
+    @Transient
+    public abstract Long getId();
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Transient
+    public abstract String getCode();
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    @Transient
+    public abstract String getDesc();
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    @Column(name = "usr_create")
+    public String getUserCreate() {
+        return userCreate;
+    }
+
+    public void setUserCreate(String userCreate) {
+        this.userCreate = userCreate;
+    }
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "cre_date")
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        if (createDate != null)
+            this.createDate = new Date(createDate.getTime());
+        else
+            this.createDate = null;
+    }
+
+    @Column(name = "usr_update")
+    public String getUserUpdate() {
+        return userUpdate;
+    }
+
+    public void setUserUpdate(String userUpdate) {
+        this.userUpdate = userUpdate;
+    }
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "upd_date")
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        if (updateDate != null)
+            this.updateDate = new Date(updateDate.getTime());
+        else
+            this.updateDate = null;
+    }
+}
