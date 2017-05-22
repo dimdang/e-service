@@ -33,6 +33,7 @@ import java.util.List;
 public class MobileController {
 
     private final Logger log = LoggerFactory.getLogger(MobileController.class);
+
     @Autowired
     private ProductEntityService productEntityService;
     @Autowired
@@ -137,5 +138,4 @@ public class MobileController {
         }
         return null;
     }
-
 }

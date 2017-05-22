@@ -2,7 +2,6 @@ package org.code.jarvis.controller;
 
 import io.swagger.annotations.*;
 import org.code.jarvis.component.ApplicationContextProvider;
-import org.code.jarvis.model.core.Student;
 import org.code.jarvis.repository.EntityDao;
 import org.code.jarvis.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;

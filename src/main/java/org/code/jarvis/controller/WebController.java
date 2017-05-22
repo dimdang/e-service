@@ -4,10 +4,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.code.jarvis.model.core.Applicant;
+import org.code.jarvis.model.core.Color;
 import org.code.jarvis.model.core.Image;
 import org.code.jarvis.model.core.Product;
 import org.code.jarvis.model.response.JResponseEntity;
 import org.code.jarvis.service.ApplicantEntityService;
+import org.code.jarvis.service.EntityService;
 import org.code.jarvis.service.ProductEntityService;
 import org.code.jarvis.util.ResponseFactory;
 import org.slf4j.Logger;
@@ -32,6 +34,7 @@ import java.util.List;
 public class WebController {
 
     private final Logger log = LoggerFactory.getLogger(WebController.class);
+
     @Autowired
     private ProductEntityService productEntityService;
     @Autowired
@@ -123,7 +126,6 @@ public class WebController {
             @ApiResponse(code = 500, message = "Internal Server Error")})
     @PostMapping(value = "/applicant/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public JResponseEntity<Object> fetchApplicants() {
-
         List<Applicant> list = new ArrayList<>();
         try {
             list = applicantEntityService.list(Applicant.class);

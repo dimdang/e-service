@@ -1,5 +1,7 @@
 package org.code.jarvis.model.refdata;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.code.jarvis.model.core.AbstractEntity;
 
 import javax.persistence.*;
@@ -11,21 +13,9 @@ import javax.persistence.*;
 @Table(name = "td_gender")
 public class Gender extends AbstractEntity {
 
-    public static final Gender BOY_SIDE = new Gender(1l, "boy", "boy_side");
-    public static final Gender GIRL_SIDE = new Gender(2l, "girl", "girl_side");
-
-    public Gender() {
-
-    }
-
-    public Gender(Long id, String code, String desc) {
-        this.id = id;
-        this.code = code;
-        this.desc = desc;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("ID")
     @Column(name = "gen_id")
     @Override
     public Long getId() {
@@ -33,12 +23,14 @@ public class Gender extends AbstractEntity {
     }
 
     @Column(name = "gen_code", length = 50)
+    @JsonIgnore
     @Override
     public String getCode() {
         return code;
     }
 
     @Column(name = "gen_desc", length = 100)
+    @JsonProperty("DESC")
     @Override
     public String getDesc() {
         return desc;

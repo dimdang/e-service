@@ -1,5 +1,7 @@
 package org.code.jarvis.model.refdata;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.code.jarvis.model.core.AbstractEntity;
 
 import javax.persistence.*;
@@ -11,10 +13,12 @@ import javax.persistence.*;
 @Table(name = "td_commune")
 public class Commune extends AbstractEntity {
 
+    @JsonIgnore
     private District district;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("ID")
     @Column(name = "com_id")
     @Override
     public Long getId() {
@@ -22,12 +26,14 @@ public class Commune extends AbstractEntity {
     }
 
     @Column(name = "com_code", length = 50)
+    @JsonIgnore
     @Override
     public String getCode() {
         return code;
     }
 
     @Column(name = "com_desc", length = 100)
+    @JsonProperty("DESC")
     @Override
     public String getDesc() {
         return desc;
@@ -41,5 +47,12 @@ public class Commune extends AbstractEntity {
 
     public void setDistrict(District district) {
         this.district = district;
+    }
+
+    @JsonProperty("DIS_ID")
+    public Long district() {
+        if (district != null)
+            return district.getId();
+        return null;
     }
 }
