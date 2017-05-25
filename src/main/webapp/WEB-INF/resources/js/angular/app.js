@@ -2,7 +2,7 @@ var app = angular.module('ngApp', []);
 
 app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     
-    $scope.baseUrl = "http://localhost:8080/api/web";
+    $scope.baseUrl = "https://e-service-application.herokuapp.com/api/web";
     $scope.products = [];
     $scope.applicants = [];
    	$scope.images = [];
@@ -12,7 +12,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
   	$scope.fetchColor = function(){
   		$http({
          method: 'GET',
-         url:'http://localhost:8080/api/data/color/fetch',
+         url:'https://e-service-application.herokuapp.com/api/data/color/fetch',
       }).then(function(response){
         console.log(response.data["DATA"]);
         $scope.colors=response.data["DATA"];
