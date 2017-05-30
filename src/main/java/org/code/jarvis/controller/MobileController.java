@@ -77,14 +77,13 @@ public class MobileController {
             notes = "The client have to submit json applicant and images using form data",
             response = JResponseEntity.class,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             protocols = "http")
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal Server Error")})
-    @PostMapping(value = "/applicant/submit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/applicant/submit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public JResponseEntity<Object> submitApplicant(@RequestPart(required = false) MultipartFile[] files,
                                                    @RequestPart(required = false) String json) {
         try {
