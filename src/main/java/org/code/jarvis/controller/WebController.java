@@ -82,6 +82,7 @@ public class WebController {
     public JResponseEntity<Object> fetchProducts() {
         List list = new ArrayList();
         try {
+            log.info("===>>> client request fetch all product");
             list = productEntityService.list(Product.class);
         } catch (Exception e) {
             log.error(e.getMessage());
