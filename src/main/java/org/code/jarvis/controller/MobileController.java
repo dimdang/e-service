@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponses;
 import org.code.jarvis.model.core.Applicant;
 import org.code.jarvis.model.core.Image;
 import org.code.jarvis.model.core.Product;
+import org.code.jarvis.model.request.RequestApplicant;
 import org.code.jarvis.model.response.JProduct;
 import org.code.jarvis.model.response.JResponseEntity;
 import org.code.jarvis.service.ApplicantEntityService;
@@ -136,5 +137,12 @@ public class MobileController {
             return new HttpEntity<>(bytes, headers);
         }
         return null;
+    }
+
+
+    @PostMapping(value = "/test",produces = MediaType.TEXT_PLAIN_VALUE)
+    public String test(@RequestBody RequestApplicant applicant){
+
+        return "Hello world";
     }
 }

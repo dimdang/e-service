@@ -37,17 +37,19 @@ public class ApplicantEntityDaoImpl extends AbstractEntityDao implements Applica
                     applicant = new Applicant();
                     persons = new ArrayList<>(requestPersons.size());
                     for (RequestPerson requestPerson : requestPersons) {
+                        applicant.setOther(requestApplicant.getOther());
+                        applicant.setDate(requestApplicant.getDate());
                         Person person = new Person(requestPerson);
                         person.setGender(loadEntityById(new Long(requestPerson.getGender()), Gender.class));
                         Address address = new Address();
-                        address.setProvince(loadEntityById(new Long(requestPerson.getProvince()), Province.class));
-                        address.setCommune(loadEntityById(new Long(requestPerson.getCommune()), Commune.class));
-                        address.setDistrict(loadEntityById(new Long(requestPerson.getDistrict()), District.class));
-                        address.setVillage(loadEntityById(new Long(requestPerson.getVillage()), Village.class));
-                        person.setAddress(address);
-                        PersonContact personContact = new PersonContact(requestPerson);
-                        personContact.setPerson(person);
-                        person.setPersonContant(personContact);
+                        address.setProvince(loadEntityById(new Long(requestApplicant.getProvince()), Province.class));
+                        address.setCommune(loadEntityById(new Long(requestApplicant.getCommune()), Commune.class));
+                        address.setDistrict(loadEntityById(new Long(requestApplicant.getDistrict()), District.class));
+                        address.setVillage(loadEntityById(new Long(requestApplicant.getVillage()), Village.class));
+                        applicant.setAddress(address);
+                        PersonContact personContact = new PersonContact(requestApplicant);
+                        personContact.setApplicant(applicant);
+                        applicant.setPersonContant(personContact);
                         person.setApplicant(applicant);
                         persons.add(person);
                     }

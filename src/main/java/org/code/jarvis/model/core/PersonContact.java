@@ -1,6 +1,7 @@
 package org.code.jarvis.model.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.code.jarvis.model.request.RequestApplicant;
 import org.code.jarvis.model.request.RequestPerson;
 
 import javax.persistence.*;
@@ -12,19 +13,21 @@ import javax.persistence.*;
 @Table(name = "td_person_contact")
 public class PersonContact extends AbstractContact {
 
+    //@JsonIgnore
+    //private Person person;
     @JsonIgnore
-    private Person person;
+    private Applicant applicant;
 
     public PersonContact() {
 
     }
 
-    public PersonContact(RequestPerson requestPerson) {
-        this.phone1 = requestPerson.getPhone1();
-        this.phone2 = requestPerson.getPhone2();
-        this.phone3 = requestPerson.getPhone3();
-        this.facebook = requestPerson.getFacebook();
-        this.email = requestPerson.getEmail();
+    public PersonContact(RequestApplicant requestApplicant) {
+        this.phone1 = requestApplicant.getPhone1();
+        this.phone2 = requestApplicant.getPhone2();
+        this.phone3 = requestApplicant.getPhone3();
+        this.facebook = requestApplicant.getFacebook();
+        this.email = requestApplicant.getEmail();
     }
 
     @Id
@@ -50,7 +53,7 @@ public class PersonContact extends AbstractContact {
         return desc;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
+    /*@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false)
     public Person getPerson() {
         return person;
@@ -58,5 +61,15 @@ public class PersonContact extends AbstractContact {
 
     public void setPerson(Person person) {
         this.person = person;
+    }*/
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "app_id", referencedColumnName = "app_id", nullable = false)
+    public Applicant getApplicant() {
+        return applicant;
+    }
+
+    public void setApplicant(Applicant applicant) {
+        this.applicant = applicant;
     }
 }
