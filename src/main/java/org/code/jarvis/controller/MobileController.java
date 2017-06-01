@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponses;
 import org.code.jarvis.model.core.Applicant;
 import org.code.jarvis.model.core.Image;
 import org.code.jarvis.model.core.Product;
+import org.code.jarvis.model.request.RequestApplicant;
 import org.code.jarvis.model.response.JProduct;
 import org.code.jarvis.model.response.JResponseEntity;
 import org.code.jarvis.service.ApplicantEntityService;
@@ -45,14 +46,13 @@ public class MobileController {
             notes = "This url does fetch products with pagination",
             response = JResponseEntity.class,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             protocols = "http")
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal Server Error")})
-    @PostMapping(value = "/product/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(value = "/product/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public JResponseEntity<Object> fetchProducts(@RequestParam(value = "offset", required = true, defaultValue = "1") int offset,
                                                  @RequestParam(value = "limit", required = true, defaultValue = "10") int limit) {
         List<JProduct> response = new ArrayList<>();
@@ -136,5 +136,12 @@ public class MobileController {
             return new HttpEntity<>(bytes, headers);
         }
         return null;
+    }
+
+
+    @PostMapping(value = "/test",produces = MediaType.TEXT_PLAIN_VALUE)
+    public String test(@RequestBody RequestApplicant applicant){
+
+        return "Hello world";
     }
 }

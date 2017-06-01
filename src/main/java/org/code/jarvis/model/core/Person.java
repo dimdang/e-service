@@ -23,14 +23,14 @@ public class Person extends AbstractEntity {
     private String fatName;
     @JsonProperty("MOTHER_NAME")
     private String momName;
-    @JsonProperty("BIRTH_DATE")
-    private String dob;
+    //@JsonIgnore
+    //private String dob;
     @JsonIgnore
     private Gender gender;
-    @JsonIgnore
-    private Address address;
-    @JsonProperty("CONTACT")
-    private PersonContact personContant;
+    //@JsonIgnore
+    //private Address address;
+    //@JsonIgnore
+    //private PersonContact personContant;
     @JsonIgnore
     private Applicant applicant;
 
@@ -41,7 +41,7 @@ public class Person extends AbstractEntity {
         this.name = requestPerson.getName();
         this.fatName = requestPerson.getFatName();
         this.momName = requestPerson.getMomName();
-        this.dob = requestPerson.getDob();
+        //this.dob = requestPerson.getDob();
     }
 
     @Id
@@ -94,15 +94,6 @@ public class Person extends AbstractEntity {
         this.momName = momName;
     }
 
-    @Column(name = "per_dob", length = 50)
-    public String getDob() {
-        return dob;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
-    }
-
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "gen_id", referencedColumnName = "gen_id")
     public Gender getGender() {
@@ -111,6 +102,15 @@ public class Person extends AbstractEntity {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    /*@Column(name = "per_dob", length = 50)
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -131,7 +131,7 @@ public class Person extends AbstractEntity {
     public void setPersonContant(PersonContact personContant) {
         this.personContant = personContant;
     }
-
+*/
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_id", referencedColumnName = "app_id")
     public Applicant getApplicant() {
@@ -149,7 +149,7 @@ public class Person extends AbstractEntity {
         return "";
     }
 
-    @JsonProperty("ADDRESS")
+    /*@JsonProperty("ADDRESS")
     public Map<String, Object> address() {
         if (address != null) {
             Map<String, Object> map = new HashMap<String, Object>();
@@ -160,7 +160,7 @@ public class Person extends AbstractEntity {
             return map;
         }
         return null;
-    }
+    }*/
 
 
 }

@@ -5,8 +5,8 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.baseUrl = "https://e-service-application.herokuapp.com/api/web";
     $scope.products = [];
     $scope.applicants = [];
-   	$scope.images = [];
-   	$scope.colors = [];   
+    $scope.images = [];
+    $scope.colors = [];
 
 
   	$scope.fetchColor = function(){
@@ -32,8 +32,8 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
   		},function(response){
   			console.log(response);
             alert("There are some error plase contact to developer");
-  		});
-  	}
+        });
+    }
 
   	$scope.fetchApplicant = function(){
   		$http({
@@ -128,37 +128,30 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
       console.log(arrayFile[i].name);
    	}
 
-   	$scope.viewCustomer = function(applicant){
-        for(var i=0;i<applicant.PERSONS.length;i++){
-          var person=applicant.PERSONS[i];
-          if(person.GENDER==="man"){
-     		     $("#mName").text("Name: "+person.NAME);
-             $("#mFatName").text("Father Name: "+person.FATHER_NAME);
-             $("#mMomName").text("Mother Name: "+person.MOTHER_NAME);
-             $("#mDob").text("Birth Date: "+person.BIRTH_DATE);
-             $("#mProvince").text("Province: "+person.ADDRESS.PROVINCE);
-             $("#mDistrict").text("District: "+person.ADDRESS.DISTRICT);
-             $("#mCommune").text("Commune: "+person.ADDRESS.COMMUNE);
-             $("#mVillage").text("Village: "+person.ADDRESS.VILLAGE);
-             $("#mTel").text("Tel: "+person.CONTACT.PHONE1+", "+person.CONTACT.PHONE2+", "+person.CONTACT.PHONE3);
-             $("#mEmail").text("Email : "+person.CONTACT.EMAIL);
-             $("#mFB").text("Facebook : "+person.CONTACT.FACEBOOK);
-           }
-          if(person.GENDER==="woman"){
-             $("#fName").text("Name: "+person.NAME);
-             $("#fFatName").text("Father Name: "+person.FATHER_NAME);
-             $("#fMomName").text("Mother Name: "+person.MOTHER_NAME);
-             $("#fDob").text("Birth Date: "+person.BIRTH_DATE);
-             $("#fProvince").text("Province: "+person.ADDRESS.PROVINCE);
-             $("#fDistrict").text("District: "+person.ADDRESS.DISTRICT);
-             $("#fCommune").text("Commune: "+person.ADDRESS.COMMUNE);
-             $("#fVillage").text("Village: "+person.ADDRESS.VILLAGE);
-             $("#fTel").text("Tel: "+person.CONTACT.PHONE1+", "+person.CONTACT.PHONE2+", "+person.CONTACT.PHONE3);
-             $("#fEmail").text("Email : "+person.CONTACT.EMAIL);
-             $("#fFB").text("Facebook : "+person.CONTACT.FACEBOOK);
-          }
+    $scope.viewCustomer = function (applicant) {
+        for (var i = 0; i < applicant.PERSONS.length; i++) {
+            var person = applicant.PERSONS[i];
+            if (person.GENDER === "man") {
+                $("#mName").text("Name: " + person.NAME);
+                $("#mFatName").text("Father Name: " + person.FATHER_NAME);
+                $("#mMomName").text("Mother Name: " + person.MOTHER_NAME);
+            }
+            if (person.GENDER === "woman") {
+                $("#fName").text("Name: " + person.NAME);
+                $("#fFatName").text("Father Name: " + person.FATHER_NAME);
+                $("#fMomName").text("Mother Name: " + person.MOTHER_NAME);
+            }
         }
-   	}
+        $("#date").text("Date: " + applicant.DATE);
+        $("#province").text("Province: " + applicant.ADDRESS.PROVINCE);
+        $("#district").text("District: " + applicant.ADDRESS.DISTRICT);
+        $("#commune").text("Commune: " + applicant.ADDRESS.COMMUNE);
+        $("#village").text("Village: " + applicant.ADDRESS.VILLAGE);
+        $("#tel").text("Tel: " + applicant.CONTACT.PHONE1 + ", " + applicant.CONTACT.PHONE2 + ", " + applicant.CONTACT.PHONE3);
+        $("#email").text("Email : " + applicant.CONTACT.EMAIL);
+        $("#fb").text("Facebook : " + applicant.CONTACT.FACEBOOK);
+        $("#other").text("Other : " + applicant.OTHER);
+    }
 
 	$scope.reset = function(){
 		    $scope.txtId="";

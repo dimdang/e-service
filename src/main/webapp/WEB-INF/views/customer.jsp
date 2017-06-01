@@ -294,11 +294,11 @@
                                                 <table class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                     <tr>
-                                                        <th>Applicant</th>
-                                                        <th>Code</th>
-                                                        <th>Size</th>
-                                                        <th>Price</th>
-                                                        <th>Color</th>
+                                                        <th>Customer ID</th>
+                                                        <th>Product Code</th>
+                                                        <th>Product Size</th>
+                                                        <th>Product Price</th>
+                                                        <th>Product Color</th>
                                                         <th>Action</th>
                                                     </tr>
                                                     </thead>
@@ -353,7 +353,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Man</label>
+                                    <label style="color:#0866C6">Groom</label>
                                 </div>
                                 <div class="form-group">
                                     <label id="mName"></label>
@@ -364,34 +364,10 @@
                                 <div class="form-group">
                                     <label id="mMomName"></label>
                                 </div>
-                                <div class="form-group">
-                                    <label id="mDob"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label id="mProvince"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label id="mDistrict"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label id="mCommune"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label id="mVillage"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label id="mTel"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label id="mEmail"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label id="mFB"></label>
-                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Woman</label>
+                                    <label style="color:#0866C6">Bride</label>
                                 </div>
                                 <div class="form-group">
                                     <label id="fName"></label>
@@ -402,29 +378,41 @@
                                 <div class="form-group">
                                     <label id="fMomName"></label>
                                 </div>
+                            </div>
+                            <div class="col-md-12">
                                 <div class="form-group">
-                                    <label id="fDob"></label>
+                                    <label style="color:#0866C6">Information</label>
                                 </div>
-                                <div class="form-group">
-                                    <label id="fProvince"></label>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label id="date"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="province"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="district"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="commune"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="village"></label>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label id="fDistrict"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label id="fCommune"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label id="fVillage"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label id="fTel"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label id="fEmail"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label id="fFB"></label>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label id="tel"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="email"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="fb"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="other"></label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
