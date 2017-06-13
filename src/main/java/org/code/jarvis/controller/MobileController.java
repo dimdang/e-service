@@ -3,10 +3,10 @@ package org.code.jarvis.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.code.jarvis.model.core.Applicant;
+import org.code.jarvis.model.core.Customer;
 import org.code.jarvis.model.core.Image;
 import org.code.jarvis.model.core.Product;
-import org.code.jarvis.model.request.RequestApplicant;
+import org.code.jarvis.model.request.RequestCustomer;
 import org.code.jarvis.model.response.JProduct;
 import org.code.jarvis.model.response.JResponseEntity;
 import org.code.jarvis.service.ApplicantEntityService;
@@ -73,6 +73,33 @@ public class MobileController {
 
     @ApiOperation(
             httpMethod = "POST",
+            value = "Submit customer and images",
+            notes = "The client have to submit json customer and images using form data",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            protocols = "http")
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @PostMapping(value = "/customer/submit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public JResponseEntity<Object> submitCustomer(@RequestPart(required = false) MultipartFile[] files,
+                                                  @RequestPart(required = false) String json) {
+        Customer customer = null;
+        try {
+            customer = applicantEntityService.saveOrUpdateCustomer(files, json);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return ResponseFactory.build("Submit success", HttpStatus.ACCEPTED, "GROOM_NAME:" + customer.getGroomName() + "\n" + "BRIDE_NAME:" + customer.getBrideName());
+    }
+
+   /* @ApiOperation(
+            httpMethod = "POST",
             value = "Submit applicant and images",
             notes = "The client have to submit json applicant and images using form data",
             response = JResponseEntity.class,
@@ -95,7 +122,7 @@ public class MobileController {
             return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
         return ResponseFactory.build("Submit success", HttpStatus.ACCEPTED);
-    }
+    }*/
 
     @ApiOperation(
             httpMethod = "GET",
@@ -140,8 +167,14 @@ public class MobileController {
     }
 
 
-    @PostMapping(value = "/test",produces = MediaType.TEXT_PLAIN_VALUE)
-    public String test(@RequestBody RequestApplicant applicant){
+    /*@PostMapping(value = "/test", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String test(@RequestBody RequestApplicant applicant) {
+
+        return "Hello world";
+    }*/
+
+    @PostMapping(value = "/test", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String customer(@RequestBody RequestCustomer applicant) {
 
         return "Hello world";
     }

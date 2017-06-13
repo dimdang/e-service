@@ -4,7 +4,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.baseUrl = "http://localhost:8080/api/web";
     $scope.products = [];
-    $scope.applicants = [];
+    $scope.customers = [];
     $scope.images = [];
     $scope.colors = [];
 
@@ -35,13 +35,13 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         });
     }
 
-    $scope.fetchApplicant = function () {
+    $scope.fetchCustomer = function () {
         $http({
             method: 'POST',
-            url: $scope.baseUrl + '/applicant/fetch',
+            url: $scope.baseUrl + '/customer/fetch',
         }).then(function (response) {
             console.log(response.data["DATA"]);
-            $scope.applicants = response.data["DATA"];
+            $scope.customers = response.data["DATA"];
             //console.log($scope.applicants[0].PERSONS[0]);
         }, function (response) {
             console.log(response);
@@ -129,29 +129,19 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
             console.log(arrayFile[i].name);
     }
 
-    $scope.viewCustomer = function (applicant) {
-        for (var i = 0; i < applicant.PERSONS.length; i++) {
-            var person = applicant.PERSONS[i];
-            if (person.GENDER === "man") {
-                $("#mName").text("Name: " + person.NAME);
-                $("#mFatName").text("Father Name: " + person.FATHER_NAME);
-                $("#mMomName").text("Mother Name: " + person.MOTHER_NAME);
-            }
-            if (person.GENDER === "woman") {
-                $("#fName").text("Name: " + person.NAME);
-                $("#fFatName").text("Father Name: " + person.FATHER_NAME);
-                $("#fMomName").text("Mother Name: " + person.MOTHER_NAME);
-            }
-        }
-        $("#date").text("Date: " + applicant.DATE);
-        $("#province").text("Province: " + applicant.ADDRESS.PROVINCE);
-        $("#district").text("District: " + applicant.ADDRESS.DISTRICT);
-        $("#commune").text("Commune: " + applicant.ADDRESS.COMMUNE);
-        $("#village").text("Village: " + applicant.ADDRESS.VILLAGE);
-        $("#tel").text("Tel: " + applicant.CONTACT.PHONE1 + ", " + applicant.CONTACT.PHONE2 + ", " + applicant.CONTACT.PHONE3);
-        $("#email").text("Email : " + applicant.CONTACT.EMAIL);
-        $("#fb").text("Facebook : " + applicant.CONTACT.FACEBOOK);
-        $("#other").text("Other : " + applicant.OTHER);
+    $scope.viewCustomer = function (customer) {
+
+        $("#mName").text("Name: " + customer.GROOM_NAME);
+        $("#mFatName").text("Father Name: " + customer.GROOM_DAD_NAME);
+        $("#mMomName").text("Mother Name: " + customer.GROOM_MOM_NAME);
+        $("#fName").text("Name: " + customer.BRIDE_NAME);
+        $("#fFatName").text("Father Name: " + customer.BRIDE_DAD_NAME);
+        $("#fMomName").text("Mother Name: " + customer.BRIDE_MOM_NAME);
+        $("#home").text("Home : " + customer.HOME);
+        $("#date").text("Date: " + customer.DATE);
+        $("#address").text("Address: " + customer.ADDRESS);
+        $("#tel").text("Tel: " + customer.PHONE);
+        $("#other").text("Other : " + customer.OTHER);
     }
 
     $scope.reset = function () {
@@ -173,6 +163,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     }
 
     $scope.fetchProduct();
-    $scope.fetchApplicant();
+    $scope.fetchCustomer();
     $scope.fetchColor();
-}]);
+}])
+;

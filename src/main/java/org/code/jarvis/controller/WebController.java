@@ -3,13 +3,11 @@ package org.code.jarvis.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.code.jarvis.model.core.Applicant;
-import org.code.jarvis.model.core.Color;
+import org.code.jarvis.model.core.Customer;
 import org.code.jarvis.model.core.Image;
 import org.code.jarvis.model.core.Product;
 import org.code.jarvis.model.response.JResponseEntity;
 import org.code.jarvis.service.ApplicantEntityService;
-import org.code.jarvis.service.EntityService;
 import org.code.jarvis.service.ProductEntityService;
 import org.code.jarvis.util.ResponseFactory;
 import org.slf4j.Logger;
@@ -115,6 +113,31 @@ public class WebController {
 
     @ApiOperation(
             httpMethod = "POST",
+            value = "Fetch all customers",
+            notes = "This url does fetch all customers",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            protocols = "http")
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @PostMapping(value = "/customer/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public JResponseEntity<Object> fetchCustomers() {
+        List<Customer> list = new ArrayList<>();
+        try {
+            list = applicantEntityService.list(Customer.class);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return ResponseFactory.build("Success", HttpStatus.OK, list);
+    }
+
+    /*@ApiOperation(
+            httpMethod = "POST",
             value = "Fetch all applicants",
             notes = "This url does fetch all applicants",
             response = JResponseEntity.class,
@@ -136,5 +159,5 @@ public class WebController {
             return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
         return ResponseFactory.build("Success", HttpStatus.OK, list);
-    }
+    }*/
 }
