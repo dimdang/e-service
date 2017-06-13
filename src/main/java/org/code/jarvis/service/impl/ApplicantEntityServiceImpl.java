@@ -1,6 +1,7 @@
 package org.code.jarvis.service.impl;
 
 import org.code.jarvis.model.core.Applicant;
+import org.code.jarvis.model.core.Customer;
 import org.code.jarvis.repository.ApplicantEntityDao;
 import org.code.jarvis.repository.EntityDao;
 import org.code.jarvis.service.ApplicantEntityService;
@@ -18,6 +19,11 @@ public class ApplicantEntityServiceImpl extends AbstractEntityService implements
 
     @Autowired
     private ApplicantEntityDao applicantDao;
+
+    @Override
+    public Customer saveOrUpdateCustomer(MultipartFile[] files, String json) throws Exception {
+        return applicantDao.saveOrUpdateCustomer(files, json);
+    }
 
     @Override
     public Applicant saveOrUpdateApplicant(MultipartFile[] files, String json) throws Exception {

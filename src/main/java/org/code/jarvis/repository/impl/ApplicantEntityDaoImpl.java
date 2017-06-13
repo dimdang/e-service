@@ -5,6 +5,7 @@ import flexjson.JSONDeserializer;
 import org.code.jarvis.model.core.*;
 import org.code.jarvis.model.refdata.*;
 import org.code.jarvis.model.request.RequestApplicant;
+import org.code.jarvis.model.request.RequestCustomer;
 import org.code.jarvis.model.request.RequestPerson;
 import org.code.jarvis.repository.ApplicantEntityDao;
 import org.springframework.stereotype.Repository;
@@ -23,6 +24,36 @@ public class ApplicantEntityDaoImpl extends AbstractEntityDao implements Applica
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final JSONDeserializer<Map<String, Object>> deserializer = new JSONDeserializer<>();
+
+    @Override
+    public Customer saveOrUpdateCustomer(MultipartFile[] files, String json) throws Exception {
+        RequestCustomer requestCustomer = null;
+        Customer customer = null;
+        if (json != null && !json.isEmpty()) {
+            requestCustomer = objectMapper.readValue(json, RequestCustomer.class);
+            if (requestCustomer != null) {
+                customer = new Customer(requestCustomer);
+                Product product = loadEntityById(new Long(requestCustomer.getProductId()), Product.class);
+                customer.setProduct(product);
+                if (files != null && files.length > 0) {
+                    List<CustomerImage> customerImages = new ArrayList<>(files.length);
+                    for (int i = 0; i < files.length; i++) {
+                        CustomerImage customerImage = new CustomerImage();
+                        Image image = new Image();
+                        image.setType(files[i].getContentType());
+                        image.setName(files[i].getOriginalFilename());
+                        image.setBytes(files[i].getBytes());
+                        customerImage.setImage(image);
+                        customerImage.setCustomer(customer);
+                        customerImages.add(customerImage);
+                    }
+                    customer.setCustomerImages(customerImages);
+                }
+                saveOrUpdate(customer);
+            }
+        }
+        return customer;
+    }
 
     @Override
     public Applicant saveOrUpdateApplicant(MultipartFile[] files, String json) throws Exception {

@@ -303,12 +303,12 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr ng-repeat="applicant in applicants">
-                                                        <td width="50px">{{applicant.ID}}</td>
-                                                        <td>{{applicant.PRODUCT.CODE}}</td>
-                                                        <td>{{applicant.PRODUCT.SIZE}}</td>
-                                                        <td>{{applicant.PRODUCT.PRICE}}</td>
-                                                        <td>{{applicant.PRODUCT.COLOR.DESC}}</td>
+                                                    <tr ng-repeat="customer in customers">
+                                                        <td width="50px">{{customer.ID}}</td>
+                                                        <td>{{customer.PRODUCT.CODE}}</td>
+                                                        <td>{{customer.PRODUCT.SIZE}}</td>
+                                                        <td>{{customer.PRODUCT.PRICE}}</td>
+                                                        <td>{{customer.PRODUCT.COLOR.DESC}}</td>
                                                         <td width="70px">
                                                             <button class="btn btn-info btn-xs" data-title="Image"
                                                                     data-toggle="modal" data-target="#image"
@@ -316,7 +316,7 @@
                                                                     class="glyphicon glyphicon-picture"></span></button>
                                                             <button class="btn btn-primary btn-xs" data-title="Customer"
                                                                     data-toggle="modal" data-target="#myModal"
-                                                                    ng-click="viewCustomer(applicant)"><span
+                                                                    ng-click="viewCustomer(customer)"><span
                                                                     class="glyphicon glyphicon-user"></span></button>
                                                         </td>
                                                     </tr>
@@ -388,27 +388,15 @@
                                         <label id="date"></label>
                                     </div>
                                     <div class="form-group">
-                                        <label id="province"></label>
+                                        <label id="address"></label>
                                     </div>
                                     <div class="form-group">
-                                        <label id="district"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label id="commune"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label id="village"></label>
+                                        <label id="home"></label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label id="tel"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label id="email"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label id="fb"></label>
                                     </div>
                                     <div class="form-group">
                                         <label id="other"></label>
