@@ -98,39 +98,13 @@ public class MobileController {
         return ResponseFactory.build("Submit success", HttpStatus.ACCEPTED, "GROOM_NAME:" + customer.getGroomName() + "\n" + "BRIDE_NAME:" + customer.getBrideName());
     }
 
-   /* @ApiOperation(
-            httpMethod = "POST",
-            value = "Submit applicant and images",
-            notes = "The client have to submit json applicant and images using form data",
-            response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            protocols = "http")
-    @ApiResponses(value = {
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 500, message = "Internal Server Error")})
-    @PostMapping(value = "/applicant/submit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public JResponseEntity<Object> submitApplicant(@RequestPart(required = false) MultipartFile[] files,
-                                                   @RequestPart(required = false) String json) {
-        try {
-            Applicant applicant = applicantEntityService.saveOrUpdateApplicant(files, json);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
-            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
-        return ResponseFactory.build("Submit success", HttpStatus.ACCEPTED);
-    }*/
-
     @ApiOperation(
             httpMethod = "GET",
-            value = "View product's image",
+            value = "View image from server",
             notes = "This url request to server for view image",
             response = HttpEntity.class,
             protocols = "http")
-    @GetMapping(value = "/product/view/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @GetMapping(value = "/image/view/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public HttpEntity<byte[]> viewImage(@PathVariable(value = "id", required = true) long id) throws IOException {
         log.info("Client Requested picture Id:" + id);
         Image image = productEntityService.getImage(id);
@@ -147,11 +121,11 @@ public class MobileController {
 
     @ApiOperation(
             httpMethod = "GET",
-            value = "Download product's image",
+            value = "Download image from server",
             notes = "This url request to server for download image",
             response = HttpEntity.class,
             protocols = "http")
-    @GetMapping(value = "/product/download/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @GetMapping(value = "/image/download/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public HttpEntity<byte[]> downloadImage(@PathVariable(value = "id", required = true) long id) throws IOException {
         log.info("Client Requested picture Id:" + id);
         Image image = productEntityService.getImage(id);
@@ -165,13 +139,6 @@ public class MobileController {
         }
         return null;
     }
-
-
-    /*@PostMapping(value = "/test", produces = MediaType.TEXT_PLAIN_VALUE)
-    public String test(@RequestBody RequestApplicant applicant) {
-
-        return "Hello world";
-    }*/
 
     @PostMapping(value = "/test", produces = MediaType.TEXT_PLAIN_VALUE)
     public String customer(@RequestBody RequestCustomer applicant) {

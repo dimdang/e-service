@@ -91,27 +91,6 @@ public class WebController {
     }
 
     @ApiOperation(
-            httpMethod = "GET",
-            value = "View product's image",
-            notes = "This url request to server for view image",
-            response = HttpEntity.class,
-            protocols = "http")
-    @GetMapping(value = "/product/view/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    public HttpEntity<byte[]> viewImage(@PathVariable(value = "id", required = true) long id) throws IOException {
-        log.info("Client Requested picture Id:" + id);
-        Image image = productEntityService.getImage(id);
-        if (image != null) {
-            byte[] bytes = image.getBytes();
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Content-Disposition", "inline; filename=\"" + image.getName() + "\"");
-            headers.set("Content-Type", image.getType());
-            headers.setContentLength(bytes.length);
-            return new HttpEntity<>(bytes, headers);
-        }
-        return null;
-    }
-
-    @ApiOperation(
             httpMethod = "POST",
             value = "Fetch all customers",
             notes = "This url does fetch all customers",
@@ -136,28 +115,46 @@ public class WebController {
         return ResponseFactory.build("Success", HttpStatus.OK, list);
     }
 
-    /*@ApiOperation(
-            httpMethod = "POST",
-            value = "Fetch all applicants",
-            notes = "This url does fetch all applicants",
-            response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+    @ApiOperation(
+            httpMethod = "GET",
+            value = "View image from server",
+            notes = "This url request to server for view image",
+            response = HttpEntity.class,
             protocols = "http")
-    @ApiResponses(value = {
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 500, message = "Internal Server Error")})
-    @PostMapping(value = "/applicant/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public JResponseEntity<Object> fetchApplicants() {
-        List<Applicant> list = new ArrayList<>();
-        try {
-            list = applicantEntityService.list(Applicant.class);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
-            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+    @GetMapping(value = "/image/view/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    public HttpEntity<byte[]> viewImage(@PathVariable(value = "id", required = true) long id) throws IOException {
+        log.info("Client Requested picture Id:" + id);
+        Image image = productEntityService.getImage(id);
+        if (image != null) {
+            byte[] bytes = image.getBytes();
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Content-Disposition", "inline; filename=\"" + image.getName() + "\"");
+            headers.set("Content-Type", image.getType());
+            headers.setContentLength(bytes.length);
+            return new HttpEntity<>(bytes, headers);
         }
-        return ResponseFactory.build("Success", HttpStatus.OK, list);
-    }*/
+        return null;
+    }
+
+    @ApiOperation(
+            httpMethod = "GET",
+            value = "Download image from server",
+            notes = "This url request to server for download image",
+            response = HttpEntity.class,
+            protocols = "http")
+    @GetMapping(value = "/image/download/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    public HttpEntity<byte[]> downloadImage(@PathVariable(value = "id", required = true) long id) throws IOException {
+        log.info("Client Requested picture Id:" + id);
+        Image image = productEntityService.getImage(id);
+        if (image != null) {
+            byte[] bytes = image.getBytes();
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Content-Disposition", "attachment; filename=\"" + image.getName() + "\"");
+            headers.set("Content-Type", image.getType());
+            headers.setContentLength(bytes.length);
+            return new HttpEntity<>(bytes, headers);
+        }
+        return null;
+    }
+
 }
