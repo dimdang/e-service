@@ -157,4 +157,22 @@ public class WebController {
         return null;
     }
 
+    @ApiOperation(
+            httpMethod = "GET",
+            value = "Delete image from server",
+            notes = "This url request to server to delete image",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            protocols = "http")
+    @GetMapping(value = "/image/delete/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public JResponseEntity<Object> deleteImage(@PathVariable(value = "id", required = true) long id) throws IOException {
+        log.info("Client Requested delete picture Id:" + id);
+        Image image = productEntityService.getImage(id);
+        if (image != null) {
+            productEntityService.delete(image);
+            return ResponseFactory.build("Delete image success", HttpStatus.OK);
+        }
+        return null;
+    }
+
 }
