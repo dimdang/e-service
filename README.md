@@ -1,40 +1,17 @@
 # e-service
 e-server project Web+API
-# sample json application
+# sample json customer
 {
-  "PRODUCT_ID": 4,
-  "APPLICANTS": [
-    {
-      "BIRTH_DATE": "sunday, 07, august, 1981",
-      "COMMUNE": 2,
-      "DISTRICT": 2,
-      "EMAIL": "dang@gmail.com",
-      "FACEBOOK": "facebook",
-      "FATHER_NAME": "sok channy",
-      "GENDER": 1,
-      "MOTHER_NAME": "nona",
-      "NAME": "sok channy",
-      "PHONE1": "012 3445234",
-      "PHONE2": "099 878741",
-      "PHONE3": "",
-      "PROVINCE": 2,
-      "VILLAGE": 2
-    },
-    {
-      "BIRTH_DATE": "sunday, 15, november, 1992",
-      "COMMUNE": 3,
-      "DISTRICT": 3,
-      "EMAIL": "lyna@gmail.com",
-      "FACEBOOK": "facebook",
-      "FATHER_NAME": "steve",
-      "GENDER": 2,
-      "MOTHER_NAME": "luna",
-      "NAME": "sar lyna",
-      "PHONE1": "023 4523445",
-      "PHONE2": "077 893432",
-      "PHONE3": "",
-      "PROVINCE": 3,
-      "VILLAGE": 3
-    }
-  ]
+  "GROOM_NAME": "channy",
+  "GROOM_DAD_NAME": "tony",
+  "GROOM_MOM_NAME": "marina",
+  "BRIDE_NAME": "mey mey",
+  "BRIDE_DAD_NAME": "kevin",
+  "BRIDE_MOM_NAME": "lyna",
+  "DATE": "monday 12th august 2017",
+  "ADDRESS": "ភូមិ សុខសាន ឃុំ សុខ ស្រុក ស្រីស្អាត",
+  "HOME": "bride's home",
+  "PHONE": "099 878741, 012 345235, 077 8989231",
+  "OTHER": "other information",
+  "PRODUCT_ID": 1
 }
