@@ -107,7 +107,7 @@ public class MobileController {
     @GetMapping(value = "/image/view/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public HttpEntity<byte[]> viewImage(@PathVariable(value = "id", required = true) long id) throws IOException {
         log.info("Client Requested picture Id:" + id);
-        Image image = productEntityService.getImage(id);
+        Image image = productEntityService.getEntityById(id, Image.class);
         if (image != null) {
             byte[] bytes = image.getBytes();
             HttpHeaders headers = new HttpHeaders();
@@ -128,7 +128,7 @@ public class MobileController {
     @GetMapping(value = "/image/download/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public HttpEntity<byte[]> downloadImage(@PathVariable(value = "id", required = true) long id) throws IOException {
         log.info("Client Requested picture Id:" + id);
-        Image image = productEntityService.getImage(id);
+        Image image = productEntityService.getEntityById(id, Image.class);
         if (image != null) {
             byte[] bytes = image.getBytes();
             HttpHeaders headers = new HttpHeaders();
