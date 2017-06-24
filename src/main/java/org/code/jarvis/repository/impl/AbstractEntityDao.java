@@ -1,7 +1,6 @@
 package org.code.jarvis.repository.impl;
 
 import org.code.jarvis.model.core.AbstractEntity;
-import org.code.jarvis.model.core.Image;
 import org.code.jarvis.repository.EntityDao;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -93,10 +92,9 @@ public abstract class AbstractEntityDao implements EntityDao {
     }
 
     @Override
-    public <T extends AbstractEntity> T save(T entity) {
+    public <T extends AbstractEntity> void save(T entity) {
         if (entity != null && entity.getId() == null)
-            return (T) getCurrentSession().save(entity);
-        return entity;
+            getCurrentSession().save(entity);
     }
 
     @Override
@@ -112,11 +110,10 @@ public abstract class AbstractEntityDao implements EntityDao {
     }
 
     @Override
-    public <T extends AbstractEntity> List<T> save(List<T> list) {
+    public <T extends AbstractEntity> void save(List<T> list) {
         if (list != null)
             for (T entity : list)
                 save(entity);
-        return list;
     }
 
     @Override
@@ -137,13 +134,6 @@ public abstract class AbstractEntityDao implements EntityDao {
     public <T> void delete(T entity) {
         if (entity != null)
             getCurrentSession().delete(entity);
-    }
-
-    @Override
-    public Image getImage(Long id) {
-        if (id != null && id > 0)
-            return getEntityById(id, Image.class);
-        return null;
     }
 
     @Override

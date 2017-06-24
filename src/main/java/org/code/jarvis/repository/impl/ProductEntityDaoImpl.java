@@ -9,6 +9,7 @@ import org.code.jarvis.model.core.ProductImage;
 import org.code.jarvis.repository.ProductEntityDao;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -85,7 +86,7 @@ public class ProductEntityDaoImpl extends AbstractEntityDao implements ProductEn
     public List<Product> fetchProducts(int offset, int limit) {
         Criteria criteria = getCurrentSession().createCriteria(Product.class);
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        criteria.addOrder(Order.asc("id"));
+        criteria.add(Restrictions.sqlRestriction("ORDER BY RANDOM()"));
         criteria.setFirstResult((offset - 1) * limit);
         criteria.setMaxResults(limit);
         return criteria.list();

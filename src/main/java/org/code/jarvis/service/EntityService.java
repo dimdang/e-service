@@ -30,21 +30,19 @@ public interface EntityService {
 
     <T> List<T> list(Class<T> clazz);
 
-    <T extends AbstractEntity> T save(T entity);
+    <T extends AbstractEntity> void save(T entity);
 
     <T extends AbstractEntity> void update(T entity);
 
     <T> void saveOrUpdate(T entity);
 
-    <T extends AbstractEntity> List<T> save(List<T> list);
+    <T extends AbstractEntity> void save(List<T> list);
 
     <T extends AbstractEntity> void update(List<T> list);
 
     <T> void saveOrUpdate(List<T> list);
 
     <T> void delete(T entity);
-
-    Image getImage(Long id);
 
     void flush();
 

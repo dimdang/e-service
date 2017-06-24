@@ -91,27 +91,6 @@ public class WebController {
     }
 
     @ApiOperation(
-            httpMethod = "GET",
-            value = "View product's image",
-            notes = "This url request to server for view image",
-            response = HttpEntity.class,
-            protocols = "http")
-    @GetMapping(value = "/product/view/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    public HttpEntity<byte[]> viewImage(@PathVariable(value = "id", required = true) long id) throws IOException {
-        log.info("Client Requested picture Id:" + id);
-        Image image = productEntityService.getImage(id);
-        if (image != null) {
-            byte[] bytes = image.getBytes();
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Content-Disposition", "inline; filename=\"" + image.getName() + "\"");
-            headers.set("Content-Type", image.getType());
-            headers.setContentLength(bytes.length);
-            return new HttpEntity<>(bytes, headers);
-        }
-        return null;
-    }
-
-    @ApiOperation(
             httpMethod = "POST",
             value = "Fetch all customers",
             notes = "This url does fetch all customers",
@@ -136,28 +115,96 @@ public class WebController {
         return ResponseFactory.build("Success", HttpStatus.OK, list);
     }
 
-    /*@ApiOperation(
-            httpMethod = "POST",
-            value = "Fetch all applicants",
-            notes = "This url does fetch all applicants",
+    @ApiOperation(
+            httpMethod = "GET",
+            value = "View image from server",
+            notes = "This url request to server for view image",
+            response = HttpEntity.class,
+            protocols = "http")
+    @GetMapping(value = "/image/view/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    public HttpEntity<byte[]> viewImage(@PathVariable(value = "id", required = true) long id) throws IOException {
+        log.info("Client Requested picture Id:" + id);
+        Image image = productEntityService.getEntityById(id, Image.class);
+        if (image != null) {
+            byte[] bytes = image.getBytes();
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Content-Disposition", "inline; filename=\"" + image.getName() + "\"");
+            headers.set("Content-Type", image.getType());
+            headers.setContentLength(bytes.length);
+            return new HttpEntity<>(bytes, headers);
+        }
+        return null;
+    }
+
+    @ApiOperation(
+            httpMethod = "GET",
+            value = "Download image from server",
+            notes = "This url request to server for download image",
+            response = HttpEntity.class,
+            protocols = "http")
+    @GetMapping(value = "/image/download/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    public HttpEntity<byte[]> downloadImage(@PathVariable(value = "id", required = true) long id) throws IOException {
+        log.info("Client Requested picture Id:" + id);
+        Image image = productEntityService.getEntityById(id, Image.class);
+        if (image != null) {
+            byte[] bytes = image.getBytes();
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Content-Disposition", "attachment; filename=\"" + image.getName() + "\"");
+            headers.set("Content-Type", image.getType());
+            headers.setContentLength(bytes.length);
+            return new HttpEntity<>(bytes, headers);
+        }
+        return null;
+    }
+
+    @ApiOperation(
+            httpMethod = "GET",
+            value = "Delete image from server",
+            notes = "This url request to server to delete image",
             response = JResponseEntity.class,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             protocols = "http")
-    @ApiResponses(value = {
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 500, message = "Internal Server Error")})
-    @PostMapping(value = "/applicant/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public JResponseEntity<Object> fetchApplicants() {
-        List<Applicant> list = new ArrayList<>();
-        try {
-            list = applicantEntityService.list(Applicant.class);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
-            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+    @GetMapping(value = "/image/delete/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public JResponseEntity<Object> deleteImage(@PathVariable(value = "id", required = true) long id) throws IOException {
+        log.info("Client Requested delete picture Id:" + id);
+        Image image = productEntityService.getEntityById(id, Image.class);
+        if (image != null) {
+            productEntityService.delete(image);
+            return ResponseFactory.build("Delete image success", HttpStatus.OK);
         }
-        return ResponseFactory.build("Success", HttpStatus.OK, list);
-    }*/
+        return null;
+    }
+
+    @ApiOperation(
+            httpMethod = "POST",
+            value = "Upload image to server",
+            notes = "This url request to server to delete image",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            protocols = "http")
+    @PostMapping(value = "/image/upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public JResponseEntity<Object> uploadImage(@RequestPart MultipartFile[] files) throws IOException {
+        try {
+            log.info("Client Upload file:" + files.length);
+            if (files != null && files.length > 0) {
+                List<Image> images = new ArrayList<>(files.length);
+                for (int i = 0; i < files.length; i++) {
+                    String type = files[i].getContentType();
+                    if (type.equals(MediaType.IMAGE_JPEG_VALUE) || type.equals(MediaType.IMAGE_PNG_VALUE)) {
+                        Image image = new Image();
+                        image.setBytes(files[i].getBytes());
+                        image.setName(files[i].getOriginalFilename());
+                        image.setType(type);
+                        images.add(image);
+                    }
+                }
+                productEntityService.save(images);
+                return ResponseFactory.build("Upload files to server success", HttpStatus.OK);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseFactory.build("No files were upload", HttpStatus.BAD_REQUEST);
+    }
 }

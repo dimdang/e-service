@@ -53,8 +53,8 @@ public abstract class AbstractEntityService implements EntityService {
     }
 
     @Override
-    public <T extends AbstractEntity> T save(T entity) {
-        return getDao().save(entity);
+    public <T extends AbstractEntity> void save(T entity) {
+        getDao().save(entity);
     }
 
     @Override
@@ -68,8 +68,8 @@ public abstract class AbstractEntityService implements EntityService {
     }
 
     @Override
-    public <T extends AbstractEntity> List<T> save(List<T> list) {
-        return getDao().save(list);
+    public <T extends AbstractEntity> void save(List<T> list) {
+         getDao().save(list);
     }
 
     @Override
@@ -85,11 +85,6 @@ public abstract class AbstractEntityService implements EntityService {
     @Override
     public <T> void delete(T entity) {
         getDao().delete(entity);
-    }
-
-    @Override
-    public Image getImage(Long id) {
-        return getDao().getImage(id);
     }
 
     @Override
