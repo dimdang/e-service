@@ -14,11 +14,10 @@
     <!-- Google Fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
     <!-- <link rel="stylesheet" href="assets/css/bootstrap.min.css"> -->
-    <%--<link href="./resources/css/bootstrap-imageupload.css" rel="stylesheet">--%>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
-    <link rel="stylesheet" type="text/css" href="./resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="./resources/css/main.css"/>
 </head>
 <body ng-app="ngApp" ng-controller="ngCtrl">
 <div id="wrapper">
@@ -408,24 +407,26 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- JS Scripts-->
-        <!-- jQuery Js -->
-        <script src="./resources/js/jquery-1.10.2.js"></script>
-        <!-- Bootstrap Js -->
-        <script src="./resources/js/bootstrap.min.js"></script>
-        <!-- Metis Menu Js -->
-        <script src="./resources/js/jquery.metisMenu.js"></script>
-        <!-- Custom Js -->
-        <script src="./resources/js/custom-scripts.js"></script>
-        <!-- lib jquery.min.js -->
-        <script src="./resources/js/jquery-3.2.1.min.js"></script>
-        <!-- lib angular js -->
-        <script src="./resources/js/angular.min.js"></script>
-        <!-- angular app -->
-        <script src="./resources/js/angular/app.js"></script>
-        <!-- main js -->
-        <script src="./resources/js/main.js"></script>
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="./resources/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script src="./resources/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script src="./resources/js/jquery.metisMenu.js"></script>
+<!-- Custom Js -->
+<script src="./resources/js/custom-scripts.js"></script>
+<!-- lib jquery.min.js -->
+<script src="./resources/js/jquery-3.2.1.min.js"></script>
+<!-- lib angular js -->
+<script src="./resources/js/angular.min.js"></script>
+<!-- angular app -->
+<script src="./resources/js/angular/app.js"></script>
+<!-- main js -->
+<script src="./resources/js/main.js"></script>
 
 </body>
 </html>
