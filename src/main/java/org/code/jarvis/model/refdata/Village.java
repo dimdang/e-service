@@ -9,8 +9,8 @@ import javax.persistence.*;
 /**
  * Created by KimChheng on 5/9/2017.
  */
-@Entity
-@Table(name = "td_village")
+//@Entity
+//@Table(name = "td_village")
 public class Village extends AbstractEntity {
 
     @JsonIgnore

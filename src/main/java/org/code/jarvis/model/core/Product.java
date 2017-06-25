@@ -18,7 +18,7 @@ import java.util.List;
 public class Product extends AbstractEntity {
 
     @JsonProperty("COLOR")
-    private Color color;
+    private String color;
     @JsonProperty("SIZE")
     private Integer size;
     @JsonProperty("PRICE")
@@ -51,13 +51,22 @@ public class Product extends AbstractEntity {
         return null;
     }
 
-    @OneToOne(fetch = FetchType.EAGER)
+    /*@OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "col_id", referencedColumnName = "col_id")
     public Color getColor() {
         return color;
     }
 
     public void setColor(Color color) {
+        this.color = color;
+    }*/
+
+    @Column(name = "pro_color")
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
         this.color = color;
     }
 

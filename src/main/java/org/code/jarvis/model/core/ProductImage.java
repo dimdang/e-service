@@ -19,7 +19,7 @@ public class ProductImage extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("PRO_IMG_ID")
+    @JsonProperty("IMG_ID")
     @Column(name = "pro_img_id")
     @Override
     public Long getId() {
@@ -68,11 +68,11 @@ public class ProductImage extends AbstractEntity {
         return "";
     }*/
 
-    @JsonProperty("NAME")
+    /*@JsonProperty("NAME")
     @Transient
     public String getName() {
         if (image != null)
             return image.getName();
         return "";
-    }
+    }*/
 }

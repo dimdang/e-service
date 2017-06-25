@@ -7,8 +7,8 @@ import javax.persistence.*;
 /**
  * Created by KimChheng on 5/9/2017.
  */
-@Entity
-@Table(name = "td_address")
+//@Entity
+//@Table(name = "td_address")
 public class Address extends AbstractEntity {
 
     private Province province;

@@ -8,8 +8,8 @@ import javax.persistence.*;
 /**
  * Created by KimChheng on 5/9/2017.
  */
-@Entity
-@Table(name = "td_color")
+//@Entity
+//@Table(name = "td_color")
 public class Color extends AbstractEntity {
 
     @Id

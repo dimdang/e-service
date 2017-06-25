@@ -23,8 +23,8 @@ import java.util.List;
 /**
  * Created by KimChheng on 5/22/2017.
  */
-@RestController
-@RequestMapping("/api/data")
+//@RestController
+//@RequestMapping("/api/data")
 public class DataController {
 
     private final Logger log = LoggerFactory.getLogger(DataController.class);

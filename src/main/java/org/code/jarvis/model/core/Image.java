@@ -42,7 +42,7 @@ public class Image extends AbstractEntity {
         return desc;
     }
 
-    @Column(name = "img_path", length = 200)
+    @Column(name = "img_path")
     public String getPath() {
         return path;
     }
@@ -51,7 +51,7 @@ public class Image extends AbstractEntity {
         this.path = path;
     }
 
-    @Column(name = "img_name", length = 100)
+    @Column(name = "img_name")
     public String getName() {
         return name;
     }

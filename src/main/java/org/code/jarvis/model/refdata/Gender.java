@@ -9,8 +9,8 @@ import javax.persistence.*;
 /**
  * Created by KimChheng on 5/10/2017.
  */
-@Entity
-@Table(name = "td_gender")
+//@Entity
+//@Table(name = "td_gender")
 public class Gender extends AbstractEntity {
 
     @Id

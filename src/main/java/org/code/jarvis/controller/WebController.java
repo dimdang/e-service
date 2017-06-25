@@ -7,7 +7,7 @@ import org.code.jarvis.model.core.Customer;
 import org.code.jarvis.model.core.Image;
 import org.code.jarvis.model.core.Product;
 import org.code.jarvis.model.response.JResponseEntity;
-import org.code.jarvis.service.ApplicantEntityService;
+import org.code.jarvis.service.CustomerEntityService;
 import org.code.jarvis.service.ProductEntityService;
 import org.code.jarvis.util.ResponseFactory;
 import org.slf4j.Logger;
@@ -36,7 +36,7 @@ public class WebController {
     @Autowired
     private ProductEntityService productEntityService;
     @Autowired
-    private ApplicantEntityService applicantEntityService;
+    private CustomerEntityService applicantEntityService;
 
     @ApiOperation(
             httpMethod = "POST",

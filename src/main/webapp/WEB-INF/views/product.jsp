@@ -292,11 +292,13 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Color</label>
-                                            <select class="form-control" ng-model="selectColor"
+                                            <input class="form-control" placeholder="Enter Color"
+                                                   ng-model="txtColor" required/>
+                                            <!--<select class="form-control" ng-model="selectColor"
                                                     ng-options="color.DESC for color in colors" required>
-                                                <!--  <option ng-repeat="color in colors"  value="{{color.ID}}"
-                                                 ng-selected="selectColor == color.value">{{color.DESC}}</option> -->
-                                            </select>
+                                                 <option ng-repeat="color in colors"  value="{{color.ID}}"
+                                                 ng-selected="selectColor == color.value">{{color.DESC}}</option>
+                                            </select>-->
                                         </div>
                                         <div class="form-group">
                                             <label>Size</label>

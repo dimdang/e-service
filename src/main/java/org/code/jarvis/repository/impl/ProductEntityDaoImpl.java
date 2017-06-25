@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,8 @@ public class ProductEntityDaoImpl extends AbstractEntityDao implements ProductEn
         ProductContact productContact = null;
         if (json != null && !json.isEmpty()) {
             product = objectMapper.readValue(json, Product.class);
+            if (product.getCreateDate() == null) product.setCreateDate(new Date());
+            if (product.getUpdateDate() == null) product.setUpdateDate(new Date());
             if (product.getId() != null && product.getId() > 0) {
                 tmp = product;
                 product = getEntityById(product.getId(), Product.class);
@@ -40,6 +43,7 @@ public class ProductEntityDaoImpl extends AbstractEntityDao implements ProductEn
                 product.setSize(tmp.getSize());
                 product.setPrice(tmp.getPrice());
                 product.setColor(tmp.getColor());
+                product.setUpdateDate(new Date());
             }
             productContact = product.getContact();
             if (productContact != null) {
@@ -86,7 +90,7 @@ public class ProductEntityDaoImpl extends AbstractEntityDao implements ProductEn
     public List<Product> fetchProducts(int offset, int limit) {
         Criteria criteria = getCurrentSession().createCriteria(Product.class);
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        criteria.add(Restrictions.sqlRestriction("ORDER BY RANDOM()"));
+        criteria.addOrder(Order.desc("updateDate"));
         criteria.setFirstResult((offset - 1) * limit);
         criteria.setMaxResults(limit);
         return criteria.list();

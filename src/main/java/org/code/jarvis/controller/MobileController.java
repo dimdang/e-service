@@ -7,9 +7,8 @@ import org.code.jarvis.model.core.Customer;
 import org.code.jarvis.model.core.Image;
 import org.code.jarvis.model.core.Product;
 import org.code.jarvis.model.request.RequestCustomer;
-import org.code.jarvis.model.response.JProduct;
 import org.code.jarvis.model.response.JResponseEntity;
-import org.code.jarvis.service.ApplicantEntityService;
+import org.code.jarvis.service.CustomerEntityService;
 import org.code.jarvis.service.ProductEntityService;
 import org.code.jarvis.util.ResponseFactory;
 import org.slf4j.Logger;
@@ -38,7 +37,7 @@ public class MobileController {
     @Autowired
     private ProductEntityService productEntityService;
     @Autowired
-    private ApplicantEntityService applicantEntityService;
+    private CustomerEntityService applicantEntityService;
 
     @ApiOperation(
             httpMethod = "POST",
@@ -55,14 +54,10 @@ public class MobileController {
     @PostMapping(value = "/product/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public JResponseEntity<Object> fetchProducts(@RequestParam(value = "offset", required = true, defaultValue = "1") int offset,
                                                  @RequestParam(value = "limit", required = true, defaultValue = "10") int limit) {
-        List<JProduct> response = new ArrayList<>();
+        List<Product> response = null;
         try {
-            List<Product> list = productEntityService.fetchProducts(offset, limit);
-            if (list != null) {
-                response = new ArrayList<>(list.size());
-                for (Product product : list)
-                    response.add(new JProduct(product));
-            }
+            response = productEntityService.fetchProducts(offset, limit);
+            if (response == null) response = new ArrayList<>();
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
@@ -88,14 +83,18 @@ public class MobileController {
     public JResponseEntity<Object> submitCustomer(@RequestPart(required = false) MultipartFile[] files,
                                                   @RequestPart(required = false) String json) {
         Customer customer = null;
+        StringBuilder sb = new StringBuilder();
         try {
             customer = applicantEntityService.saveOrUpdateCustomer(files, json);
+            sb.append("GROOM_NAME:" + customer.getGroomName() + ",");
+            sb.append("\r\n");
+            sb.append("BRIDE_NAME:" + customer.getBrideName());
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
             return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        return ResponseFactory.build("Submit success", HttpStatus.ACCEPTED, "GROOM_NAME:" + customer.getGroomName() + "\n" + "BRIDE_NAME:" + customer.getBrideName());
+        return ResponseFactory.build("Submit success", HttpStatus.ACCEPTED, sb.toString());
     }
 
     @ApiOperation(

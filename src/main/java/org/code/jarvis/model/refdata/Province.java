@@ -9,8 +9,8 @@ import javax.persistence.*;
 /**
  * Created by KimChheng on 5/9/2017.
  */
-@Entity
-@Table(name = "td_province")
+//@Entity
+//@Table(name = "td_province")
 public class Province extends AbstractEntity {
 
     @Id

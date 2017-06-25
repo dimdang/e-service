@@ -54,17 +54,14 @@ public abstract class AbstractEntity implements Serializable {
         this.userCreate = userCreate;
     }
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "cre_date")
     public Date getCreateDate() {
         return createDate;
     }
 
     public void setCreateDate(Date createDate) {
-        if (createDate != null)
-            this.createDate = new Date(createDate.getTime());
-        else
-            this.createDate = null;
+        this.createDate = createDate;
     }
 
     @Column(name = "usr_update")
@@ -76,16 +73,15 @@ public abstract class AbstractEntity implements Serializable {
         this.userUpdate = userUpdate;
     }
 
-    @Temporal(TemporalType.DATE)
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "upd_date")
     public Date getUpdateDate() {
         return updateDate;
     }
 
     public void setUpdateDate(Date updateDate) {
-        if (updateDate != null)
-            this.updateDate = new Date(updateDate.getTime());
-        else
-            this.updateDate = null;
+        this.updateDate = updateDate;
     }
+
 }

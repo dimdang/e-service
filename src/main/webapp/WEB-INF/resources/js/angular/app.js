@@ -2,35 +2,20 @@ var app = angular.module('ngApp', []);
 
 app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
 
-    $scope.baseUrl = "https://e-service-application.herokuapp.com/api/web";
+    $scope.baseUrl = "http://localhost:8080/api/web";
     $scope.products = [];
     $scope.customers = [];
     $scope.images = [];
-    $scope.colors = [];
 
-
-  	$scope.fetchColor = function(){
-  		$http({
-         method: 'GET',
-         url:'https://e-service-application.herokuapp.com/api/data/color/fetch',
-      }).then(function(response){
-        console.log(response.data["DATA"]);
-        $scope.colors=response.data["DATA"];
-      },function(response){
-        console.log(response);
-            alert("There are some error plase contact to developer");
-      });
-  	}
-
-  	$scope.fetchProduct = function(){
-  		$http({
-  			 method: 'POST',
-	       url: $scope.baseUrl+'/product/fetch',
-  		}).then(function(response){
-  			console.log(response.data["DATA"]);
-  			$scope.products=response.data["DATA"];
-  		},function(response){
-  			console.log(response);
+    $scope.fetchProduct = function () {
+        $http({
+            method: 'POST',
+            url: $scope.baseUrl + '/product/fetch',
+        }).then(function (response) {
+            console.log("List products:" + response.data["DATA"]);
+            $scope.products = response.data["DATA"];
+        }, function (response) {
+            console.log(response);
             alert("There are some error plase contact to developer");
         });
     }
@@ -40,9 +25,8 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
             method: 'POST',
             url: $scope.baseUrl + '/customer/fetch',
         }).then(function (response) {
-            console.log(response.data["DATA"]);
+            console.log("List customers:" + response.data["DATA"]);
             $scope.customers = response.data["DATA"];
-            //console.log($scope.applicants[0].PERSONS[0]);
         }, function (response) {
             console.log(response);
             alert("There are some error plase contact to developer");
@@ -58,7 +42,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
             "CODE": $scope.txtCode,
             "SIZE": $scope.txtSize,
             "PRICE": $scope.txtPrice,
-            "COLOR": {"ID": $scope.selectColor.ID},
+            "COLOR": $scope.txtColor,
             "CONTACT": {
                 "EMAIL": $scope.txtEmail,
                 "FACEBOOK": $scope.txtFacebook,
@@ -96,12 +80,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.txtCode = product.CODE;
         $scope.txtSize = product.SIZE;
         $scope.txtPrice = product.PRICE;
-        for (var i = 0; i < $scope.colors.length; i++) {
-            if ($scope.colors[i].ID == product.COLOR.ID) {
-                $scope.selectColor = $scope.colors[i];
-                break;
-            }
-        }
+        $scope.txtColor = product.COLOR;
         $scope.txtPhone1 = product.CONTACT.PHONE1;
         $scope.txtPhone2 = product.CONTACT.PHONE2;
         $scope.txtPhone3 = product.CONTACT.PHONE3;
@@ -149,7 +128,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.txtCode = "";
         $scope.txtSize = "";
         $scope.txtPrice = "";
-        $scope.selectColor = "";
+        $scope.txtColor = "";
         $scope.txtPhone1 = "";
         $scope.txtPhone2 = "";
         $scope.txtPhone3 = "";
@@ -161,9 +140,6 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
             arrayFile.pop();
         }
     }
-
     $scope.fetchProduct();
     $scope.fetchCustomer();
-    $scope.fetchColor();
-}])
-;
+}]);
