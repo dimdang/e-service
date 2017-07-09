@@ -41,7 +41,7 @@ public class CustomerImage extends AbstractEntity {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cus_id", referencedColumnName = "cus_id", nullable = false)
+    @JoinColumn(name = "cus_id", nullable = false)
     public Customer getCustomer() {
         return customer;
     }
@@ -50,8 +50,8 @@ public class CustomerImage extends AbstractEntity {
         this.customer = customer;
     }
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "img_id", referencedColumnName = "img_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "img_id", nullable = false)
     public Image getImage() {
         return image;
     }

@@ -7,17 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Bluebox Free Bootstrap Admin Template</title>
     <!-- Bootstrap Styles-->
-    <link href="./resources/css/bootstrap.css" rel="stylesheet"/>
-    <!-- FontAwesome Styles-->
-    <link href="./resources/css/font-awesome.css" rel="stylesheet"/>
-    <!-- Morris Chart Styles-->
-    <link href="./resources/js/morris/morris-0.4.3.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
     <!-- Custom Styles-->
     <link href="./resources/css/custom-styles.css" rel="stylesheet"/>
     <!-- Google Fonts-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./resources/js/Lightweight-Chart/cssCharts.css">
+
 </head>
 
 <body>
@@ -30,7 +25,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index"><strong>bluebox</strong></a>
+            <a class="navbar-brand" href="index.html"><strong>bluebox</strong></a>
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
@@ -565,25 +560,17 @@
     <!-- /. PAGE WRAPPER  -->
 </div>
 <!-- /. WRAPPER  -->
-<!-- JS Scripts-->
-<!-- jQuery Js -->
-<script src="./resources/js/jquery-1.10.2.js"></script>
-<!-- Bootstrap Js -->
+
+<script src="./resources/js/jquery-1.11.3.min.js"></script>
+
 <script src="./resources/js/bootstrap.min.js"></script>
 
-<!-- Metis Menu Js -->
 <script src="./resources/js/jquery.metisMenu.js"></script>
-<!-- Morris Chart Js -->
-<script src="./resources/js/morris/raphael-2.1.0.min.js"></script>
-<script src="./resources/js/morris/morris.js"></script>
-
 
 <script src="./resources/js/easypiechart.js"></script>
+
 <script src="./resources/js/easypiechart-data.js"></script>
 
-<script src="./resources/js/Lightweight-Chart/jquery.chart.js"></script>
-
-<!-- Custom Js -->
 <script src="./resources/js/custom-scripts.js"></script>
 
 </body>

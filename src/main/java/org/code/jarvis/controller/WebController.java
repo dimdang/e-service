@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponses;
 import org.code.jarvis.model.core.Customer;
 import org.code.jarvis.model.core.Image;
 import org.code.jarvis.model.core.Product;
+import org.code.jarvis.model.core.ProductImage;
 import org.code.jarvis.model.response.JResponseEntity;
 import org.code.jarvis.service.CustomerEntityService;
 import org.code.jarvis.service.ProductEntityService;
@@ -161,18 +162,14 @@ public class WebController {
             httpMethod = "GET",
             value = "Delete image from server",
             notes = "This url request to server to delete image",
-            response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             protocols = "http")
-    @GetMapping(value = "/image/delete/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public JResponseEntity<Object> deleteImage(@PathVariable(value = "id", required = true) long id) throws IOException {
+    @GetMapping(value = "/image/delete/{id}")
+    public void deleteImage(@PathVariable(value = "id") long id) throws IOException {
         log.info("Client Requested delete picture Id:" + id);
-        Image image = productEntityService.getEntityById(id, Image.class);
-        if (image != null) {
-            productEntityService.delete(image);
-            return ResponseFactory.build("Delete image success", HttpStatus.OK);
+        ProductImage productImage = productEntityService.getProductImage(id);
+        if (productImage != null) {
+            productEntityService.delete(productImage);
         }
-        return null;
     }
 
     @ApiOperation(

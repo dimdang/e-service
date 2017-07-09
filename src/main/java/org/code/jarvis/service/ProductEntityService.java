@@ -15,4 +15,6 @@ public interface ProductEntityService extends EntityService{
 
     List<Product> fetchProducts(int offset, int limit);
 
+    ProductImage getProductImage(long id);
+
 }

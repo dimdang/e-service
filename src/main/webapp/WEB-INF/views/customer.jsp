@@ -6,20 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Bootstrap HTML5 Admin Template : Master</title>
     <!-- Bootstrap Styles-->
-    <link href="./resources/css/bootstrap.css" rel="stylesheet"/>
-    <!-- FontAwesome Styles-->
-    <link href="./resources/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
     <!-- Custom Styles-->
     <link href="./resources/css/custom-styles.css" rel="stylesheet"/>
-    <!-- Google Fonts-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
-    <!-- <link rel="stylesheet" href="assets/css/bootstrap.min.css"> -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
     <link rel="stylesheet" type="text/css" href="./resources/css/main.css"/>
+
+    <link rel="stylesheet" href="./resources/css/zoom.css" media="all"/>
 </head>
-<body ng-app="ngApp" ng-controller="ngCtrl">
+<body ng-app="ngApp" ng-controller="ngCtrl" data-ng-init="fetchCustomer()">
 <div id="wrapper">
     <nav class="navbar navbar-default top-navbar" role="navigation">
         <div class="navbar-header">
@@ -309,13 +306,14 @@
                                                         <td>{{customer.PRODUCT.PRICE}}</td>
                                                         <td>{{customer.PRODUCT.COLOR.DESC}}</td>
                                                         <td width="70px">
-                                                            <button class="btn btn-info btn-xs" data-title="Image"
-                                                                    data-toggle="modal" data-target="#image"
-                                                                    ng-click="viewImage(applicant.PRODUCT.IMAGES)"><span
-                                                                    class="glyphicon glyphicon-picture"></span></button>
+                                                            <button class="btn btn-info btn-xs"
+                                                                    ng-click="viewImage(customer.IMAGES)">
+                                                                <span class="glyphicon glyphicon-picture"></span>
+                                                            </button>
                                                             <button class="btn btn-primary btn-xs" data-title="Customer"
                                                                     data-toggle="modal" data-target="#myModal"
-                                                                    ng-click="viewCustomer(customer)"><span
+                                                                    ng-click="
+                                                                    viewCustomer(customer)"><span
                                                                     class="glyphicon glyphicon-user"></span></button>
                                                         </td>
                                                     </tr>
@@ -410,21 +408,18 @@
     </div>
 </div>
 
-<!-- JS Scripts-->
+<div class="container">
+    <div class="gallery"></div>
+    <div class="clear"></div>
+</div>
 <!-- jQuery Js -->
-<script src="./resources/js/jquery-1.10.2.js"></script>
-<!-- Bootstrap Js -->
-<script src="./resources/js/bootstrap.min.js"></script>
-<!-- Metis Menu Js -->
-<script src="./resources/js/jquery.metisMenu.js"></script>
-<!-- Custom Js -->
-<script src="./resources/js/custom-scripts.js"></script>
-<!-- lib jquery.min.js -->
-<script src="./resources/js/jquery-3.2.1.min.js"></script>
+<script src="./resources/js/jquery-1.11.3.min.js"></script>
 <!-- lib angular js -->
 <script src="./resources/js/angular.min.js"></script>
 <!-- angular app -->
-<script src="./resources/js/angular/app.js"></script>
+<script src="./resources/js/app.js"></script>
+<!-- bootstrap min-->
+<script src="./resources/js/bootstrap.min.js"></script>
 <!-- main js -->
 <script src="./resources/js/main.js"></script>
 

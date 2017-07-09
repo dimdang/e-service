@@ -1,9 +1,12 @@
 package org.code.jarvis.service.impl;
 
 import org.code.jarvis.model.core.Product;
+import org.code.jarvis.model.core.ProductImage;
 import org.code.jarvis.repository.EntityDao;
 import org.code.jarvis.repository.ProductEntityDao;
 import org.code.jarvis.service.ProductEntityService;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +35,11 @@ public class ProductEntityServiceImpl extends AbstractEntityService implements P
     @Override
     public List<Product> fetchProducts(int offset, int limit) {
         return productEntityDao.fetchProducts(offset, limit);
+    }
+
+    @Override
+    public ProductImage getProductImage(long id) {
+        return productEntityDao.getProductImage(id);
     }
 
 }

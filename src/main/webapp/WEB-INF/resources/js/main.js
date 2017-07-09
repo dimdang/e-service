@@ -1,6 +1,7 @@
 var arrayFile = [];
+var spinner=$("<div id='progress'> <div class='content'><img src='./resources/img/spinner.gif' /></div> </div>");
 $(document).ready(function() {
- 
+  
  if(window.File && window.FileList && window.FileReader) {
 
     var preview = $("#preview");
@@ -43,3 +44,4 @@ $(document).ready(function() {
   } else { alert("Your browser doesn't support to File API") }
 
 });
+

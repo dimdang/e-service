@@ -185,7 +185,7 @@ public class Customer extends AbstractEntity {
     }
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pro_id", referencedColumnName = "pro_id", nullable = false)
+    @JoinColumn(name = "pro_id", nullable = false)
     public Product getProduct() {
         return product;
     }

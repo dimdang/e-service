@@ -89,10 +89,18 @@ public class ProductEntityDaoImpl extends AbstractEntityDao implements ProductEn
     @Override
     public List<Product> fetchProducts(int offset, int limit) {
         Criteria criteria = getCurrentSession().createCriteria(Product.class);
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        //criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         criteria.addOrder(Order.desc("updateDate"));
         criteria.setFirstResult((offset - 1) * limit);
         criteria.setMaxResults(limit);
         return criteria.list();
+    }
+
+    @Override
+    public ProductImage getProductImage(long id) {
+        Criteria criteria = getCurrentSession().createCriteria(ProductImage.class);
+        criteria.add(Restrictions.eq("image.id", id));
+        List<ProductImage> list = criteria.list();
+        return list != null && !list.isEmpty() ? list.get(0) : null;
     }
 }

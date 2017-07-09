@@ -15,4 +15,5 @@ public interface ProductEntityDao extends EntityDao {
 
     List<Product> fetchProducts(int offset, int limit);
 
+    ProductImage getProductImage(long id);
 }

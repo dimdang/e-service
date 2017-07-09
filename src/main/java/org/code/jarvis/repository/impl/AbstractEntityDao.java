@@ -84,8 +84,8 @@ public abstract class AbstractEntityDao implements EntityDao {
     public <T> List<T> list(Class<T> clazz) {
         if (clazz != null) {
             Criteria criteria = getCurrentSession().createCriteria(clazz);
+            //criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
             criteria.addOrder(Order.desc("updateDate"));
-            criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
             return criteria.list();
         }
         return null;
