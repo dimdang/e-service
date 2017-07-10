@@ -113,8 +113,6 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     }
 
     $scope.viewImage = function (images) {
-       $('.gallery').empty();
-       $('#zoom').remove();
         console.log(images);
         for(var i=0;i<images.length;i++){
             var div="<div><a id='"+images[i].IMG_ID+"' href='"+$scope.imageUrl+images[i].IMG_ID+"'></a></div>";
