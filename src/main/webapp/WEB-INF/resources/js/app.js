@@ -97,32 +97,18 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.txtEmail = product.CONTACT.EMAIL;
         $scope.txtFacebook = product.CONTACT.FACEBOOK;
 
-        /*var preview = $("#preview");
-         preview.empty();
-         for(var i=0;i<product.IMAGES.length;i++){
-         var img=$("<img />",{
-         class : "img-thumbnail",
-         height : 100,
-         src : $scope.baseUrl+"/product/view/"+product.IMAGES[i].PRO_IMG_ID,
-         title : product.IMAGES[i].NAME
-         });
-         img.appendTo(preview);
-         $scope.images[i]=img;
-         }*/
-
     }
 
-    $scope.viewImage = function (images) {
-        console.log(images);
-        for(var i=0;i<images.length;i++){
-            var div="<div><a id='"+images[i].IMG_ID+"' href='"+$scope.imageUrl+images[i].IMG_ID+"'></a></div>";
+    $scope.viewImage = function (imgs) {
+        console.log(imgs);
+        for(var i=0;i<imgs.length;i++){
+            var div="<div><a id='"+imgs[i].IMG_ID+"' href='"+$scope.imageUrl+imgs[i].IMG_ID+"'></a></div>";
             $('.gallery').append(div);
-            if(images.length==1)
-                $('.gallery').append(div);
         }
-        if(images.length>0){
+        if(imgs.length>0){
              $.getScript('./resources/js/zoom.min.js', function() {
                 $(".gallery a")[0].click();
+                 images=imgs;
             });
         }
     }

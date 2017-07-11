@@ -92,6 +92,35 @@ public class WebController {
     }
 
     @ApiOperation(
+            httpMethod = "GET",
+            value = "Delete product",
+            notes = "This url does delete product from database",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            protocols = "http")
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @GetMapping(value = "/product/delete/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public JResponseEntity<Object> deleteProduct(@PathVariable(name = "id") long id) {
+        try {
+            log.info("===>>> client request delete product");
+            if (id > 0) {
+                Product product = productEntityService.getEntityById(id, Product.class);
+                productEntityService.delete(product);
+                return ResponseFactory.build("Delete product Success", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return ResponseFactory.build("Product not found!", HttpStatus.BAD_REQUEST);
+    }
+
+    @ApiOperation(
             httpMethod = "POST",
             value = "Fetch all customers",
             notes = "This url does fetch all customers",
@@ -123,7 +152,7 @@ public class WebController {
             response = HttpEntity.class,
             protocols = "http")
     @GetMapping(value = "/image/view/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    public HttpEntity<byte[]> viewImage(@PathVariable(value = "id", required = true) long id) throws IOException {
+    public HttpEntity<byte[]> viewImage(@PathVariable(name = "id", required = true) long id) throws IOException {
         log.info("Client Requested picture Id:" + id);
         Image image = productEntityService.getEntityById(id, Image.class);
         if (image != null) {
@@ -144,7 +173,7 @@ public class WebController {
             response = HttpEntity.class,
             protocols = "http")
     @GetMapping(value = "/image/download/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    public HttpEntity<byte[]> downloadImage(@PathVariable(value = "id", required = true) long id) throws IOException {
+    public HttpEntity<byte[]> downloadImage(@PathVariable(name = "id", required = true) long id) throws IOException {
         log.info("Client Requested picture Id:" + id);
         Image image = productEntityService.getEntityById(id, Image.class);
         if (image != null) {
@@ -162,14 +191,23 @@ public class WebController {
             httpMethod = "GET",
             value = "Delete image from server",
             notes = "This url request to server to delete image",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             protocols = "http")
-    @GetMapping(value = "/image/delete/{id}")
-    public void deleteImage(@PathVariable(value = "id") long id) throws IOException {
-        log.info("Client Requested delete picture Id:" + id);
-        ProductImage productImage = productEntityService.getProductImage(id);
-        if (productImage != null) {
-            productEntityService.delete(productImage);
+    @GetMapping(value = "/image/delete/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public JResponseEntity<Object> deleteImage(@PathVariable(name = "id") long id) throws IOException {
+        try {
+            log.info("Client Requested delete picture Id:" + id);
+            ProductImage productImage = productEntityService.getProductImage(id);
+            if (productImage != null) {
+                productEntityService.delete(productImage);
+                return ResponseFactory.build("Delete image success", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
+        return ResponseFactory.build("image not found!", HttpStatus.BAD_REQUEST);
     }
 
     @ApiOperation(

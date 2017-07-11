@@ -104,7 +104,7 @@ public class MobileController {
             response = HttpEntity.class,
             protocols = "http")
     @GetMapping(value = "/image/view/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    public HttpEntity<byte[]> viewImage(@PathVariable(value = "id", required = true) long id) throws IOException {
+    public HttpEntity<byte[]> viewImage(@PathVariable(name = "id", required = true) long id) throws IOException {
         log.info("Client Requested picture Id:" + id);
         Image image = productEntityService.getEntityById(id, Image.class);
         if (image != null) {
@@ -125,7 +125,7 @@ public class MobileController {
             response = HttpEntity.class,
             protocols = "http")
     @GetMapping(value = "/image/download/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    public HttpEntity<byte[]> downloadImage(@PathVariable(value = "id", required = true) long id) throws IOException {
+    public HttpEntity<byte[]> downloadImage(@PathVariable(name = "id", required = true) long id) throws IOException {
         log.info("Client Requested picture Id:" + id);
         Image image = productEntityService.getEntityById(id, Image.class);
         if (image != null) {
