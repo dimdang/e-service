@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Bootstrap Admin Theme : Master</title>
+    <title>V-Printing-Product</title>
     <!-- Bootstrap Styles-->
     <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
     <!-- Custom Styles-->
@@ -14,9 +14,9 @@
 
     <link rel="stylesheet" type="text/css" href="./resources/css/main.css"/>
 
-    <link rel="stylesheet"  href="./resources/css/zoom.css" media="all" />
+    <link rel="stylesheet" href="./resources/css/zoom.css" media="all"/>
 </head>
-<body ng-app="ngApp" ng-controller="ngCtrl"  data-ng-init="fetchProduct()">
+<body ng-app="ngApp" ng-controller="ngCtrl" data-ng-init="fetchProduct()">
 <div id="wrapper">
     <nav class="navbar navbar-default top-navbar" role="navigation">
         <div class="navbar-header">
@@ -26,7 +26,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"><strong>bluebox</strong></a>
+            <a class="navbar-brand" href="index.html"><strong>V-Printing</strong></a>
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
@@ -281,32 +281,27 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <form role="form">
+                                    <form role="form" name="myForm">
                                         <div class="form-group">
                                             <input class="ng-hide" ng-model="txtId"/>
                                             <label>Code</label>
-                                            <input class="form-control" placeholder="Enter Code" ng-model="txtCode"
-                                                   required/>
+                                            <input class="form-control" placeholder="Enter Code"
+                                                   ng-model="txtCode" name="txtCode" required/>
                                         </div>
                                         <div class="form-group">
                                             <label>Color</label>
                                             <input class="form-control" placeholder="Enter Color"
-                                                   ng-model="txtColor" required/>
-                                            <!--<select class="form-control" ng-model="selectColor"
-                                                    ng-options="color.DESC for color in colors" required>
-                                                 <option ng-repeat="color in colors"  value="{{color.ID}}"
-                                                 ng-selected="selectColor == color.value">{{color.DESC}}</option>
-                                            </select>-->
+                                                   ng-model="txtColor" name="txtColor" required/>
                                         </div>
                                         <div class="form-group">
                                             <label>Size</label>
                                             <input class="form-control" placeholder="Enter Size"
-                                                   ng-model="txtSize" required/>
+                                                   ng-model="txtSize" name="txtSize" required/>
                                         </div>
                                         <div class="form-group">
                                             <label>Price</label>
                                             <input class="form-control" placeholder="Enter Price"
-                                                   ng-model="txtPrice" required/>
+                                                   ng-model="txtPrice" name="txtPrice" required/>
                                         </div>
                                         <div class="form-group">
                                             <div class="imgupload panel panel-default">
@@ -388,7 +383,7 @@
                                                         <td>{{product.CODE}}</td>
                                                         <td>{{product.SIZE}}</td>
                                                         <td>{{product.PRICE}}</td>
-                                                        <td>{{product.COLOR.DESC}}</td>
+                                                        <td>{{product.COLOR}}</td>
                                                         <td>{{product.CONTACT.PHONE1}}, {{product.CONTACT.PHONE2}},
                                                             {{product.CONTACT.PHONE3}}
                                                         </td>
@@ -404,7 +399,8 @@
                                                                     ng-click="editProduct(product)"><span
                                                                     class="glyphicon glyphicon-pencil"></span></button>
                                                             <button class="btn btn-danger btn-xs" data-title="Delete"
-                                                                    data-toggle="modal" data-target="#delete"><span
+                                                                    data-toggle="modal" data-target="#delete"
+                                                                    ng-click="deleteProduct(product.ID, $index);"><span
                                                                     class="glyphicon glyphicon-trash"></span></button>
                                                         </td>
                                                     </tr>

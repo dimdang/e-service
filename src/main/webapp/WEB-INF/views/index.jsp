@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Bluebox Free Bootstrap Admin Template</title>
+    <title>V-Printing</title>
     <!-- Bootstrap Styles-->
     <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
     <!-- Custom Styles-->
@@ -25,7 +25,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"><strong>bluebox</strong></a>
+            <a class="navbar-brand" href="index.html"><strong>V-Printing</strong></a>
         </div>
 
         <ul class="nav navbar-top-links navbar-right">

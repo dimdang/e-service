@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Bootstrap HTML5 Admin Template : Master</title>
+    <title>V-Printing-Customer</title>
     <!-- Bootstrap Styles-->
     <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
     <!-- Custom Styles-->
@@ -26,7 +26,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"><strong>bluebox</strong></a>
+            <a class="navbar-brand" href="index.html"><strong>V-Printing</strong></a>
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
@@ -304,7 +304,7 @@
                                                         <td>{{customer.PRODUCT.CODE}}</td>
                                                         <td>{{customer.PRODUCT.SIZE}}</td>
                                                         <td>{{customer.PRODUCT.PRICE}}</td>
-                                                        <td>{{customer.PRODUCT.COLOR.DESC}}</td>
+                                                        <td>{{customer.PRODUCT.COLOR}}</td>
                                                         <td width="70px">
                                                             <button class="btn btn-info btn-xs"
                                                                     ng-click="viewImage(customer.IMAGES)">

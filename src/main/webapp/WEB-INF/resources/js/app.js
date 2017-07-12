@@ -5,20 +5,20 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.baseUrl = "http://localhost:8080/api/web";
     $scope.products = [];
     $scope.customers = [];
-    $scope.imageUrl=$scope.baseUrl+"/image/view/";
+    $scope.imageUrl = $scope.baseUrl + "/image/view/";
 
 
-  	$scope.fetchProduct = function(){
-         spinner.appendTo("body");
-  		$http({
-  			 method: 'POST',
-	       url: $scope.baseUrl+'/product/fetch',
-  		}).then(function(response){
-  			console.log(response.data["DATA"]);
-  			$scope.products=response.data["DATA"];
+    $scope.fetchProduct = function () {
+        spinner.appendTo("body");
+        $http({
+            method: 'POST',
+            url: $scope.baseUrl + '/product/fetch',
+        }).then(function (response) {
+            console.log(response.data["DATA"]);
+            $scope.products = response.data["DATA"];
             spinner.remove();
-  		},function(response){
-  			console.log(response);
+        }, function (response) {
+            console.log(response);
             spinner.remove();
             alert("There are some error plase contact to developer");
         });
@@ -65,24 +65,30 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }
         console.log("JSON DATA ===>>> " + formData.get("json") + "\nFILES ===>>> " + formData.get("files"));
         //send http request
-        spinner.appendTo("body");
-        $http({
-            method: 'POST',
-            url: $scope.baseUrl + '/product/submit',
-            data: formData,
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        }).then(function (response) {// success
-                console.log(response);
-                $scope.fetchProduct();
-                $scope.reset();
-                spinner.remove();
-            },
-            function (response) {// failed
-                console.log(response);
-                spinner.remove();
-                alert("There are some error plase contact to developer");
-            });
+        var isValid = !myForm.txtCode.value == "" && !myForm.txtSize.value == ""
+            && !myForm.txtColor.value == "" && !myForm.txtPrice.value == "";
+        console.log("Validation");
+        console.log(isValid);
+        if (isValid) {
+            spinner.appendTo("body");
+            $http({
+                method: 'POST',
+                url: $scope.baseUrl + '/product/submit',
+                data: formData,
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).then(function (response) {// success
+                    console.log(response);
+                    $scope.fetchProduct();
+                    $scope.reset();
+                    spinner.remove();
+                },
+                function (response) {// failed
+                    console.log(response);
+                    spinner.remove();
+                    alert("There are some error plase contact to developer");
+                });
+        }
     }
 
     $scope.editProduct = function (product) {
@@ -99,16 +105,39 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
 
     }
 
+    $scope.deleteProduct = function (id, index) {
+        if (confirm("Are you sure you want to delete this?")) {
+            if (id != null && index > -1) {
+                spinner.appendTo("body");
+                $http({
+                    method: 'GET',
+                    url: $scope.baseUrl + '/product/delete/' + id,
+                }).then(function (response) {// success
+                        console.log(response);
+                        $scope.products.splice(index, 1);
+                        spinner.remove();
+                    },
+                    function (response) {// failed
+                        console.log(response);
+                        spinner.remove();
+                        alert("There are some error plase contact to developer");
+                    });
+            }
+        }else{
+            return false;
+        }
+    }
+
     $scope.viewImage = function (imgs) {
         console.log(imgs);
-        for(var i=0;i<imgs.length;i++){
-            var div="<div><a id='"+imgs[i].IMG_ID+"' href='"+$scope.imageUrl+imgs[i].IMG_ID+"'></a></div>";
+        for (var i = 0; i < imgs.length; i++) {
+            var div = "<div><a id='" + imgs[i].IMG_ID + "' href='" + $scope.imageUrl + imgs[i].IMG_ID + "'></a></div>";
             $('.gallery').append(div);
         }
-        if(imgs.length>0){
-             $.getScript('./resources/js/zoom.min.js', function() {
+        if (imgs.length > 0) {
+            $.getScript('./resources/js/zoom.min.js', function () {
                 $(".gallery a")[0].click();
-                 images=imgs;
+                images = imgs;
             });
         }
     }
