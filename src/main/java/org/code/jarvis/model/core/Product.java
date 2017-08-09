@@ -7,6 +7,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public class Product extends AbstractEntity {
     private String price;
     @JsonProperty("CONTACT")
     private ProductContact contact;
-    @JsonProperty("IMAGES")
+    @JsonIgnore
     private List<ProductImage> productImages;
 
     @Id
@@ -105,6 +106,19 @@ public class Product extends AbstractEntity {
 
     public void setProductImages(List<ProductImage> productImages) {
         this.productImages = productImages;
+    }
+
+    @JsonProperty("IMAGES")
+    @Transient
+    public List<Long> getImageId() {
+        List<Long> list = new ArrayList<>();
+        if (productImages != null && !productImages.isEmpty()) {
+            for (ProductImage productImage : productImages) {
+                if (productImage.getImage() != null)
+                    list.add(productImage.getImage().getId());
+            }
+        }
+        return list;
     }
 
 }

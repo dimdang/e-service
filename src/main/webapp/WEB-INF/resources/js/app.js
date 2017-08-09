@@ -131,7 +131,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.viewImage = function (imgs) {
         console.log(imgs);
         for (var i = 0; i < imgs.length; i++) {
-            var div = "<div><a id='" + imgs[i].IMG_ID + "' href='" + $scope.imageUrl + imgs[i].IMG_ID + "'></a></div>";
+            var div = "<div><a id='" + imgs[i]+ "' href='" + $scope.imageUrl + imgs[i] + "'></a></div>";
             $('.gallery').append(div);
         }
         if (imgs.length > 0) {

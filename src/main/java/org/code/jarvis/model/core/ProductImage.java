@@ -19,7 +19,7 @@ public class ProductImage extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("IMG_ID")
+    @JsonIgnore
     @Column(name = "pro_img_id")
     @Override
     public Long getId() {
