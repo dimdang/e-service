@@ -1,3 +1,11 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: dangdim
+  Date: 7/31/17
+  Time: 12:42 AM
+  To change this template use File | Settings | File Templates.
+--%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -251,10 +259,10 @@
                     <a href="index"><i class="fa fa-desktop"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a class="active-menu" href="product"><i class="fa fa-newspaper-o"></i> Wedding Letter</a>
+                    <a href="product"><i class="fa fa-newspaper-o"></i> Wedding Letter</a>
                 </li>
                 <li>
-                    <a href="feast"><i class="fa fa-newspaper-o"></i> Feast Letter </a>
+                    <a class="active-menu" href="feast"><i class="fa fa-newspaper-o"></i> Feast Letter </a>
                 </li>
                 <li>
                     <a href="creative"><i class="fa fa-newspaper-o"></i> Creative Letter </a>
@@ -272,7 +280,6 @@
     <div id="page-wrapper">
         <ol class="breadcrumb">
         </ol>
-
         <div id="page-inner">
             <div class="row">
                 <div class="col-lg-12">
@@ -443,3 +450,4 @@
 
 </body>
 </html>
+

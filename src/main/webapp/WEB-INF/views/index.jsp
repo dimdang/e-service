@@ -25,7 +25,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"><strong>V-Printing</strong></a>
+            <a class="navbar-brand" href="index"><strong>V-Printing</strong></a>
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
@@ -251,7 +251,13 @@
                     <a class="active-menu" href="index"><i class="fa fa-desktop"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="product"><i class="fa fa-newspaper-o"></i> Product</a>
+                    <a href="product"><i class="fa fa-newspaper-o"></i> Wedding Letter </a>
+                </li>
+                <li>
+                    <a href="feast"><i class="fa fa-newspaper-o"></i> Feast Letter </a>
+                </li>
+                <li>
+                    <a href="creative"><i class="fa fa-newspaper-o"></i> Creative Letter </a>
                 </li>
                 <li>
                     <a href="customer"><i class="fa fa-user"></i> Customer</a>
@@ -267,13 +273,9 @@
     <div id="page-wrapper">
         <div class="header">
             <h1 class="page-header">
-                Dashboard
                 <small>Summary of your App</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Library</a></li>
-                <li class="active">Data</li>
             </ol>
 
         </div>
