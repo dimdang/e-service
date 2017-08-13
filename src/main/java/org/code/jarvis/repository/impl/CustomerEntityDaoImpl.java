@@ -6,7 +6,6 @@ import org.code.jarvis.model.core.Customer;
 import org.code.jarvis.model.core.CustomerImage;
 import org.code.jarvis.model.core.Image;
 import org.code.jarvis.model.core.Product;
-import org.code.jarvis.model.request.RequestCustomer;
 import org.code.jarvis.repository.CustomerEntityDao;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,15 +26,13 @@ public class CustomerEntityDaoImpl extends AbstractEntityDao implements Customer
 
     @Override
     public Customer saveOrUpdateCustomer(MultipartFile[] files, String json) throws Exception {
-        RequestCustomer requestCustomer = null;
         Customer customer = null;
         if (json != null && !json.isEmpty()) {
-            requestCustomer = objectMapper.readValue(json, RequestCustomer.class);
-            if (requestCustomer != null) {
-                customer = new Customer(requestCustomer);
+            customer = objectMapper.readValue(json, Customer.class);
+            if (customer != null) {
                 if (customer.getCreateDate() == null) customer.setCreateDate(new Date());
                 if (customer.getUpdateDate() == null) customer.setUpdateDate(new Date());
-                Product product = loadEntityById(new Long(requestCustomer.getProductId()), Product.class);
+                Product product = loadEntityById(customer.getProductId(), Product.class);
                 customer.setProduct(product);
                 if (files != null && files.length > 0) {
                     List<CustomerImage> customerImages = new ArrayList<>(files.length);

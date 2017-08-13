@@ -2,7 +2,6 @@ package org.code.jarvis.model.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.code.jarvis.model.request.RequestCustomer;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -41,27 +40,10 @@ public class Customer extends AbstractEntity {
     private String other;
     @JsonProperty("PRODUCT")
     private Product product;
+    @JsonProperty("PRODUCT_ID")
+    private Long productId;
     @JsonIgnore
     private List<CustomerImage> customerImages;
-
-    public Customer() {
-    }
-
-    public Customer(RequestCustomer requestCustomer) {
-        if (requestCustomer != null) {
-            this.groomName = requestCustomer.getGroomName();
-            this.groomDadName = requestCustomer.getGroomDadName();
-            this.groomMomName = requestCustomer.getGroomMomName();
-            this.brideName = requestCustomer.getBrideName();
-            this.brideDadName = requestCustomer.getBrideDadName();
-            this.brideMomName = requestCustomer.getBrideMomName();
-            this.home = requestCustomer.getHome();
-            this.address = requestCustomer.getAddress();
-            this.date = requestCustomer.getDate();
-            this.phone = requestCustomer.getPhone();
-            this.other = requestCustomer.getOther();
-        }
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -193,6 +175,15 @@ public class Customer extends AbstractEntity {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    @Transient
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

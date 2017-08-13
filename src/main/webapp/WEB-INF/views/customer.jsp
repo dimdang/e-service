@@ -290,21 +290,21 @@
                                                 <table class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                     <tr>
-                                                        <th>Customer ID</th>
                                                         <th>Product Code</th>
-                                                        <th>Product Size</th>
-                                                        <th>Product Price</th>
-                                                        <th>Product Color</th>
+                                                        <th>Type</th>
+                                                        <th>Groom Name</th>
+                                                        <th>Bride Name</th>
+                                                        <th>Phone</th>
                                                         <th>Action</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     <tr ng-repeat="customer in customers">
-                                                        <td width="50px">{{customer.ID}}</td>
                                                         <td>{{customer.PRODUCT.CODE}}</td>
-                                                        <td>{{customer.PRODUCT.SIZE}}</td>
-                                                        <td>{{customer.PRODUCT.PRICE}}</td>
-                                                        <td>{{customer.PRODUCT.COLOR}}</td>
+                                                        <td>{{types[customer.PRODUCT.TYPE]}}</td>
+                                                        <td>{{customer.GROOM_NAME}}</td>
+                                                        <td>{{customer.BRIDE_NAME}}</td>
+                                                        <td>{{customer.PHONE}}</td>
                                                         <td width="70px">
                                                             <button class="btn btn-info btn-xs"
                                                                     ng-click="viewImage(customer.IMAGES)">

@@ -267,8 +267,8 @@
         <div class="header">
             <ol class="breadcrumb">
                 <li><a href="#">Home</a></li>
-                <li><a href="#">Forms</a></li>
-                <li class="active">Data</li>
+                <li class="active">Form</li>
+                <li><a href="#">Data</a></li>
             </ol>
         </div>
 
@@ -316,14 +316,20 @@
                                         </div>
                                         <button type="submit" class="btn btn-primary" ng-click="submit()">Submit
                                         </button>
-                                        <button type="reset" class="btn btn-default"
-                                                ng-click="reset()">Reset
+                                        <button type="reset" class="btn btn-default" ng-click="reset()">Clear
                                         </button>
                                     </form>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
                                 <div class="col-lg-6">
                                     <form role="form">
+                                        <div class="form-group">
+                                            <label>Type</label>
+                                            <select class="form-control" ng-model="selectType" required>
+                                                <option ng-repeat="(key, value) in types" value="{{key}}">{{value}}
+                                                </option>
+                                            </select>
+                                        </div>
                                         <div class="form-group">
                                             <label>Phone1</label>
                                             <input class="form-control" placeholder="Enter Phone Number"
@@ -333,11 +339,6 @@
                                             <label>Phone2</label>
                                             <input class="form-control" placeholder="Enter Phone Number"
                                                    ng-model="txtPhone2">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Phone3</label>
-                                            <input class="form-control" placeholder="Enter Phone Number"
-                                                   ng-model="txtPhone3">
                                         </div>
                                         <div class="form-group">
                                             <label>Email</label>
@@ -371,6 +372,7 @@
                                                         <th>Size</th>
                                                         <th>Price</th>
                                                         <th>Color</th>
+                                                        <th>Type</th>
                                                         <th>Phone</th>
                                                         <th>Email</th>
                                                         <th>Facebook</th>
@@ -384,9 +386,8 @@
                                                         <td>{{product.SIZE}}</td>
                                                         <td>{{product.PRICE}}</td>
                                                         <td>{{product.COLOR}}</td>
-                                                        <td>{{product.CONTACT.PHONE1}}, {{product.CONTACT.PHONE2}},
-                                                            {{product.CONTACT.PHONE3}}
-                                                        </td>
+                                                        <td>{{types[product.TYPE]}}</td>
+                                                        <td>{{product.CONTACT.PHONE1}}, {{product.CONTACT.PHONE2}}</td>
                                                         <td>{{product.CONTACT.EMAIL}}</td>
                                                         <td>{{product.CONTACT.FACEBOOK}}</td>
                                                         <td width="100px">

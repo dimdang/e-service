@@ -29,7 +29,7 @@ public class SwaggerConfiguration {
 
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
-                "E-Service-API",
+                "V-Printing-API",
                 "Some custom description of API.",
                 "API TOS",
                 "Terms of service",

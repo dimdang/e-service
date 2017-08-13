@@ -5,8 +5,8 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.baseUrl = "https://e-service-application.herokuapp.com/api/web";
     $scope.products = [];
     $scope.customers = [];
+    $scope.types = {"WED": "សំបុត្រការ", "CER": "សំបុត្របុណ្យ", "DES": "សំបុត្រច្នៃ"};
     $scope.imageUrl = $scope.baseUrl + "/image/view/";
-
 
     $scope.fetchProduct = function () {
         spinner.appendTo("body");
@@ -50,12 +50,12 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
             "SIZE": $scope.txtSize,
             "PRICE": $scope.txtPrice,
             "COLOR": $scope.txtColor,
+            "TYPE": $scope.selectType,
             "CONTACT": {
                 "EMAIL": $scope.txtEmail,
                 "FACEBOOK": $scope.txtFacebook,
                 "PHONE1": $scope.txtPhone1,
-                "PHONE2": $scope.txtPhone2,
-                "PHONE3": $scope.txtPhone3
+                "PHONE2": $scope.txtPhone2
             },
         };
         //part value 'json'-> json data
@@ -63,14 +63,12 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         for (var i = 0; i < arrayFile.length; i++) {
             formData.append("files", arrayFile[i], arrayFile[i].name);
         }
-        console.log("JSON DATA ===>>> " + formData.get("json") + "\nFILES ===>>> " + formData.get("files"));
-        //send http request
-        var isValid = !myForm.txtCode.value == "" && !myForm.txtSize.value == ""
-            && !myForm.txtColor.value == "" && !myForm.txtPrice.value == "";
-        console.log("Validation");
-        console.log(isValid);
-        if (isValid) {
+        console.log("JSON DATA ===>>> " + formData.get("json"));
+        console.log("FILES ===>>> " + formData.get("files"));
+
+        if (isValid()) {
             spinner.appendTo("body");
+            //send http request
             $http({
                 method: 'POST',
                 url: $scope.baseUrl + '/product/submit',
@@ -88,6 +86,8 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                     spinner.remove();
                     alert("There are some error plase contact to developer");
                 });
+        } else {
+            console.log("====>>>> Can not submit there are invalid field or required");
         }
     }
 
@@ -97,9 +97,9 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.txtSize = product.SIZE;
         $scope.txtPrice = product.PRICE;
         $scope.txtColor = product.COLOR;
+        $scope.selectType = product.TYPE;
         $scope.txtPhone1 = product.CONTACT.PHONE1;
         $scope.txtPhone2 = product.CONTACT.PHONE2;
-        $scope.txtPhone3 = product.CONTACT.PHONE3;
         $scope.txtEmail = product.CONTACT.EMAIL;
         $scope.txtFacebook = product.CONTACT.FACEBOOK;
 
@@ -123,7 +123,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                         alert("There are some error plase contact to developer");
                     });
             }
-        }else{
+        } else {
             return false;
         }
     }
@@ -131,7 +131,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.viewImage = function (imgs) {
         console.log(imgs);
         for (var i = 0; i < imgs.length; i++) {
-            var div = "<div><a id='" + imgs[i]+ "' href='" + $scope.imageUrl + imgs[i] + "'></a></div>";
+            var div = "<div><a id='" + imgs[i] + "' href='" + $scope.imageUrl + imgs[i] + "'></a></div>";
             $('.gallery').append(div);
         }
         if (imgs.length > 0) {
@@ -143,7 +143,6 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     }
 
     $scope.viewCustomer = function (customer) {
-
         $("#mName").text("Name: " + customer.GROOM_NAME);
         $("#mFatName").text("Father Name: " + customer.GROOM_DAD_NAME);
         $("#mMomName").text("Mother Name: " + customer.GROOM_MOM_NAME);
@@ -165,7 +164,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.txtColor = "";
         $scope.txtPhone1 = "";
         $scope.txtPhone2 = "";
-        $scope.txtPhone3 = "";
+        $scope.selectType = "";
         $scope.txtEmail = "";
         $scope.txtFacebook = "";
         $("#files").val("");
@@ -173,6 +172,12 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         while (arrayFile.length > 0) {
             arrayFile.pop();
         }
+    }
+
+    function isValid() {
+        return !$scope.txtCode == "" && !$scope.txtSize == ""
+            && !$scope.txtColor == "" && !$scope.txtPrice == ""
+            && !$scope.selectType == "";
     }
 
 }]);

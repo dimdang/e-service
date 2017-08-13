@@ -21,11 +21,13 @@ public class Product extends AbstractEntity {
     @JsonProperty("COLOR")
     private String color;
     @JsonProperty("SIZE")
-    private Integer size;
+    private String size;
     @JsonProperty("PRICE")
     private String price;
     @JsonProperty("CONTACT")
     private ProductContact contact;
+    @JsonProperty("TYPE")
+    private EProductType productType;
     @JsonIgnore
     private List<ProductImage> productImages;
 
@@ -52,16 +54,6 @@ public class Product extends AbstractEntity {
         return null;
     }
 
-    /*@OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "col_id", referencedColumnName = "col_id")
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }*/
-
     @Column(name = "pro_color")
     public String getColor() {
         return color;
@@ -72,11 +64,11 @@ public class Product extends AbstractEntity {
     }
 
     @Column(name = "pro_size", nullable = false)
-    public Integer getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(String size) {
         this.size = size;
     }
 
@@ -108,6 +100,16 @@ public class Product extends AbstractEntity {
         this.productImages = productImages;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "pro_type")
+    public EProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(EProductType productType) {
+        this.productType = productType;
+    }
+
     @JsonProperty("IMAGES")
     @Transient
     public List<Long> getImageId() {
@@ -120,5 +122,4 @@ public class Product extends AbstractEntity {
         }
         return list;
     }
-
 }
