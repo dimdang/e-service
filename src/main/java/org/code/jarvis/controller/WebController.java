@@ -1,5 +1,7 @@
 package org.code.jarvis.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import flexjson.JSONDeserializer;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by KimChheng on 5/13/2017.
@@ -33,6 +36,8 @@ import java.util.List;
 public class WebController {
 
     private final Logger log = LoggerFactory.getLogger(WebController.class);
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JSONDeserializer<Map<String, Object>> deserializer = new JSONDeserializer<>();
 
     @Autowired
     private ProductEntityService productEntityService;
@@ -56,7 +61,8 @@ public class WebController {
     public JResponseEntity<String> submitProduct(@RequestPart(required = false) MultipartFile[] files,
                                                  @RequestPart(required = false) String json) {
         try {
-            productEntityService.saveOrUpdateProduct(files, json);
+            Product product = objectMapper.readValue(json, Product.class);
+            productEntityService.saveOrUpdateProduct(files, product);
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();

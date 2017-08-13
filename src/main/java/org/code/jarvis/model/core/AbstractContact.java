@@ -22,7 +22,7 @@ public abstract class AbstractContact extends AbstractEntity {
     @JsonProperty("FACEBOOK")
     protected String facebook;
 
-    @Column(name = "con_phone1", length = 25)
+    @Column(name = "phone1", length = 25)
     public String getPhone1() {
         return phone1;
     }
@@ -31,7 +31,7 @@ public abstract class AbstractContact extends AbstractEntity {
         this.phone1 = phone1;
     }
 
-    @Column(name = "con_phone2", length = 25)
+    @Column(name = "phone2", length = 25)
     public String getPhone2() {
         return phone2;
     }
@@ -40,7 +40,7 @@ public abstract class AbstractContact extends AbstractEntity {
         this.phone2 = phone2;
     }
 
-    @Column(name = "con_phone3", length = 25)
+    @Column(name = "phone3", length = 25)
     public String getPhone3() {
         return phone3;
     }
@@ -49,7 +49,7 @@ public abstract class AbstractContact extends AbstractEntity {
         this.phone3 = phone3;
     }
 
-    @Column(name = "con_email", length = 25)
+    @Column(name = "email", length = 25)
     public String getEmail() {
         return email;
     }
@@ -58,7 +58,7 @@ public abstract class AbstractContact extends AbstractEntity {
         this.email = email;
     }
 
-    @Column(name = "con_facebook", length = 25)
+    @Column(name = "facebook", length = 25)
     public String getFacebook() {
         return facebook;
     }
