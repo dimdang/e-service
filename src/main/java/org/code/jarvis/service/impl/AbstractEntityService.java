@@ -88,6 +88,11 @@ public abstract class AbstractEntityService implements EntityService {
     }
 
     @Override
+    public void executeSQL(String sql) {
+        getDao().executeSQL(sql);
+    }
+
+    @Override
     public void flush() {
         getDao().flush();
     }

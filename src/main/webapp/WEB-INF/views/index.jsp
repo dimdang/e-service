@@ -254,6 +254,9 @@
                     <a href="product"><i class="fa fa-newspaper-o"></i> Product</a>
                 </li>
                 <li>
+                    <a href="promotion"><i class="fa fa-archive"></i> Promotion</a>
+                </li>
+                <li>
                     <a href="customer"><i class="fa fa-user"></i> Customer</a>
                 </li>
 

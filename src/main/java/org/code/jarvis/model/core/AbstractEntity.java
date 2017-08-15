@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by KimChheng on 5/9/2017.
  */
 @MappedSuperclass
-public abstract class AbstractEntity implements Serializable {
+public abstract class AbstractEntity  implements Serializable {
 
     protected Long id;
     protected String code;

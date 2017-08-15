@@ -4,6 +4,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.baseUrl = "http://localhost:8080/api/web";
     $scope.products = [];
+    $scope.promotions = [];
     $scope.customers = [];
     $scope.types = {"WED": "សំបុត្រការ", "CER": "សំបុត្របុណ្យ", "DES": "សំបុត្រច្នៃ"};
     $scope.imageUrl = $scope.baseUrl + "/image/view/";
@@ -16,6 +17,22 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }).then(function (response) {
             console.log(response.data["DATA"]);
             $scope.products = response.data["DATA"];
+            spinner.remove();
+        }, function (response) {
+            console.log(response);
+            spinner.remove();
+            alert("There are some error plase contact to developer");
+        });
+    }
+
+    $scope.fetchPromotion = function () {
+        spinner.appendTo("body");
+        $http({
+            method: 'POST',
+            url: $scope.baseUrl + '/promotion/fetch',
+        }).then(function (response) {
+            console.log(response.data["DATA"]);
+            $scope.promotions = response.data["DATA"];
             spinner.remove();
         }, function (response) {
             console.log(response);
@@ -40,7 +57,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         });
     }
 
-    $scope.submit = function () {
+    $scope.submitProduct = function () {
         //object form data
         var formData = new FormData();
         //object model
@@ -87,6 +104,49 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                     alert("There are some error plase contact to developer");
                 });
         } else {
+            console.log("====>>>> Can not submit there are invalid field or required");
+        }
+    }
+
+    $scope.submitPromotion = function () {
+        //object form data
+        var formData = new FormData();
+        //object model
+        var model = {
+            //"ID": $scope.txtId,
+            "CODE": $scope.txtCode,
+            "DESC": $scope.txtDesc
+        };
+        //part value 'json'-> json data
+        formData.append('json', JSON.stringify(model));
+        for (var i = 0; i < arrayFile.length; i++) {
+            formData.append("files", arrayFile[i], arrayFile[i].name);
+        }
+        console.log("JSON DATA ===>>> " + formData.get("json"));
+        console.log("FILES ===>>> " + formData.get("files"));
+
+        if (arrayFile.length > 0) {
+            spinner.appendTo("body");
+            //send http request
+            $http({
+                method: 'POST',
+                url: $scope.baseUrl + '/promotion/submit',
+                data: formData,
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).then(function (response) {// success
+                    console.log(response);
+                    //$scope.fetchProduct();
+                    $scope.reset();
+                    spinner.remove();
+                },
+                function (response) {// failed
+                    console.log(response);
+                    spinner.remove();
+                    alert("There are some error plase contact to developer");
+                });
+        } else {
+            alert("Please update the promotion image");
             console.log("====>>>> Can not submit there are invalid field or required");
         }
     }
@@ -167,6 +227,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.selectType = "";
         $scope.txtEmail = "";
         $scope.txtFacebook = "";
+        $scope.txtDesc = "";
         $("#files").val("");
         $("#preview").empty();
         while (arrayFile.length > 0) {

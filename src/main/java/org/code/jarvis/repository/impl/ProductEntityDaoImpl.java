@@ -1,6 +1,9 @@
 package org.code.jarvis.repository.impl;
 
-import org.code.jarvis.model.core.*;
+import org.code.jarvis.model.core.EProductType;
+import org.code.jarvis.model.core.Image;
+import org.code.jarvis.model.core.Product;
+import org.code.jarvis.model.core.ProductContact;
 import org.code.jarvis.repository.ProductEntityDao;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
@@ -22,7 +25,7 @@ public class ProductEntityDaoImpl extends AbstractEntityDao implements ProductEn
     public Product saveOrUpdateProduct(MultipartFile[] files, Product json) throws Exception {
         Product product = null;
         ProductContact productContact, tmpContact;
-        List<ProductImage> productImages = new ArrayList<>();
+        List<Image> images = new ArrayList<>(files.length);
         if (json != null) {
             if (json.getId() == null) {
                 product = json;
@@ -32,6 +35,7 @@ public class ProductEntityDaoImpl extends AbstractEntityDao implements ProductEn
             } else {
                 product = getEntityById(json.getId(), Product.class);
                 productContact = product.getContact();
+                images = product.getImages();
                 tmpContact = json.getContact();
                 product.setCode(json.getCode());
                 product.setColor(json.getColor());
@@ -45,16 +49,13 @@ public class ProductEntityDaoImpl extends AbstractEntityDao implements ProductEn
             }
             product.setUpdateDate(new Date());
             for (int i = 0; i < files.length; i++) {
-                ProductImage productImage = new ProductImage();
                 Image image = new Image();
                 image.setType(files[i].getContentType());
                 image.setName(files[i].getOriginalFilename());
                 image.setBytes(files[i].getBytes());
-                productImage.setImage(image);
-                productImage.setProduct(product);
-                productImages.add(productImage);
+                images.add(image);
             }
-            product.setProductImages(productImages);
+            product.setImages(images);
             saveOrUpdate(product);
         }
         return product;
@@ -70,11 +71,4 @@ public class ProductEntityDaoImpl extends AbstractEntityDao implements ProductEn
         return criteria.list();
     }
 
-    @Override
-    public ProductImage getProductImage(long id) {
-        Criteria criteria = getCurrentSession().createCriteria(ProductImage.class);
-        criteria.add(Restrictions.eq("image.id", id));
-        List<ProductImage> list = criteria.list();
-        return list != null && !list.isEmpty() ? list.get(0) : null;
-    }
 }

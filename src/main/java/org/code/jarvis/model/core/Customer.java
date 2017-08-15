@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Subselect;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class Customer extends AbstractEntity {
     @JsonProperty("PRODUCT_ID")
     private Long productId;
     @JsonIgnore
-    private List<CustomerImage> customerImages;
+    private List<Image> images;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -186,24 +187,25 @@ public class Customer extends AbstractEntity {
         this.productId = productId;
     }
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "td_customer_image", joinColumns = {@JoinColumn(name = "cus_id")},
+            inverseJoinColumns = {@JoinColumn(name = "img_id")})
     @Fetch(value = FetchMode.SUBSELECT)
-    public List<CustomerImage> getCustomerImages() {
-        return customerImages;
+    public List<Image> getImages() {
+        return images;
     }
 
-    public void setCustomerImages(List<CustomerImage> customerImages) {
-        this.customerImages = customerImages;
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
     @JsonProperty("IMAGES")
     @Transient
     public List<Long> getImageId() {
         List<Long> list = new ArrayList<>();
-        if (customerImages != null && !customerImages.isEmpty()) {
-            for (CustomerImage customerImage : customerImages) {
-                if (customerImage.getImage() != null)
-                    list.add(customerImage.getImage().getId());
+        if (images != null && !images.isEmpty()) {
+            for (Image image : images) {
+                list.add(image.getId());
             }
         }
         return list;

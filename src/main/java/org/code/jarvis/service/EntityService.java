@@ -44,6 +44,8 @@ public interface EntityService {
 
     <T> void delete(T entity);
 
+    void executeSQL(String sql);
+
     void flush();
 
     void clear();

@@ -8,10 +8,11 @@ import io.swagger.annotations.ApiResponses;
 import org.code.jarvis.model.core.Customer;
 import org.code.jarvis.model.core.Image;
 import org.code.jarvis.model.core.Product;
-import org.code.jarvis.model.core.ProductImage;
+import org.code.jarvis.model.core.Promotion;
 import org.code.jarvis.model.response.JResponseEntity;
 import org.code.jarvis.service.CustomerEntityService;
 import org.code.jarvis.service.ProductEntityService;
+import org.code.jarvis.service.PromotionEntityService;
 import org.code.jarvis.util.ResponseFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,8 @@ public class WebController {
     private ProductEntityService productEntityService;
     @Autowired
     private CustomerEntityService applicantEntityService;
+    @Autowired
+    private PromotionEntityService promotionEntityService;
 
     @ApiOperation(
             httpMethod = "POST",
@@ -73,6 +76,33 @@ public class WebController {
 
     @ApiOperation(
             httpMethod = "POST",
+            value = "Submit promotion and images",
+            notes = "The client have to submit json promotion and images using form data.",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            protocols = "http")
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @PostMapping(value = "/promotion/submit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public JResponseEntity<String> submitPromotion(@RequestPart(required = false) MultipartFile[] files,
+                                                   @RequestPart(required = false) String json) {
+        try {
+            Promotion promotion = objectMapper.readValue(json, Promotion.class);
+            promotionEntityService.saveOrUpdatePromotion(files, promotion);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return ResponseFactory.build("Success", HttpStatus.OK);
+    }
+
+    @ApiOperation(
+            httpMethod = "POST",
             value = "Fetch all products",
             notes = "This url does fetch all products",
             response = JResponseEntity.class,
@@ -89,6 +119,32 @@ public class WebController {
         try {
             log.info("===>>> client request fetch all product");
             list = productEntityService.list(Product.class);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return ResponseFactory.build("Success", HttpStatus.OK, list);
+    }
+
+    @ApiOperation(
+            httpMethod = "POST",
+            value = "Fetch all promotions",
+            notes = "This url does fetch all promotions",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            protocols = "http")
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @PostMapping(value = "/promotion/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public JResponseEntity<Object> fetchPromotions() {
+        List list = new ArrayList();
+        try {
+            log.info("===>>> client request fetch all product");
+            list = promotionEntityService.list(Promotion.class);
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
@@ -204,16 +260,13 @@ public class WebController {
     public JResponseEntity<Object> deleteImage(@PathVariable(name = "id") long id) throws IOException {
         try {
             log.info("Client Requested delete picture Id:" + id);
-            ProductImage productImage = productEntityService.getProductImage(id);
-            if (productImage != null) {
-                productEntityService.delete(productImage);
-                return ResponseFactory.build("Delete image success", HttpStatus.OK);
-            }
+            productEntityService.executeSQL("DELETE FROM td_product_image WHERE img_id=" + id);
+            productEntityService.delete(productEntityService.getEntityById(id, Image.class));
+            return ResponseFactory.build("Delete image success", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        return ResponseFactory.build("image not found!", HttpStatus.BAD_REQUEST);
     }
 
     @ApiOperation(

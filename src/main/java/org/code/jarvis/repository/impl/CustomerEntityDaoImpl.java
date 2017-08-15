@@ -3,7 +3,6 @@ package org.code.jarvis.repository.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import flexjson.JSONDeserializer;
 import org.code.jarvis.model.core.Customer;
-import org.code.jarvis.model.core.CustomerImage;
 import org.code.jarvis.model.core.Image;
 import org.code.jarvis.model.core.Product;
 import org.code.jarvis.repository.CustomerEntityDao;
@@ -35,18 +34,15 @@ public class CustomerEntityDaoImpl extends AbstractEntityDao implements Customer
                 Product product = loadEntityById(customer.getProductId(), Product.class);
                 customer.setProduct(product);
                 if (files != null && files.length > 0) {
-                    List<CustomerImage> customerImages = new ArrayList<>(files.length);
+                    List<Image> images = new ArrayList<>(files.length);
                     for (int i = 0; i < files.length; i++) {
-                        CustomerImage customerImage = new CustomerImage();
                         Image image = new Image();
                         image.setType(files[i].getContentType());
                         image.setName(files[i].getOriginalFilename());
                         image.setBytes(files[i].getBytes());
-                        customerImage.setImage(image);
-                        customerImage.setCustomer(customer);
-                        customerImages.add(customerImage);
+                        images.add(image);
                     }
-                    customer.setCustomerImages(customerImages);
+                    customer.setImages(images);
                 }
                 saveOrUpdate(customer);
             }

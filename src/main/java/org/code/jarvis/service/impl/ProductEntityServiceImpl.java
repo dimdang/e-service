@@ -2,7 +2,6 @@ package org.code.jarvis.service.impl;
 
 import org.code.jarvis.model.core.EProductType;
 import org.code.jarvis.model.core.Product;
-import org.code.jarvis.model.core.ProductImage;
 import org.code.jarvis.repository.EntityDao;
 import org.code.jarvis.repository.ProductEntityDao;
 import org.code.jarvis.service.ProductEntityService;
@@ -34,11 +33,6 @@ public class ProductEntityServiceImpl extends AbstractEntityService implements P
     @Override
     public List<Product> fetchProducts(int offset, int limit, EProductType type) {
         return productEntityDao.fetchProducts(offset, limit, type);
-    }
-
-    @Override
-    public ProductImage getProductImage(long id) {
-        return productEntityDao.getProductImage(id);
     }
 
 }

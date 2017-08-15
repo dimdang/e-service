@@ -3,10 +3,12 @@ package org.code.jarvis.model.core;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class Product extends AbstractEntity {
     @JsonProperty("TYPE")
     private EProductType productType;
     @JsonIgnore
-    private List<ProductImage> productImages;
+    private List<Image> images;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,14 +92,16 @@ public class Product extends AbstractEntity {
         this.contact = contact;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
-    @Fetch(FetchMode.SUBSELECT)
-    public List<ProductImage> getProductImages() {
-        return productImages;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "td_product_image", joinColumns = {@JoinColumn(name = "pro_id")},
+            inverseJoinColumns = {@JoinColumn(name = "img_id")})
+    @Fetch(value = FetchMode.SUBSELECT)
+    public List<Image> getImages() {
+        return images;
     }
 
-    public void setProductImages(List<ProductImage> productImages) {
-        this.productImages = productImages;
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
     @Enumerated(EnumType.STRING)
@@ -114,10 +118,9 @@ public class Product extends AbstractEntity {
     @Transient
     public List<Long> getImageId() {
         List<Long> list = new ArrayList<>();
-        if (productImages != null && !productImages.isEmpty()) {
-            for (ProductImage productImage : productImages) {
-                if (productImage.getImage() != null)
-                    list.add(productImage.getImage().getId());
+        if (images != null && !images.isEmpty()) {
+            for (Image image : images) {
+                list.add(image.getId());
             }
         }
         return list;

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>V-Printing-Product</title>
+    <title>V-Printing-Promotion</title>
     <!-- Bootstrap Styles-->
     <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
     <!-- Custom Styles-->
@@ -16,7 +16,7 @@
 
     <link rel="stylesheet" href="./resources/css/zoom.css" media="all"/>
 </head>
-<body ng-app="ngApp" ng-controller="ngCtrl" data-ng-init="fetchProduct()">
+<body ng-app="ngApp" ng-controller="ngCtrl" data-ng-init="fetchPromotion()">
 <div id="wrapper">
     <nav class="navbar navbar-default top-navbar" role="navigation">
         <div class="navbar-header">
@@ -251,10 +251,10 @@
                     <a href="index"><i class="fa fa-desktop"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a class="active-menu" href="product"><i class="fa fa-newspaper-o"></i> Product</a>
+                    <a href="product"><i class="fa fa-newspaper-o"></i> Product</a>
                 </li>
                 <li>
-                    <a href="promotion"><i class="fa fa-archive"></i> Promotion</a>
+                    <a class="active-menu" href="promotion"><i class="fa fa-archive"></i> Promotion</a>
                 </li>
                 <li>
                     <a href="customer"><i class="fa fa-user"></i> Customer</a>
@@ -279,7 +279,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Product
+                        <div class="panel-heading">Promotions
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -292,32 +292,12 @@
                                                    ng-model="txtCode" name="txtCode" required/>
                                         </div>
                                         <div class="form-group">
-                                            <label>Color</label>
-                                            <input class="form-control" placeholder="Enter Color"
-                                                   ng-model="txtColor" name="txtColor" required/>
+                                            <label>Description</label>
+                                            <input class="form-control" placeholder="Enter Description"
+                                                   ng-model="txtDesc" name="txtDesc" required/>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Size</label>
-                                            <input class="form-control" placeholder="Enter Size"
-                                                   ng-model="txtSize" name="txtSize" required/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Price</label>
-                                            <input class="form-control" placeholder="Enter Price"
-                                                   ng-model="txtPrice" name="txtPrice" required/>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="imgupload panel panel-default">
-                                                <div class="panel-heading clearfix">
-                                                    <h3 class="panel-title pull-left">Upload images</h3>
-                                                </div>
-                                                <div class="file-tab panel-body">
-                                                    <input type="file" id="files" name="files[]" multiple/>
-                                                    <div id="preview"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary" ng-click="submitProduct()">Submit
+                                        <button type="submit" class="btn btn-primary" ng-click="submitPromotion()">
+                                            Submit
                                         </button>
                                         <button type="reset" class="btn btn-default" ng-click="reset()">Clear
                                         </button>
@@ -325,36 +305,17 @@
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
                                 <div class="col-lg-6">
-                                    <form role="form">
-                                        <div class="form-group">
-                                            <label>Type</label>
-                                            <select class="form-control" ng-model="selectType" required>
-                                                <option ng-repeat="(key, value) in types" value="{{key}}">{{value}}
-                                                </option>
-                                            </select>
+                                    <div class="form-group">
+                                        <div class="imgupload panel panel-default">
+                                            <div class="panel-heading clearfix">
+                                                <h3 class="panel-title pull-left">Upload images</h3>
+                                            </div>
+                                            <div class="file-tab panel-body">
+                                                <input type="file" id="files" name="files[]" multiple/>
+                                                <div id="preview"></div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Phone1</label>
-                                            <input class="form-control" placeholder="Enter Phone Number"
-                                                   ng-model="txtPhone1">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Phone2</label>
-                                            <input class="form-control" placeholder="Enter Phone Number"
-                                                   ng-model="txtPhone2">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Email</label>
-                                            <input class="form-control" placeholder="Enter Email"
-                                                   ng-model="txtEmail">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Facebook</label>
-                                            <input class="form-control" placeholder="Enter Facebook"
-                                                   ng-model="txtFacebook">
-                                        </div>
-                                    </form>
-
+                                    </div>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
                             </div>
@@ -363,7 +324,7 @@
                                 <div class="col-md-12"><br/>
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            Table Products
+                                            Table Promotions
                                         </div>
                                         <div class="panel-body">
                                             <div class="table-responsive">
@@ -372,31 +333,19 @@
                                                     <tr>
                                                         <th class="ng-hide">Id</th>
                                                         <th>Code</th>
-                                                        <th>Size</th>
-                                                        <th>Price</th>
-                                                        <th>Color</th>
-                                                        <th>Type</th>
-                                                        <th>Phone</th>
-                                                        <th>Email</th>
-                                                        <th>Facebook</th>
+                                                        <th>Description</th>
                                                         <th>Action</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr ng-repeat="product in products">
-                                                        <td class="ng-hide">{{product.ID}}</td>
-                                                        <td>{{product.CODE}}</td>
-                                                        <td>{{product.SIZE}}</td>
-                                                        <td>{{product.PRICE}}</td>
-                                                        <td>{{product.COLOR}}</td>
-                                                        <td>{{types[product.TYPE]}}</td>
-                                                        <td>{{product.CONTACT.PHONE1}}, {{product.CONTACT.PHONE2}}</td>
-                                                        <td>{{product.CONTACT.EMAIL}}</td>
-                                                        <td>{{product.CONTACT.FACEBOOK}}</td>
+                                                    <tr ng-repeat="promotion in promotions">
+                                                        <td class="ng-hide">{{promotion.ID}}</td>
+                                                        <td>{{promotion.CODE}}</td>
+                                                        <td>{{promotion.DESC}}</td>
                                                         <td width="100px">
                                                             <button class="btn btn-info btn-xs" data-title="Image"
                                                                     data-toggle="modal" data-target="#images"
-                                                                    ng-click="viewImage(product.IMAGES)"><span
+                                                                    ng-click="viewImage(promotion.IMAGES)"><span
                                                                     class="glyphicon glyphicon-picture"></span></button>
                                                             <button class="btn btn-primary btn-xs" data-title="Edit"
                                                                     data-toggle="modal" data-target="#edit"
@@ -446,3 +395,4 @@
 
 </body>
 </html>
+

@@ -84,7 +84,6 @@ public abstract class AbstractEntityDao implements EntityDao {
     public <T> List<T> list(Class<T> clazz) {
         if (clazz != null) {
             Criteria criteria = getCurrentSession().createCriteria(clazz);
-            //criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
             criteria.addOrder(Order.desc("updateDate"));
             return criteria.list();
         }
@@ -134,6 +133,12 @@ public abstract class AbstractEntityDao implements EntityDao {
     public <T> void delete(T entity) {
         if (entity != null)
             getCurrentSession().delete(entity);
+    }
+
+    @Override
+    public void executeSQL(String sql) {
+        if (sql != null && !sql.isEmpty())
+            getCurrentSession().createSQLQuery(sql).executeUpdate();
     }
 
     @Override
