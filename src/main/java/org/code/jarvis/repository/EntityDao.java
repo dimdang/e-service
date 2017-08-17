@@ -1,7 +1,6 @@
 package org.code.jarvis.repository;
 
 import org.code.jarvis.model.core.AbstractEntity;
-import org.code.jarvis.model.core.Image;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 

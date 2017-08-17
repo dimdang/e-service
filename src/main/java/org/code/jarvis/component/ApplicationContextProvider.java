@@ -1,6 +1,5 @@
 package org.code.jarvis.component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import flexjson.JSONDeserializer;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -38,4 +37,5 @@ public class ApplicationContextProvider implements ApplicationContextAware {
     public JSONDeserializer<Map<String, Object>> deserializer() {
         return new JSONDeserializer<>();
     }
+
 }

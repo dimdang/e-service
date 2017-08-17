@@ -10,4 +10,5 @@ public interface CustomerEntityDao extends EntityDao {
 
     Customer saveOrUpdateCustomer(MultipartFile[] files, Customer customer) throws Exception;
 
+
 }

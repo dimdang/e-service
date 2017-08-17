@@ -49,6 +49,7 @@ public class WebController {
     @Autowired
     private JSONDeserializer<Map<String, Object>> jsonDeserializer;
 
+
     @ApiOperation(
             httpMethod = "POST",
             value = "Submit product and images",
@@ -202,35 +203,6 @@ public class WebController {
         return ResponseFactory.build("There is no entity with id " + id + " in database!", HttpStatus.BAD_REQUEST);
     }
 
-    /*@ApiOperation(
-            httpMethod = "GET",
-            value = "Delete product",
-            notes = "This url does delete product from database",
-            response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            protocols = "http")
-    @ApiResponses(value = {
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 500, message = "Internal Server Error")})
-    @GetMapping(value = "/product/delete/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public JResponseEntity<Object> deleteProduct(@PathVariable(name = "id") long id) {
-        try {
-            log.info("===>>> client request delete product");
-            Product product = productEntityService.getEntityById(id, Product.class);
-            if (product != null) {
-                productEntityService.delete(product);
-                return ResponseFactory.build("Delete product Success", HttpStatus.OK);
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
-            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
-        return ResponseFactory.build("Product id " + id + " not found!", HttpStatus.BAD_REQUEST);
-    }*/
-
 
     @ApiOperation(
             httpMethod = "POST",
@@ -248,7 +220,9 @@ public class WebController {
     public JResponseEntity<Object> fetchCustomers() {
         List<Customer> list = new ArrayList<>();
         try {
+
             list = customerEntityService.list(Customer.class);
+
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
@@ -256,35 +230,6 @@ public class WebController {
         }
         return ResponseFactory.build("Success", HttpStatus.OK, list);
     }
-
-    /*@ApiOperation(
-            httpMethod = "GET",
-            value = "Delete customer",
-            notes = "This url does delete customer from database",
-            response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            protocols = "http")
-    @ApiResponses(value = {
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 500, message = "Internal Server Error")})
-    @GetMapping(value = "/customer/delete/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public JResponseEntity<Object> deleteCustomer(@PathVariable(name = "id") long id) {
-        try {
-            log.info("===>>> client request delete product");
-            Customer customer = customerEntityService.getEntityById(id, Customer.class);
-            if (customer != null) {
-                customerEntityService.delete(customer);
-                return ResponseFactory.build("Delete customer Success", HttpStatus.OK);
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
-            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
-        return ResponseFactory.build("Customer id " + id + " not found!", HttpStatus.BAD_REQUEST);
-    }*/
 
     @ApiOperation(
             httpMethod = "GET",

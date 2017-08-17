@@ -194,7 +194,6 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }
     }
 
-
     $scope.viewImage = function (imgs) {
         console.log(imgs);
         for (var i = 0; i < imgs.length; i++) {
@@ -249,5 +248,4 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
             && !$scope.txtColor == "" && !$scope.txtPrice == ""
             && !$scope.selectType == "";
     }
-
 }]);

@@ -10,4 +10,5 @@ public interface CustomerEntityService extends EntityService {
 
     Customer saveOrUpdateCustomer(MultipartFile[] files, Customer customer) throws Exception;
 
+
 }

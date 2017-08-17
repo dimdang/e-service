@@ -354,7 +354,8 @@
                                                             <button class="btn btn-danger btn-xs" data-title="Delete"
                                                                     data-toggle="modal" data-target="#delete"
                                                                     ng-click="deleteEntity(promotion.ID, $index, 'POM')"><span
-                                                                    class="glyphicon glyphicon-trash"></span></button>
+                                                                    class="glyphicon glyphicon-pencil"></span></button>
+
                                                         </td>
                                                     </tr>
                                                     </tbody>

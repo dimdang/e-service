@@ -119,6 +119,7 @@ public class MobileController {
             return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
         return ResponseFactory.build("Submit customer successful", HttpStatus.OK, objectMapper.readValue(json, Map.class));
+
     }
 
     @ApiOperation(

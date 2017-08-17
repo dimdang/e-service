@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * Created by KimChheng on 5/18/2017.
  */
 @Repository
 public class CustomerEntityDaoImpl extends AbstractEntityDao implements CustomerEntityDao {
+
 
     @Override
     public Customer saveOrUpdateCustomer(MultipartFile[] files, Customer customer) throws Exception {
@@ -34,5 +36,4 @@ public class CustomerEntityDaoImpl extends AbstractEntityDao implements Customer
         }
         return customer;
     }
-
 }
