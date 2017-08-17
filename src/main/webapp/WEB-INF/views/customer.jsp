@@ -308,7 +308,7 @@
                                                         <td>{{customer.GROOM_NAME}}</td>
                                                         <td>{{customer.BRIDE_NAME}}</td>
                                                         <td>{{customer.PHONE}}</td>
-                                                        <td width="70px">
+                                                        <td width="100px">
                                                             <button class="btn btn-info btn-xs"
                                                                     ng-click="viewImage(customer.IMAGES)">
                                                                 <span class="glyphicon glyphicon-picture"></span>
@@ -385,11 +385,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-<<<<<<< HEAD
                                     <label style="color:#0866C6">More Information</label>
-=======
-                                    <label style="color:#0866C6">Information</label>
->>>>>>> fec68ba846654ba070c2a031e1004347a6755ddc
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -407,15 +403,12 @@
                                         <label id="tel"></label>
                                     </div>
                                     <div class="form-group">
-<<<<<<< HEAD
                                         <label><a id="fb" href="#">Facebook</a></label>
                                     </div>
                                     <div class="form-group">
                                         <label><a id="map" href="#">Google Map</a></label>
                                     </div>
                                     <div class="form-group">
-=======
->>>>>>> fec68ba846654ba070c2a031e1004347a6755ddc
                                         <label id="other"></label>
                                     </div>
                                 </div>

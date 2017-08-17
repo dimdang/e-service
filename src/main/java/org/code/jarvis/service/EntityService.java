@@ -45,7 +45,7 @@ public interface EntityService {
 
     void executeSQL(String sql);
 
-    List<Object[]> executeQuery(String sql);
+    List executeQuery(String sql);
 
     void flush();
 

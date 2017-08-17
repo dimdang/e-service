@@ -144,7 +144,7 @@ public abstract class AbstractEntityDao implements EntityDao {
     }
 
     @Override
-    public List<Object[]> executeQuery(String sql) {
+    public List executeQuery(String sql) {
         if (sql != null && !sql.isEmpty())
             return getCurrentSession().createSQLQuery(sql).list();
         return new ArrayList<>();

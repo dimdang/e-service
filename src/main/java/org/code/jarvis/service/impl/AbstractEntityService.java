@@ -92,7 +92,7 @@ public abstract class AbstractEntityService implements EntityService {
     }
 
     @Override
-    public List<Object[]> executeQuery(String sql) {
+    public List executeQuery(String sql) {
         return getDao().executeQuery(sql);
     }
 

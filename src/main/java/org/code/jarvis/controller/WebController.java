@@ -176,14 +176,16 @@ public class WebController {
             switch (type) {
                 case "CUS":
                     entity = productEntityService.getEntityById(id, Customer.class);
+                    productEntityService.executeSQL("DELETE FROM td_customer_image WHERE cus_id=" + id);
                     break;
                 case "PRO":
                     entity = productEntityService.getEntityById(id, Product.class);
-                    /*List<Object[]> rows = productEntityService.executeQuery("SELECT * FROM td_customer WHERE pro_id=" + ((Product) entity).getId());
-                    for (Object[] obj : rows) {
-                        Customer customer = new Customer();
-                        customer.setId(new Long(obj[0].toString()));
-                    }*/
+                    List<Long> rows = productEntityService.executeQuery("SELECT cus_id FROM td_customer WHERE pro_id=" + ((Product) entity).getId());
+                    for (Long obj : rows) {
+                        Customer customer = productEntityService.getEntityById(obj, Customer.class);
+                        productEntityService.executeSQL("DELETE FROM td_customer_image WHERE cus_id=" + customer.getId());
+                        productEntityService.delete(customer);
+                    }
                     break;
                 case "POM":
                     entity = productEntityService.getEntityById(id, Promotion.class);
