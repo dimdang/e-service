@@ -2,10 +2,12 @@ package org.code.jarvis.service;
 
 import org.code.jarvis.model.core.AbstractEntity;
 import org.code.jarvis.repository.EntityDao;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ public interface EntityService {
 
     Session getCurrentSession();
 
-    Connection getConnection();
+    Connection getConnection() throws SQLException;
 
     <T> T getEntityById(Long id, Class<T> clazz);
 
@@ -43,9 +45,7 @@ public interface EntityService {
 
     <T> void delete(T entity);
 
-    void executeSQL(String sql);
-
-    List executeQuery(String sql);
+    int executeSQL(String sql);
 
     void flush();
 

@@ -61,7 +61,7 @@
 #zoom .download {
     float: right;
     margin-top: 15px;
-    width: 49px;
+    width: 40px;
     cursor: pointer;
     color: white;
 }
@@ -69,10 +69,30 @@
 #zoom .delete {
     float: right;
     margin-top: 15px;
-    margin-right: 50px;
-    width: 49px;
+    width: 40px;
     cursor: pointer;
     color: white;
+}
+
+#zoom .add {
+    float: right;
+    margin-top: 15px;
+    margin-right: 50px;
+    width: 40px;
+    cursor: pointer;
+    color: white;
+}
+
+#zoom .add:hover {
+    color: #5cb85c;
+}
+
+#zoom .delete:hover {
+    color: #cc0000;
+}
+
+#zoom .download:hover {
+    color: #0f6ab4;
 }
 
 #zoom .previous,

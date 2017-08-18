@@ -58,9 +58,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     }
 
     $scope.submitProduct = function () {
-        //object form data
         var formData = new FormData();
-        //object model
         var model = {
             "ID": $scope.txtId,
             "CODE": $scope.txtCode,
@@ -85,7 +83,6 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
 
         if (isValid()) {
             spinner.appendTo("body");
-            //send http request
             $http({
                 method: 'POST',
                 url: $scope.baseUrl + '/product/submit',
@@ -121,7 +118,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }
         console.log("JSON DATA ===>>> " + formData.get("json"));
         console.log("FILES ===>>> " + formData.get("files"));
-        if (arrayFile.length > 0) {
+        if (arrayFile.length > 0 || $scope.txtId != null) {
             spinner.appendTo("body");
             $http({
                 method: 'POST',
@@ -141,7 +138,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                     alert("There are some error plase contact to developer");
                 });
         } else {
-            alert("Please update the promotion image");
+            alert("Please upload the promotion image");
             console.log("====>>>> Can not submit there are invalid field or required");
         }
     }
@@ -167,7 +164,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     }
 
     $scope.deleteEntity = function (id, index, type) {
-        if (confirm("Are you sure you want to delete this?")) {
+        if (confirm("Are you sure you want to delete it?")) {
             if (id != null && index > -1 && type != null) {
                 spinner.appendTo("body");
                 $http({
@@ -205,6 +202,8 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                 $(".gallery a")[0].click();
                 images = imgs;
             });
+        }else{
+            alert("No image!");
         }
     }
 

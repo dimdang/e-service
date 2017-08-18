@@ -13,6 +13,8 @@ $(document).ready(function () {
             for (var i = 0; i < filesLength; i++) {
                 var file = files[i];
                 arrayFile.push(file);
+                console.log(arrayFile);
+                console.log($("#files").prop("files"));
                 var fileReader = new FileReader();
                 fileReader.fileName = file.name;
                 fileReader.onload = (function (e) {
@@ -25,6 +27,8 @@ $(document).ready(function () {
                             var name = $(this).attr("name");
                             if (arrayFile[index].name === name) {
                                 arrayFile.splice(index, 1);
+                                console.log(arrayFile);
+                                console.log($("#files").prop("files"));
                                 console.log("file ===>>> " + name + " has been removed!");
                                 break;
                             }

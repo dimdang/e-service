@@ -3,10 +3,12 @@ package org.code.jarvis.service.impl;
 import org.code.jarvis.model.core.AbstractEntity;
 import org.code.jarvis.repository.EntityDao;
 import org.code.jarvis.service.EntityService;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -27,7 +29,7 @@ public abstract class AbstractEntityService implements EntityService {
     }
 
     @Override
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
         return getDao().getConnection();
     }
 
@@ -87,13 +89,8 @@ public abstract class AbstractEntityService implements EntityService {
     }
 
     @Override
-    public void executeSQL(String sql) {
-        getDao().executeSQL(sql);
-    }
-
-    @Override
-    public List executeQuery(String sql) {
-        return getDao().executeQuery(sql);
+    public int executeSQL(String sql) {
+        return getDao().executeSQL(sql);
     }
 
     @Override

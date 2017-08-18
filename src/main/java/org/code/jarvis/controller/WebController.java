@@ -176,15 +176,12 @@ public class WebController {
             switch (type) {
                 case "CUS":
                     entity = productEntityService.getEntityById(id, Customer.class);
-                    productEntityService.executeSQL("DELETE FROM td_customer_image WHERE cus_id=" + id);
                     break;
                 case "PRO":
                     entity = productEntityService.getEntityById(id, Product.class);
-                    List<Long> rows = productEntityService.executeQuery("SELECT cus_id FROM td_customer WHERE pro_id=" + ((Product) entity).getId());
-                    for (Long obj : rows) {
-                        Customer customer = productEntityService.getEntityById(obj, Customer.class);
-                        productEntityService.executeSQL("DELETE FROM td_customer_image WHERE cus_id=" + customer.getId());
-                        productEntityService.delete(customer);
+                    if (entity != null) {
+                        productEntityService.executeSQL("DELETE FROM td_customer_image WHERE cus_id IN(SELECT cus_id FROM td_customer WHERE pro_id=" + id + ")");
+                        productEntityService.executeSQL("DELETE FROM td_customer WHERE pro_id=" + id);
                     }
                     break;
                 case "POM":
@@ -197,6 +194,7 @@ public class WebController {
                 productEntityService.delete(entity);
                 return ResponseFactory.build("Delete entity successful", HttpStatus.OK);
             }
+
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
@@ -287,7 +285,9 @@ public class WebController {
         try {
             log.info("Client Requested delete picture Id:" + id);
             productEntityService.executeSQL("DELETE FROM td_product_image WHERE img_id=" + id);
-            productEntityService.delete(productEntityService.getEntityById(id, Image.class));
+            productEntityService.executeSQL("DELETE FROM td_customer_image WHERE img_id=" + id);
+            productEntityService.executeSQL("DELETE FROM td_promotion_image WHERE img_id=" + id);
+            productEntityService.executeSQL("DELETE FROM td_image WHERE img_id=" + id);
             return ResponseFactory.build("Delete image success", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
