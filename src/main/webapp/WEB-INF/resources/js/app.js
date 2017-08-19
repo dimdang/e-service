@@ -2,7 +2,7 @@ var app = angular.module('ngApp', []);
 
 app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
 
-    $scope.baseUrl = "http://localhost:8080/api/web";
+    $scope.baseUrl = "https://e-service-application.herokuapp.com/api/web";
     $scope.products = [];
     $scope.promotions = [];
     $scope.customers = [];
