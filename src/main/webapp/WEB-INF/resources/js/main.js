@@ -44,5 +44,18 @@ $(document).ready(function () {
         alert("Your browser doesn't support to File API")
     }
 
+    $.fn.confirmDelete = function (func) {
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to get it back!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(function () {
+            func();
+        });
+    }
 });
 

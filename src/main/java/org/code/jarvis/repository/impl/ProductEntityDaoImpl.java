@@ -8,6 +8,7 @@ import org.code.jarvis.repository.ProductEntityDao;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,7 +54,8 @@ public class ProductEntityDaoImpl extends AbstractEntityDao implements ProductEn
                 image.setType(files[i].getContentType());
                 image.setName(files[i].getOriginalFilename());
                 image.setBytes(files[i].getBytes());
-                images.add(image);
+                if (image.getType().equals(MediaType.IMAGE_JPEG_VALUE) || image.getType().equals(MediaType.IMAGE_PNG_VALUE))
+                    images.add(image);
             }
             product.setImages(images);
             saveOrUpdate(product);

@@ -15,6 +15,13 @@
     <link rel="stylesheet" type="text/css" href="./resources/css/main.css"/>
 
     <link rel="stylesheet" href="./resources/css/zoom.css" media="all"/>
+
+    <link rel="stylesheet" href="./resources/css/sweetalert2.min.css"/>
+
+    <link rel="stylesheet" href="./resources/css/alertify.core.css"/>
+
+    <link rel="stylesheet" href="./resources/css/alertify.default.css"/>
+
 </head>
 <body ng-app="ngApp" ng-controller="ngCtrl" data-ng-init="fetchPromotion()">
 <div id="wrapper">
@@ -281,7 +288,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">Promotions
                         </div>
-                        <div class="panel-body">
+                        <div id="panel-body" class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <form role="form" name="myForm">
@@ -289,12 +296,12 @@
                                             <input class="ng-hide" ng-model="txtId"/>
                                             <label>Code</label>
                                             <input class="form-control" placeholder="Enter Code"
-                                                   ng-model="txtCode" name="txtCode" required/>
+                                                   ng-model="txtCode" name="txtCode"/>
                                         </div>
                                         <div class="form-group">
                                             <label>Description</label>
                                             <input class="form-control" placeholder="Enter Description"
-                                                   ng-model="txtDesc" name="txtDesc" required/>
+                                                   ng-model="txtDesc" name="txtDesc"/>
                                         </div>
                                         <button type="submit" class="btn btn-primary" ng-click="submitPromotion()">
                                             Submit
@@ -311,7 +318,7 @@
                                                 <h3 class="panel-title pull-left">Upload images</h3>
                                             </div>
                                             <div class="file-tab panel-body">
-                                                <input type="file" id="files" name="files[]" multiple/>
+                                                <input type="file" id="files" name="files[]" accept="image/*" multiple/>
                                                 <div id="preview"></div>
                                             </div>
                                         </div>
@@ -393,6 +400,10 @@
 <script src="./resources/js/main.js"></script>
 
 <script src="./resources/js/bootstrap.min.js"></script>
+
+<script src="./resources/js/sweetalert2.min.js"></script>
+
+<script src="./resources/js/alertify.min.js"></script>
 
 </body>
 </html>
