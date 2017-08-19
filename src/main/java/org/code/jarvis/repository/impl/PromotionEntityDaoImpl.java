@@ -3,6 +3,7 @@ package org.code.jarvis.repository.impl;
 import org.code.jarvis.model.core.Image;
 import org.code.jarvis.model.core.Promotion;
 import org.code.jarvis.repository.PromotionEntityDao;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +38,8 @@ public class PromotionEntityDaoImpl extends AbstractEntityDao implements Promoti
                 image.setType(files[i].getContentType());
                 image.setName(files[i].getOriginalFilename());
                 image.setBytes(files[i].getBytes());
-                images.add(image);
+                if (image.getType().equals(MediaType.IMAGE_JPEG_VALUE) || image.getType().equals(MediaType.IMAGE_PNG_VALUE))
+                    images.add(image);
             }
             promotion.setImages(images);
             saveOrUpdate(promotion);

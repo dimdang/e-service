@@ -15,6 +15,12 @@
     <link rel="stylesheet" type="text/css" href="./resources/css/main.css"/>
 
     <link rel="stylesheet" href="./resources/css/zoom.css" media="all"/>
+
+    <link rel="stylesheet" href="./resources/css/sweetalert2.min.css"/>
+
+    <link rel="stylesheet" href="./resources/css/alertify.core.css"/>
+
+    <link rel="stylesheet" href="./resources/css/alertify.default.css"/>
 </head>
 <body ng-app="ngApp" ng-controller="ngCtrl" data-ng-init="fetchProduct()">
 <div id="wrapper">
@@ -285,24 +291,24 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <form role="form" name="myForm">
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <input class="ng-hide" ng-model="txtId"/>
-                                            <label>Code</label>
+                                            <label class="control-label">Code</label>
                                             <input class="form-control" placeholder="Enter Code"
                                                    ng-model="txtCode" name="txtCode" required/>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Color</label>
+                                        <div class="form-group required">
+                                            <label class="control-label">Color</label>
                                             <input class="form-control" placeholder="Enter Color"
                                                    ng-model="txtColor" name="txtColor" required/>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Size</label>
+                                        <div class="form-group required">
+                                            <label class="control-label">Size</label>
                                             <input class="form-control" placeholder="Enter Size"
                                                    ng-model="txtSize" name="txtSize" required/>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Price</label>
+                                        <div class="form-group required">
+                                            <label class="control-label">Price</label>
                                             <input class="form-control" placeholder="Enter Price"
                                                    ng-model="txtPrice" name="txtPrice" required/>
                                         </div>
@@ -312,7 +318,8 @@
                                                     <h3 class="panel-title pull-left">Upload images</h3>
                                                 </div>
                                                 <div class="file-tab panel-body">
-                                                    <input type="file" id="files" name="files[]" multiple/>
+                                                    <input type="file" id="files" name="files[]" accept="image/*"
+                                                           multiple/>
                                                     <div id="preview"></div>
                                                 </div>
                                             </div>
@@ -326,17 +333,18 @@
                                 <!-- /.col-lg-6 (nested) -->
                                 <div class="col-lg-6">
                                     <form role="form">
-                                        <div class="form-group">
-                                            <label>Type</label>
+                                        <div class="form-group required">
+                                            <label class="control-label">Type</label>
                                             <select class="form-control" ng-model="selectType" required>
+                                                <option></option>
                                                 <option ng-repeat="(key, value) in types" value="{{key}}">{{value}}
                                                 </option>
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Phone1</label>
+                                        <div class="form-group required">
+                                            <label class="control-label">Phone1</label>
                                             <input class="form-control" placeholder="Enter Phone Number"
-                                                   ng-model="txtPhone1">
+                                                   ng-model="txtPhone1" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Phone2</label>
@@ -443,6 +451,10 @@
 <script src="./resources/js/main.js"></script>
 
 <script src="./resources/js/bootstrap.min.js"></script>
+
+<script src="./resources/js/sweetalert2.min.js"></script>
+
+<script src="./resources/js/alertify.min.js"></script>
 
 </body>
 </html>

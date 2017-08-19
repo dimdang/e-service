@@ -3,10 +3,12 @@ package org.code.jarvis.repository.impl;
 import org.code.jarvis.model.core.AbstractEntity;
 import org.code.jarvis.repository.EntityDao;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.internal.SessionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Connection;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -42,8 +44,9 @@ public abstract class AbstractEntityDao implements EntityDao {
     }
 
     @Override
-    public Connection getConnection() {
-        return ((SessionImpl) getCurrentSession()).connection();
+    public Connection getConnection() throws SQLException {
+        return getSessionFactory().getSessionFactoryOptions().getServiceRegistry().
+                getService(ConnectionProvider.class).getConnection();
     }
 
     /**
@@ -138,16 +141,10 @@ public abstract class AbstractEntityDao implements EntityDao {
     }
 
     @Override
-    public void executeSQL(String sql) {
+    public int executeSQL(String sql) {
         if (sql != null && !sql.isEmpty())
-            getCurrentSession().createSQLQuery(sql).executeUpdate();
-    }
-
-    @Override
-    public List executeQuery(String sql) {
-        if (sql != null && !sql.isEmpty())
-            return getCurrentSession().createSQLQuery(sql).list();
-        return new ArrayList<>();
+            return getCurrentSession().createSQLQuery(sql).executeUpdate();
+        return 0;
     }
 
     @Override

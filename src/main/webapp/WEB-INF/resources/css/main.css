@@ -3,6 +3,7 @@
     display: inline-block;
     font-size: 0;
 }
+
 .img-wrap .close {
     position: absolute;
     top: 1px;
@@ -19,30 +20,33 @@
     line-height: 10px;
     border-radius: 50%;
 }
+
 .img-wrap:hover .close {
     opacity: 1;
 }
 
-.clear { clear: both;  }
-        
+.clear {
+    clear: both;
+}
+
 .zoomed > .container {
     -webkit-filter: blur(3px);
     filter: blur(3px);
 }
-        
+
 .container {
     width: 505px;
     margin: 0 auto;
 }
-        
+
 .gallery {
     float: left;
     background: #ffffff;
     padding: 20px 20px 10px 20px;
     margin: 0;
-    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.25);
-    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.25);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
@@ -69,19 +73,21 @@
     width: 100%;
     height: 100%;
     background-color: #000;
-    filter:alpha(opacity=50);
-    -moz-opacity:0.5;
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
     -khtml-opacity: 0.5;
     opacity: 0.5;
     z-index: 10000;
 }
-#progress img{
+
+#progress img {
     display: block;
     max-width: none;
     background: #ececec;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
-#progress .content{
+
+#progress .content {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -91,4 +97,9 @@
     padding: 0;
     /*margin: -100px 0 0 -100px;*/
     box-shadow: -20px 20px 20px rgba(0, 0, 0, 0.3);
+}
+
+.form-group.required .control-label:after {
+    content:"*";
+    color:red;
 }

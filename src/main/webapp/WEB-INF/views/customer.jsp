@@ -15,6 +15,8 @@
     <link rel="stylesheet" type="text/css" href="./resources/css/main.css"/>
 
     <link rel="stylesheet" href="./resources/css/zoom.css" media="all"/>
+
+    <link rel="stylesheet" href="./resources/css/sweetalert2.min.css"/>
 </head>
 <body ng-app="ngApp" ng-controller="ngCtrl" data-ng-init="fetchCustomer()">
 <div id="wrapper">
@@ -435,6 +437,8 @@
 <script src="./resources/js/bootstrap.min.js"></script>
 <!-- main js -->
 <script src="./resources/js/main.js"></script>
+
+<script src="./resources/js/sweetalert2.min.js"></script>
 
 </body>
 </html>

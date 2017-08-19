@@ -21,7 +21,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }, function (response) {
             console.log(response);
             spinner.remove();
-            alert("There are some error plase contact to developer");
+            swal('Oops...', 'Something went wrong please contact to developer!', 'error');
         });
     }
 
@@ -37,7 +37,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }, function (response) {
             console.log(response);
             spinner.remove();
-            alert("There are some error plase contact to developer");
+            swal('Oops...', 'Something went wrong please contact to developer!', 'error');
         });
     }
 
@@ -53,14 +53,12 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }, function (response) {
             console.log(response);
             spinner.remove();
-            alert("There are some error plase contact to developer");
+            swal('Oops...', 'Something went wrong please contact to developer!', 'error');
         });
     }
 
     $scope.submitProduct = function () {
-        //object form data
         var formData = new FormData();
-        //object model
         var model = {
             "ID": $scope.txtId,
             "CODE": $scope.txtCode,
@@ -85,7 +83,6 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
 
         if (isValid()) {
             spinner.appendTo("body");
-            //send http request
             $http({
                 method: 'POST',
                 url: $scope.baseUrl + '/product/submit',
@@ -97,13 +94,19 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                     $scope.fetchProduct();
                     $scope.reset();
                     spinner.remove();
+                    alertify.log("Submit product successful.", "success", 4000);
                 },
                 function (response) {// failed
                     console.log(response);
                     spinner.remove();
-                    alert("There are some error plase contact to developer");
+                    swal('Oops...', 'Something went wrong please contact to developer!', 'error');
                 });
         } else {
+            swal({
+                title: 'Mandatory Fields!',
+                text: 'Please fill in mandatory fields',
+                type: 'warning'
+            })
             console.log("====>>>> Can not submit there are invalid field or required");
         }
     }
@@ -121,7 +124,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }
         console.log("JSON DATA ===>>> " + formData.get("json"));
         console.log("FILES ===>>> " + formData.get("files"));
-        if (arrayFile.length > 0) {
+        if (arrayFile.length > 0 || $scope.txtId != null) {
             spinner.appendTo("body");
             $http({
                 method: 'POST',
@@ -134,14 +137,19 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                     $scope.fetchPromotion();
                     $scope.reset();
                     spinner.remove();
+                    alertify.log("Submit promotion successful.", "success", 4000);
                 },
                 function (response) {// failed
                     console.log(response);
                     spinner.remove();
-                    alert("There are some error plase contact to developer");
+                    swal('Oops...', 'Something went wrong please contact to developer!', 'error');
                 });
         } else {
-            alert("Please update the promotion image");
+            swal({
+                title: 'Warning!',
+                text: 'Please choose image to upload',
+                type: 'warning'
+            });
             console.log("====>>>> Can not submit there are invalid field or required");
         }
     }
@@ -157,6 +165,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.txtPhone2 = product.CONTACT.PHONE2;
         $scope.txtEmail = product.CONTACT.EMAIL;
         $scope.txtFacebook = product.CONTACT.FACEBOOK;
+        $("html, body").animate({scrollTop: 0}, 600);
 
     }
 
@@ -164,10 +173,12 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.txtId = promotion.ID;
         $scope.txtCode = promotion.CODE;
         $scope.txtDesc = promotion.DESC;
+        $("html, body").animate({scrollTop: 0}, 600);
     }
 
     $scope.deleteEntity = function (id, index, type) {
-        if (confirm("Are you sure you want to delete this?")) {
+        var msg = "";
+        var func = function () {
             if (id != null && index > -1 && type != null) {
                 spinner.appendTo("body");
                 $http({
@@ -175,23 +186,29 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                     url: $scope.baseUrl + '/entity/delete?id=' + id + '&type=' + type,
                 }).then(function (response) {// success
                         console.log(response);
-                        if (type == "PRO")
+                        if (type == "PRO") {
                             $scope.products.splice(index, 1);
-                        else if (type == "POM")
+                            msg = "Your product has been deleted."
+                        }
+                        else if (type == "POM") {
                             $scope.promotions.splice(index, 1);
-                        else
+                            msg = "Your promotion has been deleted."
+                        }
+                        else {
                             $scope.customers.splice(index, 1);
+                            msg = "Your customer has been deleted."
+                        }
                         spinner.remove();
+                        swal('Deleted!', msg, 'success');
                     },
                     function (response) {// failed
                         console.log(response);
                         spinner.remove();
-                        alert("There are some error plase contact to developer");
+                        swal('Oops...', 'Something went wrong please contact to developer!', 'error');
                     });
             }
-        } else {
-            return false;
         }
+        $.fn.confirmDelete(func);
     }
 
     $scope.viewImage = function (imgs) {
@@ -205,6 +222,8 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                 $(".gallery a")[0].click();
                 images = imgs;
             });
+        } else {
+            swal('Oops...', 'No image available on the server!', 'info');
         }
     }
 
@@ -246,6 +265,6 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     function isValid() {
         return !$scope.txtCode == "" && !$scope.txtSize == ""
             && !$scope.txtColor == "" && !$scope.txtPrice == ""
-            && !$scope.selectType == "";
+            && !$scope.selectType == "" && !$scope.txtPhone1 == "";
     }
 }]);
