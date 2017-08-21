@@ -319,7 +319,7 @@
                                             </div>
                                             <div class="file-tab panel-body">
                                                 <input type="file" id="files" name="files[]" accept="image/*" multiple/>
-                                                <div id="preview"></div>
+                                                <div id="preview" style="margin-top: 5px"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -352,7 +352,7 @@
                                                         <td width="100px">
                                                             <button class="btn btn-info btn-xs" data-title="Image"
                                                                     data-toggle="modal" data-target="#images"
-                                                                    ng-click="viewImage(promotion.IMAGES)"><span
+                                                                    ng-click="viewImage(promotion.IMAGES,promotion.ID,'POM')"><span
                                                                     class="glyphicon glyphicon-picture"></span></button>
                                                             <button class="btn btn-primary btn-xs" data-title="Edit"
                                                                     data-toggle="modal" data-target="#edit"

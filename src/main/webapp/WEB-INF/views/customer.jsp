@@ -312,7 +312,7 @@
                                                         <td>{{customer.PHONE}}</td>
                                                         <td width="100px">
                                                             <button class="btn btn-info btn-xs"
-                                                                    ng-click="viewImage(customer.IMAGES)">
+                                                                    ng-click="viewImage(customer.IMAGES,customer.ID,'CUS')">
                                                                 <span class="glyphicon glyphicon-picture"></span>
                                                             </button>
                                                             <button class="btn btn-primary btn-xs" data-title="Customer"

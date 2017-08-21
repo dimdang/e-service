@@ -172,7 +172,7 @@ public class WebController {
     public JResponseEntity<Object> deletePromotion(@RequestParam(value = "id") long id, @RequestParam(value = "type") String type) {
         try {
             log.info("===>>> client request delete entity");
-            Object entity = new Object();
+            Object entity = null;
             switch (type) {
                 case "CUS":
                     entity = productEntityService.getEntityById(id, Customer.class);
@@ -260,7 +260,7 @@ public class WebController {
             protocols = "http")
     @GetMapping(value = "/image/download/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public HttpEntity<byte[]> downloadImage(@PathVariable(name = "id", required = true) long id) throws IOException {
-        log.info("Client Requested picture Id:" + id);
+        log.info("Client Requested download picture Id:" + id);
         Image image = productEntityService.getEntityById(id, Image.class);
         if (image != null) {
             byte[] bytes = image.getBytes();
@@ -271,6 +271,58 @@ public class WebController {
             return new HttpEntity<>(bytes, headers);
         }
         return null;
+    }
+
+    @ApiOperation(
+            httpMethod = "POST",
+            value = "Add image to entity",
+            notes = "This url request to server to add image",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            protocols = "http")
+    @PostMapping(value = "/image/add", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public JResponseEntity<Object> addImage(@RequestParam(value = "key") String key, @RequestParam(value = "files") MultipartFile[] files) throws IOException {
+        try {
+            String[] value = key.split("-");
+            Object entity = null;
+            List<Image> images = null;
+            List<Long> response = new ArrayList<>();
+            log.info("Client Requested add " + files.length + " picture");
+            log.info("Entity " + value[1]);
+            switch (value[1]) {
+                case "POM":
+                    entity = productEntityService.getEntityById(new Long(value[0]), Promotion.class);
+                    if (entity != null)
+                        images = ((Promotion) entity).getImages();
+                    break;
+                case "PRO":
+                    entity = productEntityService.getEntityById(new Long(value[0]), Product.class);
+                    if (entity != null)
+                        images = ((Product) entity).getImages();
+                    break;
+                default:
+                    break;
+            }
+            if (entity != null && images != null) {
+                for (int i = 0; i < files.length; i++) {
+                    String type = files[i].getContentType();
+                    if (type.equals(MediaType.IMAGE_JPEG_VALUE) || type.equals(MediaType.IMAGE_PNG_VALUE)) {
+                        Image image = new Image();
+                        image.setBytes(files[i].getBytes());
+                        image.setName(files[i].getOriginalFilename());
+                        image.setType(type);
+                        productEntityService.saveOrUpdate(image);
+                        response.add(image.getId());
+                        images.add(image);
+                    }
+                }
+            }
+            productEntityService.saveOrUpdate(entity);
+            return ResponseFactory.build("Upload image to server success", HttpStatus.OK, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
     }
 
     @ApiOperation(
@@ -285,7 +337,6 @@ public class WebController {
         try {
             log.info("Client Requested delete picture Id:" + id);
             productEntityService.executeSQL("DELETE FROM td_product_image WHERE img_id=" + id);
-            productEntityService.executeSQL("DELETE FROM td_customer_image WHERE img_id=" + id);
             productEntityService.executeSQL("DELETE FROM td_promotion_image WHERE img_id=" + id);
             productEntityService.executeSQL("DELETE FROM td_image WHERE img_id=" + id);
             return ResponseFactory.build("Delete image success", HttpStatus.OK);
@@ -307,21 +358,19 @@ public class WebController {
     public JResponseEntity<Object> uploadImage(@RequestPart MultipartFile[] files) throws IOException {
         try {
             log.info("Client Upload file:" + files.length);
-            if (files != null && files.length > 0) {
-                List<Image> images = new ArrayList<>(files.length);
-                for (int i = 0; i < files.length; i++) {
-                    String type = files[i].getContentType();
-                    if (type.equals(MediaType.IMAGE_JPEG_VALUE) || type.equals(MediaType.IMAGE_PNG_VALUE)) {
-                        Image image = new Image();
-                        image.setBytes(files[i].getBytes());
-                        image.setName(files[i].getOriginalFilename());
-                        image.setType(type);
-                        images.add(image);
-                    }
+            List<Image> images = new ArrayList<>(files.length);
+            for (int i = 0; i < files.length; i++) {
+                String type = files[i].getContentType();
+                if (type.equals(MediaType.IMAGE_JPEG_VALUE) || type.equals(MediaType.IMAGE_PNG_VALUE)) {
+                    Image image = new Image();
+                    image.setBytes(files[i].getBytes());
+                    image.setName(files[i].getOriginalFilename());
+                    image.setType(type);
+                    images.add(image);
                 }
-                productEntityService.save(images);
-                return ResponseFactory.build("Upload files to server success", HttpStatus.OK);
             }
+            productEntityService.save(images);
+            return ResponseFactory.build("Upload files to server success", HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
         }

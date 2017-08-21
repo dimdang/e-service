@@ -2,18 +2,16 @@ var app = angular.module('ngApp', []);
 
 app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
 
-    $scope.baseUrl = "http://localhost:8080/api/web";
     $scope.products = [];
     $scope.promotions = [];
     $scope.customers = [];
     $scope.types = {"WED": "សំបុត្រការ", "CER": "សំបុត្របុណ្យ", "DES": "សំបុត្រច្នៃ"};
-    $scope.imageUrl = $scope.baseUrl + "/image/view/";
 
     $scope.fetchProduct = function () {
         spinner.appendTo("body");
         $http({
             method: 'POST',
-            url: $scope.baseUrl + '/product/fetch',
+            url: baseUrl + '/product/fetch',
         }).then(function (response) {
             console.log(response.data["DATA"]);
             $scope.products = response.data["DATA"];
@@ -29,7 +27,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         spinner.appendTo("body");
         $http({
             method: 'POST',
-            url: $scope.baseUrl + '/promotion/fetch',
+            url: baseUrl + '/promotion/fetch',
         }).then(function (response) {
             console.log(response.data["DATA"]);
             $scope.promotions = response.data["DATA"];
@@ -45,7 +43,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         spinner.appendTo("body");
         $http({
             method: 'POST',
-            url: $scope.baseUrl + '/customer/fetch',
+            url: baseUrl + '/customer/fetch',
         }).then(function (response) {
             console.log(response.data["DATA"]);
             $scope.customers = response.data["DATA"];
@@ -85,7 +83,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
             spinner.appendTo("body");
             $http({
                 method: 'POST',
-                url: $scope.baseUrl + '/product/submit',
+                url: baseUrl + '/product/submit',
                 data: formData,
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
@@ -128,7 +126,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
             spinner.appendTo("body");
             $http({
                 method: 'POST',
-                url: $scope.baseUrl + '/promotion/submit',
+                url: baseUrl + '/promotion/submit',
                 data: formData,
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
@@ -183,7 +181,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                 spinner.appendTo("body");
                 $http({
                     method: 'GET',
-                    url: $scope.baseUrl + '/entity/delete?id=' + id + '&type=' + type,
+                    url: baseUrl + '/entity/delete?id=' + id + '&type=' + type,
                 }).then(function (response) {// success
                         console.log(response);
                         if (type == "PRO") {
@@ -211,10 +209,14 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         $.fn.confirmDelete(func);
     }
 
-    $scope.viewImage = function (imgs) {
-        console.log(imgs);
+    $scope.viewImage = function (imgs, id, type) {
+        console.log("array images id:" + imgs);
+        console.log("entity id:" + id);
+        console.log("entity type:" + type);
+        var key = id + "-" + type;
+        $('.gallery').attr('id', key);
         for (var i = 0; i < imgs.length; i++) {
-            var div = "<div><a id='" + imgs[i] + "' href='" + $scope.imageUrl + imgs[i] + "'></a></div>";
+            var div = "<div><a id='" + imgs[i] + "' href='" + imageUrl + "/view/" + imgs[i] + "'></a></div>";
             $('.gallery').append(div);
         }
         if (imgs.length > 0) {
@@ -223,7 +225,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                 images = imgs;
             });
         } else {
-            swal('Oops...', 'No image available on the server!', 'info');
+            swal('Oops...', 'No image available on the server!', 'info').catch(swal.noop);
         }
     }
 
