@@ -19,7 +19,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }, function (response) {
             console.log(response);
             spinner.remove();
-            swal('Oops...', 'Something went wrong please contact to developer!', 'error');
+            swal('Oops...', 'Something went wrong please contact to developer!', 'error').catch(swal.noop);
         });
     }
 
@@ -35,7 +35,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }, function (response) {
             console.log(response);
             spinner.remove();
-            swal('Oops...', 'Something went wrong please contact to developer!', 'error');
+            swal('Oops...', 'Something went wrong please contact to developer!', 'error').catch(swal.noop);
         });
     }
 
@@ -51,7 +51,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }, function (response) {
             console.log(response);
             spinner.remove();
-            swal('Oops...', 'Something went wrong please contact to developer!', 'error');
+            swal('Oops...', 'Something went wrong please contact to developer!', 'error').catch(swal.noop);
         });
     }
 
@@ -97,14 +97,14 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                 function (response) {// failed
                     console.log(response);
                     spinner.remove();
-                    swal('Oops...', 'Something went wrong please contact to developer!', 'error');
+                    swal('Oops...', 'Something went wrong please contact to developer!', 'error').catch(swal.noop);
                 });
         } else {
             swal({
                 title: 'Mandatory Fields!',
                 text: 'Please fill in mandatory fields',
                 type: 'warning'
-            })
+            }).catch(swal.noop);
             console.log("====>>>> Can not submit there are invalid field or required");
         }
     }
@@ -140,14 +140,14 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                 function (response) {// failed
                     console.log(response);
                     spinner.remove();
-                    swal('Oops...', 'Something went wrong please contact to developer!', 'error');
+                    swal('Oops...', 'Something went wrong please contact to developer!', 'error').catch(swal.noop);
                 });
         } else {
             swal({
                 title: 'Warning!',
                 text: 'Please choose image to upload',
                 type: 'warning'
-            });
+            }).catch(swal.noop);;
             console.log("====>>>> Can not submit there are invalid field or required");
         }
     }
@@ -197,12 +197,12 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                             msg = "Your customer has been deleted."
                         }
                         spinner.remove();
-                        swal('Deleted!', msg, 'success');
+                        swal('Deleted!', msg, 'success').catch(swal.noop);
                     },
                     function (response) {// failed
                         console.log(response);
                         spinner.remove();
-                        swal('Oops...', 'Something went wrong please contact to developer!', 'error');
+                        swal('Oops...', 'Something went wrong please contact to developer!', 'error').catch(swal.noop);
                     });
             }
         }
@@ -216,8 +216,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         var key = id + "-" + type;
         $('.gallery').attr('id', key);
         for (var i = 0; i < imgs.length; i++) {
-            var div = "<div><a id='" + imgs[i] + "' href='" + imageUrl + "/view/" + imgs[i] + "'></a></div>";
-            $('.gallery').append(div);
+            $("<div><a id='" + imgs[i] + "' href='" + imageUrl + "/view/" + imgs[i] + "'></a></div>").appendTo($('.gallery'));
         }
         if (imgs.length > 0) {
             $.getScript('./resources/js/zoom.min.js', function () {
@@ -225,7 +224,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                 images = imgs;
             });
         } else {
-            swal('Oops...', 'No image available on the server!', 'info').catch(swal.noop);
+            swal('Oops...', 'No image available on the server!', 'info').catch(swal.noop).catch(swal.noop);
         }
     }
 

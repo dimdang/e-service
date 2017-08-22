@@ -59,7 +59,7 @@ $(document).ready(function () {
         }).catch(swal.noop);
     }
 
-    $.fn.addMoreImage = function (key, reject) {
+    $.fn.addMoreImage = function (key, reject, callback) {
         var form = new FormData();
         for (var i = 0; i < arrayImage.length; i++)
             form.append("files", arrayImage[i], arrayImage[i].name);
@@ -70,30 +70,15 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (response) {
-                console.log(images);
                 var imgs = response.DATA;
                 for (var i = 0; i < imgs.length; i++) {
                     images.push(imgs[i]);
-                    var div = "<div><a id='" + imgs[i] + "' href='" + imageUrl + "/view/" + imgs[i] + "'></a></div>";
-                    $('.gallery').append(div);
+                    $("<div><a id='" + imgs[i] + "' href='" + imageUrl + "/view/" + imgs[i] + "'></a></div>").appendTo($('.gallery'));
                 }
-                console.log(images);
-                /* for (var i = 0; i < images.length; i++) {
-                 if (id == images[i]) {
-                 images.splice(i, 1);
-                 $("#" + id).parent().remove();
-                 console.log("====>>> Remain image" + images.length);
-                 console.log(images);
-                 break;
-                 }
-                 }
-                 if ($(".gallery a").length > 0) {
-                 $("#zoom .next").click();
-                 } else {
-                 $("#zoom .close").click();
-                 }*/
+                callback(imgs);
                 console.log(response);
-                swal('successful', 'success');
+                console.log(images);
+                swal('successful', 'success').catch(swal.noop);
             },
             error: function (response) {
                 //swal('error!', 'error');
