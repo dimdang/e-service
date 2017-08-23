@@ -59,7 +59,7 @@ $(document).ready(function () {
         }).catch(swal.noop);
     }
 
-    $.fn.addMoreImage = function (key, reject, callback) {
+    $.fn.addMoreImage = function (key, resolve, reject, callback) {
         var form = new FormData();
         for (var i = 0; i < arrayImage.length; i++)
             form.append("files", arrayImage[i], arrayImage[i].name);
@@ -76,9 +76,13 @@ $(document).ready(function () {
                     $("<div><a id='" + imgs[i] + "' href='" + imageUrl + "/view/" + imgs[i] + "'></a></div>").appendTo($('.gallery'));
                 }
                 callback(imgs);
+                while (arrayImage.length > 0) {
+                    arrayImage.pop();
+                }
+                alertify.log("Upload image to server successful.", "success", 2000);
+                resolve();
                 console.log(response);
                 console.log(images);
-                swal('successful', 'success').catch(swal.noop);
             },
             error: function (response) {
                 //swal('error!', 'error');

@@ -7,6 +7,11 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.customers = [];
     $scope.types = {"WED": "សំបុត្រការ", "CER": "សំបុត្របុណ្យ", "DES": "សំបុត្រច្នៃ"};
 
+    $scope.sort = function(keyname){
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
     $scope.fetchProduct = function () {
         spinner.appendTo("body");
         $http({
@@ -92,7 +97,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                     $scope.fetchProduct();
                     $scope.reset();
                     spinner.remove();
-                    alertify.log("Submit product successful.", "success", 4000);
+                    alertify.log("Submit product successful.", "success", 2000);
                 },
                 function (response) {// failed
                     console.log(response);
@@ -135,7 +140,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                     $scope.fetchPromotion();
                     $scope.reset();
                     spinner.remove();
-                    alertify.log("Submit promotion successful.", "success", 4000);
+                    alertify.log("Submit promotion successful.", "success", 2000);
                 },
                 function (response) {// failed
                     console.log(response);
@@ -147,7 +152,8 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                 title: 'Warning!',
                 text: 'Please choose image to upload',
                 type: 'warning'
-            }).catch(swal.noop);;
+            }).catch(swal.noop);
+            ;
             console.log("====>>>> Can not submit there are invalid field or required");
         }
     }
@@ -196,8 +202,8 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                             $scope.customers.splice(index, 1);
                             msg = "Your customer has been deleted."
                         }
+                        alertify.log(msg, "success", 2000);
                         spinner.remove();
-                        swal('Deleted!', msg, 'success').catch(swal.noop);
                     },
                     function (response) {// failed
                         console.log(response);
@@ -214,6 +220,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         console.log("entity id:" + id);
         console.log("entity type:" + type);
         var key = id + "-" + type;
+        $('.container').attr('id', type);
         $('.gallery').attr('id', key);
         for (var i = 0; i < imgs.length; i++) {
             $("<div><a id='" + imgs[i] + "' href='" + imageUrl + "/view/" + imgs[i] + "'></a></div>").appendTo($('.gallery'));

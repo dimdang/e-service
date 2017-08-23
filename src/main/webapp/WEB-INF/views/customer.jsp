@@ -17,6 +17,11 @@
     <link rel="stylesheet" href="./resources/css/zoom.css" media="all"/>
 
     <link rel="stylesheet" href="./resources/css/sweetalert2.min.css"/>
+
+    <link rel="stylesheet" href="./resources/css/alertify.core.css"/>
+
+    <link rel="stylesheet" href="./resources/css/alertify.default.css"/>
+
 </head>
 <body ng-app="ngApp" ng-controller="ngCtrl" data-ng-init="fetchCustomer()">
 <div id="wrapper">
@@ -281,10 +286,15 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Customer
-                        </div>
+                        <div class="panel-heading">Customer</div>
                         <div class="panel-body">
                             <div class="row">
+                                <form class="form-inline"​ style="margin-left: 15px">
+                                    <div class="form-group">
+                                        <label >Search</label>
+                                        <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                                    </div>
+                                </form>
                                 <div class="col-md-12"><br/>
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
@@ -295,16 +305,26 @@
                                                 <table class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                     <tr>
-                                                        <th>Product Code</th>
-                                                        <th>Type</th>
-                                                        <th>Groom Name</th>
-                                                        <th>Bride Name</th>
-                                                        <th>Phone</th>
+                                                        <th ng-click="sort('PRODUCT.CODE')">Product Code
+                                                            <span class="glyphicon sort-icon" ng-show="sortKey=='PRODUCT.CODE'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                                        </th>
+                                                        <th ng-click="sort('PRODUCT.TYPE')">Type
+                                                            <span class="glyphicon sort-icon" ng-show="sortKey=='PRODUCT.TYPE'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                                        </th>
+                                                        <th ng-click="sort('GROOM_NAME')">Groom Name
+                                                            <span class="glyphicon sort-icon" ng-show="sortKey=='GROOM_NAME'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                                        </th>
+                                                        <th ng-click="sort('BRIDE_NAME')">Bride Name
+                                                            <span class="glyphicon sort-icon" ng-show="sortKey=='BRIDE_NAME'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                                        </th>
+                                                        <th ng-click="sort('PHONE')">Phone
+                                                            <span class="glyphicon sort-icon" ng-show="sortKey=='PHONE'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                                        </th>
                                                         <th>Action</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr ng-repeat="customer in customers">
+                                                    <tr ng-repeat="customer in customers|orderBy:sortKey:reverse|filter:search">
                                                         <td>{{customer.PRODUCT.CODE}}</td>
                                                         <td>{{types[customer.PRODUCT.TYPE]}}</td>
                                                         <td>{{customer.GROOM_NAME}}</td>
@@ -439,6 +459,8 @@
 <script src="./resources/js/main.js"></script>
 
 <script src="./resources/js/sweetalert2.min.js"></script>
+
+<script src="./resources/js/alertify.min.js"></script>
 
 </body>
 </html>

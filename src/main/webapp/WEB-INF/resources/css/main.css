@@ -101,6 +101,15 @@
 }
 
 .form-group.required .control-label:after {
-    content:"*";
-    color:red;
+    content: "*";
+    color: red;
+}
+
+.sort-icon {
+    font-size: 9px;
+    margin-left: 5px;
+}
+
+th {
+    cursor: pointer;
 }
