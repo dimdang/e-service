@@ -1,9 +1,6 @@
 package org.code.jarvis.repository.impl;
 
-import org.code.jarvis.model.core.EProductType;
-import org.code.jarvis.model.core.Image;
-import org.code.jarvis.model.core.Product;
-import org.code.jarvis.model.core.ProductContact;
+import org.code.jarvis.model.core.*;
 import org.code.jarvis.repository.ProductEntityDao;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
@@ -67,6 +64,15 @@ public class ProductEntityDaoImpl extends AbstractEntityDao implements ProductEn
     public List<Product> fetchProducts(int offset, int limit, EProductType type) {
         Criteria criteria = getCurrentSession().createCriteria(Product.class);
         criteria.add(Restrictions.eq("productType", type));
+        criteria.addOrder(Order.desc("updateDate"));
+        criteria.setFirstResult((offset - 1) * limit);
+        criteria.setMaxResults(limit);
+        return criteria.list();
+    }
+
+    @Override
+    public List<Promotion> fetchPromotion(int offset, int limit) {
+        Criteria criteria = getCurrentSession().createCriteria(Promotion.class);
         criteria.addOrder(Order.desc("updateDate"));
         criteria.setFirstResult((offset - 1) * limit);
         criteria.setMaxResults(limit);

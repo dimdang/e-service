@@ -36,6 +36,8 @@ public class Customer extends AbstractEntity {
     private String date;
     @JsonProperty("PHONE")
     private String phone;
+    @JsonProperty("EMAIL")
+    private String email;
     @JsonProperty("FACEBOOK")
     private String fb;
     @JsonProperty("MAP")
@@ -160,6 +162,15 @@ public class Customer extends AbstractEntity {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Column(name = "cus_email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Column(name = "cus_fb")

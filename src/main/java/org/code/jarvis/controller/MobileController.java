@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.code.jarvis.model.core.Customer;
-import org.code.jarvis.model.core.EProductType;
-import org.code.jarvis.model.core.Image;
-import org.code.jarvis.model.core.Product;
+import org.code.jarvis.model.core.*;
 import org.code.jarvis.model.response.JResponseEntity;
 import org.code.jarvis.service.CustomerEntityService;
 import org.code.jarvis.service.ProductEntityService;
@@ -77,8 +74,10 @@ public class MobileController {
                     productType = EProductType.WED;
                     break;
             }
+            log.info("Client mobile requested fetch product " + productType.desc);
             response = productEntityService.fetchProducts(offset, limit, productType);
             if (response == null) response = new ArrayList<>();
+            log.info("product " + productType.desc + " size:" + response.size());
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
@@ -86,6 +85,36 @@ public class MobileController {
         }
         return ResponseFactory.build("Success", HttpStatus.OK, response);
     }
+
+    @ApiOperation(
+            httpMethod = "POST",
+            value = "Fetch promotion with pagination",
+            notes = "This url does fetch products with pagination. type{WED,CER,DES}",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            protocols = "http")
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @PostMapping(value = "/promotion/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public JResponseEntity<Object> fetchPromotion(@RequestParam(value = "offset", defaultValue = "1") int offset,
+                                                  @RequestParam(value = "limit", defaultValue = "1") int limit) {
+        List<Promotion> response = null;
+        try {
+            log.info("Client mobile requested fetch promotion");
+            response = productEntityService.fetchPromotion(offset, limit);
+            if (response == null) response = new ArrayList<>();
+            log.info("promotion size:" + response.size());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return ResponseFactory.build("Success", HttpStatus.OK, response);
+    }
+
 
     @ApiOperation(
             httpMethod = "POST",
@@ -130,7 +159,7 @@ public class MobileController {
             protocols = "http")
     @GetMapping(value = "/image/view/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public HttpEntity<byte[]> viewImage(@PathVariable(name = "id", required = true) long id) throws IOException {
-        log.info("Client Requested picture Id:" + id);
+        log.info("Client mobile requested picture Id:" + id);
         Image image = productEntityService.getEntityById(id, Image.class);
         if (image != null) {
             byte[] bytes = image.getBytes();
@@ -151,7 +180,7 @@ public class MobileController {
             protocols = "http")
     @GetMapping(value = "/image/download/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public HttpEntity<byte[]> downloadImage(@PathVariable(name = "id", required = true) long id) throws IOException {
-        log.info("Client Requested picture Id:" + id);
+        log.info("Client mobile requested download picture id:" + id);
         Image image = productEntityService.getEntityById(id, Image.class);
         if (image != null) {
             byte[] bytes = image.getBytes();

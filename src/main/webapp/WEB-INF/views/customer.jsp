@@ -419,10 +419,13 @@
                                     <div class="form-group">
                                         <label id="home"></label>
                                     </div>
+                                    <div class="form-group">
+                                        <label id="tel"></label>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label id="tel"></label>
+                                        <label id="email"></label>
                                     </div>
                                     <div class="form-group">
                                         <label><a id="fb" href="#">Facebook</a></label>

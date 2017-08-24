@@ -7,7 +7,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.customers = [];
     $scope.types = {"WED": "សំបុត្រការ", "CER": "សំបុត្របុណ្យ", "DES": "សំបុត្រច្នៃ"};
 
-    $scope.sort = function(keyname){
+    $scope.sort = function (keyname) {
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     }
@@ -246,6 +246,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         $("#date").text("Date: " + customer.DATE);
         $("#address").text("Address: " + customer.ADDRESS);
         $("#tel").text("Tel: " + customer.PHONE);
+        $("#email").text("Email: " + customer.EMAIL);
         $("#fb").attr({"href": customer.FACEBOOK, "target": "_blank"});
         $("#map").attr({"href": customer.MAP, "target": "_blank"});
         $("#other").text("Other: " + customer.OTHER);
