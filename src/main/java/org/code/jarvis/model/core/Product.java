@@ -42,14 +42,14 @@ public class Product extends AbstractEntity {
         return id;
     }
 
-    @Column(name = "pro_code", length = 50)
+    @Column(name = "pro_code")
     @JsonProperty("CODE")
     @Override
     public String getCode() {
         return code;
     }
 
-    @Column(name = "pro_desc", length = 100)
+    @Column(name = "pro_desc")
     @JsonIgnore
     @Override
     public String getDesc() {

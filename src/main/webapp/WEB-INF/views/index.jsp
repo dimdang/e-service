@@ -257,6 +257,9 @@
                     <a href="promotion"><i class="fa fa-archive"></i> Promotion</a>
                 </li>
                 <li>
+                    <a href="advertisement"><i class="fa fa-buysellads"></i> Advertisement</a>
+                </li>
+                <li>
                     <a href="customer"><i class="fa fa-user"></i> Customer</a>
                 </li>
 

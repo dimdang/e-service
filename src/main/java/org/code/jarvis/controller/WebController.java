@@ -5,10 +5,7 @@ import flexjson.JSONDeserializer;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.code.jarvis.model.core.Customer;
-import org.code.jarvis.model.core.Image;
-import org.code.jarvis.model.core.Product;
-import org.code.jarvis.model.core.Promotion;
+import org.code.jarvis.model.core.*;
 import org.code.jarvis.model.response.JResponseEntity;
 import org.code.jarvis.service.CustomerEntityService;
 import org.code.jarvis.service.ProductEntityService;
@@ -230,6 +227,33 @@ public class WebController {
         }
         return ResponseFactory.build("Success", HttpStatus.OK, list);
     }
+
+
+    @ApiOperation(
+            httpMethod = "POST",
+            value = "Fetch all advertisement",
+            notes = "This url does fetch all advertisement",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            protocols = "http")
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @PostMapping(value = "/advertisement/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public JResponseEntity<Object> fetchAdvertisement() {
+        List<Advertisement> list = new ArrayList<>();
+        try {
+            list = customerEntityService.list(Advertisement.class);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return ResponseFactory.build("Success", HttpStatus.OK, list);
+    }
+
 
     @ApiOperation(
             httpMethod = "GET",
