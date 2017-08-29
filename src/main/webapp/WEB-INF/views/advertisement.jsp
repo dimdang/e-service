@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="./resources/css/alertify.default.css"/>
 
 </head>
-<body ng-app="ngApp" ng-controller="ngCtrl" data-ng-init="fetchPromotion()">
+<body ng-app="ngApp" ng-controller="ngCtrl" data-ng-init="fetchAdvertisement()">
 <div id="wrapper">
     <nav class="navbar navbar-default top-navbar" role="navigation">
         <div class="navbar-header">
@@ -307,7 +307,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary" ng-click="submitPromotion()">
+                                        <button type="submit" class="btn btn-primary" ng-click="submitAdvertisement()">
                                             Submit
                                         </button>
                                         <button type="reset" class="btn btn-default" ng-click="reset()">Clear
@@ -319,20 +319,9 @@
                             <div class="row">
                                 <div class="col-md-12"><br/>
                                     <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            Table Promotions
-                                        </div>
                                         <div class="panel-body">
-                                            <div class="container" id="POM">
-                                                <div class="gallery">
-                                                    <div>
-                                                        <a id="5" href="http://localhost:8080/api/web/image/view/5">
-                                                            <img class="img-thumbnail" src="./resources/img/test.jpg"
-                                                                 style="height:100px"/>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="clear"></div>
+                                            <div id="grid" style="margin-top: 5px">
+
                                             </div>
                                         </div>
                                     </div>

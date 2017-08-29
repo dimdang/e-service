@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -169,7 +170,7 @@ public class WebController {
     public JResponseEntity<Object> deletePromotion(@RequestParam(value = "id") long id, @RequestParam(value = "type") String type) {
         try {
             log.info("===>>> client request delete entity");
-            Object entity = null;
+            AbstractEntity entity = null;
             switch (type) {
                 case "CUS":
                     entity = productEntityService.getEntityById(id, Customer.class);
@@ -183,6 +184,9 @@ public class WebController {
                     break;
                 case "POM":
                     entity = productEntityService.getEntityById(id, Promotion.class);
+                    break;
+                case "AD":
+                    entity = productEntityService.getEntityById(id, Advertisement.class);
                     break;
                 default:
                     break;
@@ -254,6 +258,40 @@ public class WebController {
         return ResponseFactory.build("Success", HttpStatus.OK, list);
     }
 
+    @ApiOperation(
+            httpMethod = "POST",
+            value = "Upload image advertisement to server",
+            notes = "This url request upload image AD",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            protocols = "http")
+    @PostMapping(value = "/advertisement/submit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public JResponseEntity<Object> uploadImage(@RequestPart MultipartFile[] files) throws IOException {
+        try {
+            log.info("Client Upload file advertisement:" + files.length);
+            List<Advertisement> response = new ArrayList<>(files.length);
+            for (int i = 0; i < files.length; i++) {
+                String type = files[i].getContentType();
+                if (type.equals(MediaType.IMAGE_JPEG_VALUE) || type.equals(MediaType.IMAGE_PNG_VALUE)) {
+                    Image image = new Image();
+                    image.setBytes(files[i].getBytes());
+                    image.setName(files[i].getOriginalFilename());
+                    image.setType(type);
+                    Advertisement advertisement = new Advertisement();
+                    advertisement.setCreateDate(new Date());
+                    advertisement.setUpdateDate(new Date());
+                    advertisement.setImage(image);
+                    productEntityService.saveOrUpdate(advertisement);
+                    response.add(advertisement);
+                }
+            }
+            return ResponseFactory.build("Upload files advertisement to server success", HttpStatus.OK, response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseFactory.build("No files were upload", HttpStatus.BAD_REQUEST);
+    }
 
     @ApiOperation(
             httpMethod = "GET",
@@ -362,6 +400,7 @@ public class WebController {
             log.info("Client Requested delete picture Id:" + id);
             productEntityService.executeSQL("DELETE FROM td_product_image WHERE img_id=" + id);
             productEntityService.executeSQL("DELETE FROM td_promotion_image WHERE img_id=" + id);
+            productEntityService.executeSQL("DELETE FROM td_advertisement WHERE img_id=" + id);
             productEntityService.executeSQL("DELETE FROM td_image WHERE img_id=" + id);
             return ResponseFactory.build("Delete image success", HttpStatus.OK);
         } catch (Exception e) {
@@ -370,34 +409,4 @@ public class WebController {
         }
     }
 
-    @ApiOperation(
-            httpMethod = "POST",
-            value = "Upload image to server",
-            notes = "This url request to server to delete image",
-            response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            protocols = "http")
-    @PostMapping(value = "/image/upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public JResponseEntity<Object> uploadImage(@RequestPart MultipartFile[] files) throws IOException {
-        try {
-            log.info("Client Upload file:" + files.length);
-            List<Image> images = new ArrayList<>(files.length);
-            for (int i = 0; i < files.length; i++) {
-                String type = files[i].getContentType();
-                if (type.equals(MediaType.IMAGE_JPEG_VALUE) || type.equals(MediaType.IMAGE_PNG_VALUE)) {
-                    Image image = new Image();
-                    image.setBytes(files[i].getBytes());
-                    image.setName(files[i].getOriginalFilename());
-                    image.setType(type);
-                    images.add(image);
-                }
-            }
-            productEntityService.save(images);
-            return ResponseFactory.build("Upload files to server success", HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return ResponseFactory.build("No files were upload", HttpStatus.BAD_REQUEST);
-    }
 }

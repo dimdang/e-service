@@ -5,6 +5,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.products = [];
     $scope.promotions = [];
     $scope.customers = [];
+    $scope.advertisements = [];
     $scope.types = {"WED": "សំបុត្រការ", "CER": "សំបុត្របុណ្យ", "DES": "សំបុត្រច្នៃ"};
 
     $scope.sort = function (keyname) {
@@ -52,6 +53,58 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }).then(function (response) {
             console.log(response.data["DATA"]);
             $scope.customers = response.data["DATA"];
+            spinner.remove();
+        }, function (response) {
+            console.log(response);
+            spinner.remove();
+            swal('Oops...', 'Something went wrong please contact to developer!', 'error').catch(swal.noop);
+        });
+    }
+
+    $scope.fetchAdvertisement = function () {
+        spinner.appendTo("body");
+        $http({
+            method: 'POST',
+            url: baseUrl + '/advertisement/fetch',
+        }).then(function (response) {
+            console.log(response.data["DATA"]);
+            $scope.advertisements = response.data["DATA"];
+            for (var i = 0; i < $scope.advertisements.length; i++) {
+                var ad = $scope.advertisements[i];
+                $("<div class='img-wrap'><span class='close' id='" + ad.ID + "'>&times;</span>" +
+                    "<img id='" + ad.IMAGE.ID + "' class='img-thumbnail' src=\"" + imageUrl + "/view/" + ad.IMAGE.ID +
+                    "\" style='height:100px;cursor: pointer;'/>" +
+                    "</div>").appendTo($("#grid"));
+                $(".close").click(function () {
+                    for (var j = 0; j < $scope.advertisements.length; j++) {
+                        if ($(this).attr("id") == $scope.advertisements[j].ID) {
+                            var map = {"AD": $(this).parent(".img-wrap")}
+                            $scope.deleteEntity($(this).attr("id"), j, map);
+                            console.log($scope.advertisements);
+                            break;
+                        }
+                    }
+                });
+            }
+            $('.img-wrap img').click(function () {
+                $('.container').attr('id', "AD");
+                $('.gallery').attr('id', "1-AD");
+                for (var i = 0; i < $scope.advertisements.length; i++) {
+                    var ad = $scope.advertisements[i];
+                    $("<div><a id='" + ad.IMAGE.ID + "' href='" + imageUrl + "/view/" + ad.IMAGE.ID + "'></a></div>").appendTo($('.gallery'));
+                }
+                var a = $('.gallery a #' + $(this).attr('id'));
+                if (a != null) {
+                    $.getScript('./resources/js/zoom.min.js', function () {
+                        console.log($(".gallery a"));
+                        a.click();
+                        //$(".gallery a")[0].click();
+                        //images = imgs;
+                    });
+                } else {
+                    swal('Oops...', 'No image available on the server!', 'info').catch(swal.noop).catch(swal.noop);
+                }
+            });
             spinner.remove();
         }, function (response) {
             console.log(response);
@@ -158,6 +211,62 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }
     }
 
+    $scope.submitAdvertisement = function () {
+        var formData = new FormData();
+        for (var i = 0; i < arrayFile.length; i++) {
+            formData.append("files", arrayFile[i], arrayFile[i].name);
+        }
+        console.log("FILES ===>>> " + formData.get("files"));
+        if (arrayFile.length > 0) {
+            spinner.appendTo("body");
+            $http({
+                method: 'POST',
+                url: baseUrl + '/advertisement/submit',
+                data: formData,
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).then(function (response) {// success
+                    console.log(response);
+                    var ads = response.data["DATA"];
+                    for (var i = 0; i < ads.length; i++) {
+                        var ad = ads[i];
+                        $scope.advertisements.push(ad);
+                        var div = $("<div class='img-wrap'><span class='close' id='" + ad.ID + "'>&times;</span>" +
+                            "<img id='" + ad.IMAGE.ID + "' class='img-thumbnail' src=\"" + imageUrl + "/view/" + ad.IMAGE.ID +
+                            "\" style='height:100px;cursor: pointer;'/>" +
+                            "</div>");
+                        ($("#grid")).prepend(div);
+                        $('.gallery').prepend($("<div><a id='" + ad.IMAGE.ID + "' href='" + imageUrl + "/view/" + ad.IMAGE.ID + "'></a></div>"));
+                        $(".close").click(function () {
+                            for (var j = 0; j < $scope.advertisements.length; j++) {
+                                if ($(this).attr("id") == $scope.advertisements[j].ID) {
+                                    var map = {"AD": $(this).parent(".img-wrap")}
+                                    $scope.deleteEntity($(this).attr("id"), j, map);
+                                    console.log($scope.advertisements);
+                                    break;
+                                }
+                            }
+                        });
+                    }
+                    $scope.reset();
+                    spinner.remove();
+                    alertify.log("Submit advertisement successful.", "success", 2000);
+                },
+                function (response) {// failed
+                    console.log(response);
+                    spinner.remove();
+                    swal('Oops...', 'Something went wrong please contact to developer!', 'error').catch(swal.noop);
+                });
+        } else {
+            swal({
+                title: 'Warning!',
+                text: 'Please choose image to upload',
+                type: 'warning'
+            }).catch(swal.noop);
+            console.log("====>>>> Can not submit there are invalid field or required");
+        }
+    }
+
     $scope.editProduct = function (product) {
         $scope.txtId = product.ID;
         $scope.txtCode = product.CODE;
@@ -187,7 +296,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                 spinner.appendTo("body");
                 $http({
                     method: 'GET',
-                    url: baseUrl + '/entity/delete?id=' + id + '&type=' + type,
+                    url: baseUrl + '/entity/delete?id=' + id + '&type=' + Object.keys(type)[0],
                 }).then(function (response) {// success
                         console.log(response);
                         if (type == "PRO") {
@@ -198,9 +307,13 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                             $scope.promotions.splice(index, 1);
                             msg = "Your promotion has been deleted."
                         }
-                        else {
+                        else if (type == "CUS") {
                             $scope.customers.splice(index, 1);
                             msg = "Your customer has been deleted."
+                        } else {
+                            $scope.advertisements.splice(index, 1);
+                            type["AD"].remove();
+                            msg = "Your advertisement has been deleted."
                         }
                         alertify.log(msg, "success", 2000);
                         spinner.remove();

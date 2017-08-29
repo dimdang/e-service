@@ -1,5 +1,8 @@
 package org.code.jarvis.model.core;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 /**
@@ -9,9 +12,13 @@ import javax.persistence.*;
 @Table(name = "td_image")
 public class Image extends AbstractEntity {
 
+    @JsonIgnore
     private String path;
+    @JsonProperty("NAME")
     private String name;
+    @JsonProperty("TYPE")
     private String type;
+    @JsonIgnore
     private byte[] bytes;
 
     public Image() {
@@ -22,6 +29,7 @@ public class Image extends AbstractEntity {
         this.name = name;
     }
 
+    @JsonProperty("ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "img_id")
@@ -30,12 +38,14 @@ public class Image extends AbstractEntity {
         return id;
     }
 
+    @JsonIgnore
     @Column(name = "img_code", length = 50)
     @Override
     public String getCode() {
         return code;
     }
 
+    @JsonIgnore
     @Column(name = "img_desc", length = 100)
     @Override
     public String getDesc() {
