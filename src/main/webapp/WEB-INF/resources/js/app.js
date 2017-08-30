@@ -69,10 +69,11 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         }).then(function (response) {
             console.log(response.data["DATA"]);
             $scope.advertisements = response.data["DATA"];
+            advertisement = $scope.advertisements;
             for (var i = 0; i < $scope.advertisements.length; i++) {
                 var ad = $scope.advertisements[i];
                 $("<div class='img-wrap'><span class='close' id='" + ad.ID + "'>&times;</span>" +
-                    "<img id='" + ad.IMAGE.ID + "' class='img-thumbnail' src=\"" + imageUrl + "/view/" + ad.IMAGE.ID +
+                    "<img name='" + ad.IMAGE.ID + "' class='img-thumbnail' src=\"" + imageUrl + "/view/" + ad.IMAGE.ID +
                     "\" style='height:100px;cursor: pointer;'/>" +
                     "</div>").appendTo($("#grid"));
                 $(".close").click(function () {
@@ -80,36 +81,32 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                         if ($(this).attr("id") == $scope.advertisements[j].ID) {
                             var map = {"AD": $(this).parent(".img-wrap")}
                             $scope.deleteEntity($(this).attr("id"), j, map);
-                            console.log($scope.advertisements);
                             break;
                         }
                     }
                 });
             }
-            $('.img-wrap img').click(function () {
-                $('.container').attr('id', "AD");
-                $('.gallery').attr('id', "1-AD");
-                for (var i = 0; i < $scope.advertisements.length; i++) {
-                    var ad = $scope.advertisements[i];
-                    $("<div><a id='" + ad.IMAGE.ID + "' href='" + imageUrl + "/view/" + ad.IMAGE.ID + "'></a></div>").appendTo($('.gallery'));
-                }
-                var a = $('.gallery a #' + $(this).attr('id'));
-                if (a != null) {
-                    $.getScript('./resources/js/zoom.min.js', function () {
-                        console.log($(".gallery a"));
-                        a.click();
-                        //$(".gallery a")[0].click();
-                        //images = imgs;
-                    });
-                } else {
-                    swal('Oops...', 'No image available on the server!', 'info').catch(swal.noop).catch(swal.noop);
-                }
-            });
+            $scope.adImgClick($(".img-wrap img"));
             spinner.remove();
         }, function (response) {
             console.log(response);
             spinner.remove();
             swal('Oops...', 'Something went wrong please contact to developer!', 'error').catch(swal.noop);
+        });
+    }
+
+    $scope.adImgClick = function (obj) {
+        obj.click(function () {
+            $('.container').attr('id', "AD");
+            $('.gallery').attr('id', "1-AD");
+            var name = $(this).attr('name');
+            for (var i = 0; i < $scope.advertisements.length; i++) {
+                var ad = $scope.advertisements[i];
+                $("<div><a id='" + ad.IMAGE.ID + "' href='" + imageUrl + "/view/" + ad.IMAGE.ID + "'></a></div>").appendTo($('.gallery'));
+            }
+            $.getScript('./resources/js/zoom.min.js', function () {
+                $('#' + name).click();
+            });
         });
     }
 
@@ -232,17 +229,17 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                         var ad = ads[i];
                         $scope.advertisements.push(ad);
                         var div = $("<div class='img-wrap'><span class='close' id='" + ad.ID + "'>&times;</span>" +
-                            "<img id='" + ad.IMAGE.ID + "' class='img-thumbnail' src=\"" + imageUrl + "/view/" + ad.IMAGE.ID +
+                            "<img name='" + ad.IMAGE.ID + "' class='img-thumbnail' src=\"" + imageUrl + "/view/" + ad.IMAGE.ID +
                             "\" style='height:100px;cursor: pointer;'/>" +
                             "</div>");
-                        ($("#grid")).prepend(div);
-                        $('.gallery').prepend($("<div><a id='" + ad.IMAGE.ID + "' href='" + imageUrl + "/view/" + ad.IMAGE.ID + "'></a></div>"));
+                        //$("#grid").prepend(div);
+                        div.appendTo($("#grid"));
+                        $scope.adImgClick($(".img-wrap img"));
                         $(".close").click(function () {
                             for (var j = 0; j < $scope.advertisements.length; j++) {
                                 if ($(this).attr("id") == $scope.advertisements[j].ID) {
                                     var map = {"AD": $(this).parent(".img-wrap")}
                                     $scope.deleteEntity($(this).attr("id"), j, map);
-                                    console.log($scope.advertisements);
                                     break;
                                 }
                             }
@@ -289,14 +286,20 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         $("html, body").animate({scrollTop: 0}, 600);
     }
 
-    $scope.deleteEntity = function (id, index, type) {
+    $scope.deleteEntity = function (id, index, val) {
         var msg = "";
+        var type;
+        if (typeof val === 'string' || val instanceof String) {
+            type = val;
+        } else {
+            type = Object.keys(val)[0];
+        }
         var func = function () {
             if (id != null && index > -1 && type != null) {
                 spinner.appendTo("body");
                 $http({
                     method: 'GET',
-                    url: baseUrl + '/entity/delete?id=' + id + '&type=' + Object.keys(type)[0],
+                    url: baseUrl + '/entity/delete?id=' + id + '&type=' + type,
                 }).then(function (response) {// success
                         console.log(response);
                         if (type == "PRO") {
@@ -312,7 +315,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                             msg = "Your customer has been deleted."
                         } else {
                             $scope.advertisements.splice(index, 1);
-                            type["AD"].remove();
+                            val["AD"].remove();
                             msg = "Your advertisement has been deleted."
                         }
                         alertify.log(msg, "success", 2000);
@@ -325,6 +328,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                     });
             }
         }
+        console.log("====>>>> before alert confirm delete entity");
         $.fn.confirmDelete(func);
     }
 

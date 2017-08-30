@@ -1,6 +1,7 @@
 var arrayFile = [];//array image upload
 var arrayImage = [];//array image for view and upload
 var images;//array id image from server
+var advertisement;
 var baseUrl = "http://localhost:8080/api/web";//base url
 var imageUrl = baseUrl + "/image";//base image url
 var spinner = $("<div id='progress'> <div class='content'><img src='./resources/img/spinner.gif' /></div> </div>");
@@ -55,6 +56,7 @@ $(document).ready(function () {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
         }).then(function () {
+            console.log("====>>>> after confirm delete entity");
             func();
         }).catch(swal.noop);
     }

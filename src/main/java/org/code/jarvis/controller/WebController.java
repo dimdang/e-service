@@ -279,8 +279,8 @@ public class WebController {
                     image.setName(files[i].getOriginalFilename());
                     image.setType(type);
                     Advertisement advertisement = new Advertisement();
-                    advertisement.setCreateDate(new Date());
-                    advertisement.setUpdateDate(new Date());
+                    //advertisement.setCreateDate(new Date());
+                    //advertisement.setUpdateDate(new Date());
                     advertisement.setImage(image);
                     productEntityService.saveOrUpdate(advertisement);
                     response.add(advertisement);
