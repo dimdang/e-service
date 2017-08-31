@@ -1,7 +1,7 @@
 var arrayFile = [];//array image upload
 var arrayImage = [];//array image for view and upload
 var images;//array id image from server
-var advertisement;
+var advertisements = [];
 var baseUrl = "http://localhost:8080/api/web";//base url
 var imageUrl = baseUrl + "/image";//base image url
 var spinner = $("<div id='progress'> <div class='content'><img src='./resources/img/spinner.gif' /></div> </div>");
@@ -20,11 +20,13 @@ $(document).ready(function () {
                 var fileReader = new FileReader();
                 fileReader.fileName = file.name;
                 fileReader.onload = (function (e) {
-                    $("<div class='img-wrap'><span class='close' name='" + e.target.fileName + "'>&times;</span>" +
-                        "<img class='img-thumbnail' src=\"" + e.target.result +
-                        "\" style='height:100px' title=\"" + e.target.fileName + "\"/>" +
-                        "</div>").appendTo($("#preview"));
-                    $(".close").click(function () {
+                    var div = $("<div class='img-wrap'></div>");
+                    var img = $("<img class='img-thumbnail' src='" + e.target.result + "' style='height:100px' title='" + e.target.fileName + "' />");
+                    var span = $("<span class='close' name='" + e.target.fileName + "'>&times;</span>");
+                    span.appendTo(div);
+                    img.appendTo(div);
+                    div.appendTo($('#preview'));
+                    span.click(function () {
                         for (var index = 0; index < arrayFile.length; index++) {
                             var name = $(this).attr("name");
                             if (arrayFile[index].name === name) {
@@ -56,26 +58,49 @@ $(document).ready(function () {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
         }).then(function () {
-            console.log("====>>>> after confirm delete entity");
             func();
         }).catch(swal.noop);
     }
 
     $.fn.addMoreImage = function (key, resolve, reject, callback) {
+        var url = imageUrl + "/add?key=" + key;
         var form = new FormData();
         for (var i = 0; i < arrayImage.length; i++)
             form.append("files", arrayImage[i], arrayImage[i].name);
+        if (key == "AD")
+            url = baseUrl + "/advertisement/submit"
         $.ajax({
             type: 'POST',
-            url: imageUrl + "/add?key=" + key,
+            url: url,
             data: form,
             processData: false,
             contentType: false,
             success: function (response) {
-                var imgs = response.DATA;
-                for (var i = 0; i < imgs.length; i++) {
-                    images.push(imgs[i]);
-                    $("<div><a id='" + imgs[i] + "' href='" + imageUrl + "/view/" + imgs[i] + "'></a></div>").appendTo($('.gallery'));
+                var imgs = [];
+                if (response.MESSAGE == "Submit advertisement successful") {
+                    var data = response.DATA;
+                    for (var i = 0; i < data.length; i++) {
+                        imgs.push(data[i].IMAGE.ID);
+                        advertisements.push(data[i]);
+                        $("<div><a id='" + imgs[i] + "' href='" + imageUrl + "/view/" + imgs[i] + "'></a></div>").appendTo($('.gallery'));
+                        var span = $("<span class='close' id='" + data[i].ID + "' name='" + imgs[i] + "'>&times;</span>");
+                        var img = $("<img name='" + imgs[i] + "' class='img-thumbnail' src='" + imageUrl + "/view/" + imgs[i] + "' title='" + data[i].IMAGE.NAME + "' style='height:100px;cursor: pointer;'/>");
+                        var wrap = $("<div class='img-wrap'></div>");
+                        span.appendTo(wrap);
+                        img.appendTo(wrap);
+                        wrap.appendTo($('#grid'));
+                        img.click(function () {
+                            $("#" + $(this).attr("name")).click();
+                            return false;
+                        });
+                        $.fn.spanOnClose(span);
+                    }
+                } else {
+                    imgs = response.DATA;
+                    for (var i = 0; i < imgs.length; i++) {
+                        images.push(imgs[i]);
+                        $("<div><a id='" + imgs[i] + "' href='" + imageUrl + "/view/" + imgs[i] + "'></a></div>").appendTo($('.gallery'));
+                    }
                 }
                 callback(imgs);
                 while (arrayImage.length > 0) {
@@ -83,8 +108,8 @@ $(document).ready(function () {
                 }
                 alertify.log("Upload image to server successful.", "success", 2000);
                 resolve();
+                console.log(advertisements);
                 console.log(response);
-                console.log(images);
             },
             error: function (response) {
                 //swal('error!', 'error');

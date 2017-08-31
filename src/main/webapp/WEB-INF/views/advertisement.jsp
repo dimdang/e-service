@@ -347,6 +347,8 @@
 
 <!-- JS Scripts-->
 <script src="./resources/js/jquery-1.11.3.min.js"></script>
+
+<script src="./resources/js/zoom.min.js"></script>
 <!-- lib angular js -->
 <script src="./resources/js/angular.min.js"></script>
 <!-- angular app -->

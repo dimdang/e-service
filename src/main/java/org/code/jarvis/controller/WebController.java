@@ -23,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -286,7 +285,7 @@ public class WebController {
                     response.add(advertisement);
                 }
             }
-            return ResponseFactory.build("Upload files advertisement to server success", HttpStatus.OK, response);
+            return ResponseFactory.build("Submit advertisement successful", HttpStatus.OK, response);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -365,21 +364,23 @@ public class WebController {
                 default:
                     break;
             }
-            if (entity != null && images != null) {
-                for (int i = 0; i < files.length; i++) {
-                    String type = files[i].getContentType();
-                    if (type.equals(MediaType.IMAGE_JPEG_VALUE) || type.equals(MediaType.IMAGE_PNG_VALUE)) {
-                        Image image = new Image();
-                        image.setBytes(files[i].getBytes());
-                        image.setName(files[i].getOriginalFilename());
-                        image.setType(type);
-                        productEntityService.saveOrUpdate(image);
-                        response.add(image.getId());
-                        images.add(image);
+            if (entity != null) {
+                if (images != null) {
+                    for (int i = 0; i < files.length; i++) {
+                        String type = files[i].getContentType();
+                        if (type.equals(MediaType.IMAGE_JPEG_VALUE) || type.equals(MediaType.IMAGE_PNG_VALUE)) {
+                            Image image = new Image();
+                            image.setBytes(files[i].getBytes());
+                            image.setName(files[i].getOriginalFilename());
+                            image.setType(type);
+                            productEntityService.saveOrUpdate(image);
+                            response.add(image.getId());
+                            images.add(image);
+                        }
                     }
                 }
+                productEntityService.saveOrUpdate(entity);
             }
-            productEntityService.saveOrUpdate(entity);
             return ResponseFactory.build("Upload image to server success", HttpStatus.OK, response);
         } catch (Exception e) {
             e.printStackTrace();

@@ -5,7 +5,6 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.products = [];
     $scope.promotions = [];
     $scope.customers = [];
-    $scope.advertisements = [];
     $scope.types = {"WED": "សំបុត្រការ", "CER": "សំបុត្របុណ្យ", "DES": "សំបុត្រច្នៃ"};
 
     $scope.sort = function (keyname) {
@@ -68,45 +67,31 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
             url: baseUrl + '/advertisement/fetch',
         }).then(function (response) {
             console.log(response.data["DATA"]);
-            $scope.advertisements = response.data["DATA"];
-            advertisement = $scope.advertisements;
-            for (var i = 0; i < $scope.advertisements.length; i++) {
-                var ad = $scope.advertisements[i];
-                $("<div class='img-wrap'><span class='close' id='" + ad.ID + "'>&times;</span>" +
-                    "<img name='" + ad.IMAGE.ID + "' class='img-thumbnail' src=\"" + imageUrl + "/view/" + ad.IMAGE.ID +
-                    "\" style='height:100px;cursor: pointer;'/>" +
-                    "</div>").appendTo($("#grid"));
-                $(".close").click(function () {
-                    for (var j = 0; j < $scope.advertisements.length; j++) {
-                        if ($(this).attr("id") == $scope.advertisements[j].ID) {
-                            var map = {"AD": $(this).parent(".img-wrap")}
-                            $scope.deleteEntity($(this).attr("id"), j, map);
-                            break;
-                        }
-                    }
+            advertisements = response.data["DATA"];
+            for (var i = 0; i < advertisements.length; i++) {
+                var ad = advertisements[i];
+                var span = $("<span class='close' id='" + ad.ID + "' name='" + ad.IMAGE.ID + "'>&times;</span>");
+                var img = $("<img name='" + ad.IMAGE.ID + "' class='img-thumbnail' src='" + imageUrl + "/view/" + ad.IMAGE.ID + "' title='" + ad.IMAGE.NAME + "' style='height:100px;cursor: pointer;'/>");
+                var wrap = $("<div class='img-wrap'></div>");
+                span.appendTo(wrap);
+                img.appendTo(wrap);
+                wrap.appendTo($("#grid"));
+                var div = $("<div><a id='" + ad.IMAGE.ID + "' href='" + imageUrl + "/view/" + ad.IMAGE.ID + "'></a></div>");
+                div.appendTo($('.gallery'));
+                $.fn.imageOnClick(div);
+                img.click(function () {
+                    $("#" + $(this).attr("name")).click();
+                    return false;
                 });
+                $.fn.spanOnClose(span);
             }
-            $scope.adImgClick($(".img-wrap img"));
+            $('.container').attr('id', "AD");
+            $('.gallery').attr('id', "AD");
             spinner.remove();
         }, function (response) {
             console.log(response);
             spinner.remove();
             swal('Oops...', 'Something went wrong please contact to developer!', 'error').catch(swal.noop);
-        });
-    }
-
-    $scope.adImgClick = function (obj) {
-        obj.click(function () {
-            $('.container').attr('id', "AD");
-            $('.gallery').attr('id', "1-AD");
-            var name = $(this).attr('name');
-            for (var i = 0; i < $scope.advertisements.length; i++) {
-                var ad = $scope.advertisements[i];
-                $("<div><a id='" + ad.IMAGE.ID + "' href='" + imageUrl + "/view/" + ad.IMAGE.ID + "'></a></div>").appendTo($('.gallery'));
-            }
-            $.getScript('./resources/js/zoom.min.js', function () {
-                $('#' + name).click();
-            });
         });
     }
 
@@ -227,23 +212,22 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                     var ads = response.data["DATA"];
                     for (var i = 0; i < ads.length; i++) {
                         var ad = ads[i];
-                        $scope.advertisements.push(ad);
-                        var div = $("<div class='img-wrap'><span class='close' id='" + ad.ID + "'>&times;</span>" +
-                            "<img name='" + ad.IMAGE.ID + "' class='img-thumbnail' src=\"" + imageUrl + "/view/" + ad.IMAGE.ID +
-                            "\" style='height:100px;cursor: pointer;'/>" +
-                            "</div>");
+                        advertisements.push(ad);
+                        var span = $("<span class='close' id='" + ad.ID + "' name='" + ad.IMAGE.ID + "'>&times;</span>");
+                        var img = $("<img name='" + ad.IMAGE.ID + "' class='img-thumbnail' src='" + imageUrl + "/view/" + ad.IMAGE.ID + "' title='" + ad.IMAGE.NAME + "' style='height:100px;cursor: pointer;'/>");
+                        var wrap = $("<div class='img-wrap'></div>");
+                        span.appendTo(wrap);
+                        img.appendTo(wrap);
+                        wrap.appendTo($('#grid'));
                         //$("#grid").prepend(div);
-                        div.appendTo($("#grid"));
-                        $scope.adImgClick($(".img-wrap img"));
-                        $(".close").click(function () {
-                            for (var j = 0; j < $scope.advertisements.length; j++) {
-                                if ($(this).attr("id") == $scope.advertisements[j].ID) {
-                                    var map = {"AD": $(this).parent(".img-wrap")}
-                                    $scope.deleteEntity($(this).attr("id"), j, map);
-                                    break;
-                                }
-                            }
+                        var div = $("<div><a id='" + ad.IMAGE.ID + "' href='" + imageUrl + "/view/" + ad.IMAGE.ID + "'></a></div>");
+                        div.appendTo($('.gallery'));
+                        $.fn.imageOnClick(div);
+                        img.click(function () {
+                            $("#" + $(this).attr("name")).click();
+                            return false;
                         });
+                        $.fn.spanOnClose(span);
                     }
                     $scope.reset();
                     spinner.remove();
@@ -262,6 +246,17 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
             }).catch(swal.noop);
             console.log("====>>>> Can not submit there are invalid field or required");
         }
+    }
+
+    $.fn.spanOnClose = function (span) {
+        span.click(function () {
+            for (var j = 0; j < advertisements.length; j++) {
+                if ($(this).attr("id") == advertisements[j].ID) {
+                    $scope.deleteEntity($(this).attr("id"), j, $(this));
+                    break;
+                }
+            }
+        });
     }
 
     $scope.editProduct = function (product) {
@@ -292,7 +287,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         if (typeof val === 'string' || val instanceof String) {
             type = val;
         } else {
-            type = Object.keys(val)[0];
+            type = 'AD';
         }
         var func = function () {
             if (id != null && index > -1 && type != null) {
@@ -314,8 +309,9 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                             $scope.customers.splice(index, 1);
                             msg = "Your customer has been deleted."
                         } else {
-                            $scope.advertisements.splice(index, 1);
-                            val["AD"].remove();
+                            advertisements.splice(index, 1);
+                            $("#" + val.attr("name")).parent("div").remove();
+                            val.parent(".img-wrap").remove();
                             msg = "Your advertisement has been deleted."
                         }
                         alertify.log(msg, "success", 2000);
@@ -328,7 +324,6 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                     });
             }
         }
-        console.log("====>>>> before alert confirm delete entity");
         $.fn.confirmDelete(func);
     }
 
