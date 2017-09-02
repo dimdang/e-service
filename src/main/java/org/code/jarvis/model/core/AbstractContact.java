@@ -15,8 +15,6 @@ public abstract class AbstractContact extends AbstractEntity {
     protected String phone1;
     @JsonProperty("PHONE2")
     protected String phone2;
-    @JsonProperty("PHONE3")
-    protected String phone3;
     @JsonProperty("EMAIL")
     protected String email;
     @JsonProperty("FACEBOOK")
@@ -38,15 +36,6 @@ public abstract class AbstractContact extends AbstractEntity {
 
     public void setPhone2(String phone2) {
         this.phone2 = phone2;
-    }
-
-    @Column(name = "phone3", length = 25)
-    public String getPhone3() {
-        return phone3;
-    }
-
-    public void setPhone3(String phone3) {
-        this.phone3 = phone3;
     }
 
     @Column(name = "email", length = 25)

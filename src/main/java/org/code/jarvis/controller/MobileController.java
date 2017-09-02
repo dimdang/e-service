@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.ResultSet;
+import java.util.*;
 
 /**
  * Created by KimChheng on 5/18/2017.
@@ -89,7 +87,7 @@ public class MobileController {
     @ApiOperation(
             httpMethod = "POST",
             value = "Fetch promotion with pagination",
-            notes = "This url does fetch products with pagination. type{WED,CER,DES}",
+            notes = "This url does fetch products with pagination.",
             response = JResponseEntity.class,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             protocols = "http")
@@ -115,6 +113,43 @@ public class MobileController {
         return ResponseFactory.build("Success", HttpStatus.OK, response);
     }
 
+
+    @ApiOperation(
+            httpMethod = "POST",
+            value = "Fetch advertisement",
+            notes = "This url does fetch advertisement",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            protocols = "http")
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @PostMapping(value = "/advertisement/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public JResponseEntity<Object> fetchAdvertisement() {
+        String sql = "SELECT adv_id,img_id FROM td_advertisement ORDER BY random()";
+        List<Map<String, Object>> response = new ArrayList<>();
+        try {
+            log.info("Client mobile requested view advertisement");
+            log.info(sql);
+            ResultSet resultSet = productEntityService.executeQuery(sql);
+            if (resultSet != null) {
+                while (resultSet.next()) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("ID", resultSet.getLong("adv_id"));
+                    map.put("IMAGE", resultSet.getLong("img_id"));
+                    response.add(map);
+                }
+                resultSet.close();
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return ResponseFactory.build("Success", HttpStatus.OK, response);
+    }
 
     @ApiOperation(
             httpMethod = "POST",
@@ -214,4 +249,5 @@ public class MobileController {
         map.put("PRODUCT_ID", "1");
         return map;
     }
+
 }

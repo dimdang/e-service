@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -91,6 +92,11 @@ public abstract class AbstractEntityService implements EntityService {
     @Override
     public int executeSQL(String sql) {
         return getDao().executeSQL(sql);
+    }
+
+    @Override
+    public ResultSet executeQuery(String sql) throws Exception {
+        return getDao().executeQuery(sql);
     }
 
     @Override

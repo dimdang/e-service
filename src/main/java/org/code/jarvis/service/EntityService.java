@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -46,6 +47,8 @@ public interface EntityService {
     <T> void delete(T entity);
 
     int executeSQL(String sql);
+
+    ResultSet executeQuery(String sql)throws Exception;
 
     void flush();
 

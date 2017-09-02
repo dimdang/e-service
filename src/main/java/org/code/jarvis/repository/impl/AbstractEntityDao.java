@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -145,6 +146,18 @@ public abstract class AbstractEntityDao implements EntityDao {
         if (sql != null && !sql.isEmpty())
             return getCurrentSession().createSQLQuery(sql).executeUpdate();
         return 0;
+    }
+
+    @Override
+    public ResultSet executeQuery(String sql) throws Exception {
+        Connection connection = getConnection();
+        ResultSet resultSet = null;
+        if (sql != null && !sql.isEmpty()) {
+            if (!connection.isClosed()) {
+                resultSet = connection.prepareStatement(sql).executeQuery();
+            }
+        }
+        return resultSet;
     }
 
     @Override
