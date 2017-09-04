@@ -44,8 +44,7 @@ public class MobileController {
             value = "Fetch product with pagination",
             notes = "This url does fetch products with pagination. type{WED,CER,DES}",
             response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            protocols = "http")
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
@@ -89,8 +88,7 @@ public class MobileController {
             value = "Fetch promotion with pagination",
             notes = "This url does fetch products with pagination.",
             response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            protocols = "http")
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
@@ -119,8 +117,7 @@ public class MobileController {
             value = "Fetch advertisement",
             notes = "This url does fetch advertisement",
             response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            protocols = "http")
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
@@ -157,8 +154,7 @@ public class MobileController {
             notes = "The client have to submit json customer and images using form data",
             response = JResponseEntity.class,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            protocols = "http")
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
@@ -190,8 +186,7 @@ public class MobileController {
             httpMethod = "GET",
             value = "View image from server",
             notes = "This url request to server for view image",
-            response = HttpEntity.class,
-            protocols = "http")
+            response = HttpEntity.class)
     @GetMapping(value = "/image/view/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public HttpEntity<byte[]> viewImage(@PathVariable(name = "id", required = true) long id) throws IOException {
         log.info("Client mobile requested picture Id:" + id);
@@ -211,8 +206,7 @@ public class MobileController {
             httpMethod = "GET",
             value = "Download image from server",
             notes = "This url request to server for download image",
-            response = HttpEntity.class,
-            protocols = "http")
+            response = HttpEntity.class)
     @GetMapping(value = "/image/download/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public HttpEntity<byte[]> downloadImage(@PathVariable(name = "id", required = true) long id) throws IOException {
         log.info("Client mobile requested download picture id:" + id);
@@ -226,6 +220,34 @@ public class MobileController {
             return new HttpEntity<>(bytes, headers);
         }
         return null;
+    }
+
+
+    @ApiOperation(
+            httpMethod = "POST",
+            value = "Register Client",
+            notes = "This url does register client",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public JResponseEntity<Object> registerClient(@RequestParam(value = "token") String token) {
+        String sql = "INSERT INTO td_client(cli_token) VALUES('" + token + "') " +
+                "ON CONFLICT (cli_toke) DO UPDATE SET cli_token='" + token + "'";
+        try {
+            log.info("Register client token:" + token);
+            log.info(sql);
+            productEntityService.executeSQL(sql);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return ResponseFactory.build("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return ResponseFactory.build("Success", HttpStatus.OK, token);
     }
 
     @ApiOperation(

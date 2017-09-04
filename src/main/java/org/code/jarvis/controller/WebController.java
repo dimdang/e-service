@@ -53,8 +53,7 @@ public class WebController {
             notes = "The client have to submit json product and images using form data.",
             response = JResponseEntity.class,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            protocols = "http")
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
@@ -80,8 +79,7 @@ public class WebController {
             notes = "The client have to submit json promotion and images using form data.",
             response = JResponseEntity.class,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            protocols = "http")
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
@@ -106,8 +104,7 @@ public class WebController {
             value = "Fetch all products",
             notes = "This url does fetch all products",
             response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            protocols = "http")
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
@@ -132,8 +129,7 @@ public class WebController {
             value = "Fetch all promotions",
             notes = "This url does fetch all promotions",
             response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            protocols = "http")
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
@@ -158,8 +154,7 @@ public class WebController {
             value = "Delete Entity",
             notes = "This url does delete entity from database",
             response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            protocols = "http")
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
@@ -209,8 +204,7 @@ public class WebController {
             value = "Fetch all customers",
             notes = "This url does fetch all customers",
             response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            protocols = "http")
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
@@ -237,8 +231,7 @@ public class WebController {
             value = "Fetch all advertisement",
             notes = "This url does fetch all advertisement",
             response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            protocols = "http")
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
@@ -263,8 +256,7 @@ public class WebController {
             notes = "This url request upload image AD",
             response = JResponseEntity.class,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            protocols = "http")
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PostMapping(value = "/advertisement/submit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public JResponseEntity<Object> uploadImage(@RequestPart MultipartFile[] files) throws IOException {
         try {
@@ -296,8 +288,7 @@ public class WebController {
             httpMethod = "GET",
             value = "View image from server",
             notes = "This url request to server for view image",
-            response = HttpEntity.class,
-            protocols = "http")
+            response = HttpEntity.class)
     @GetMapping(value = "/image/view/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public HttpEntity<byte[]> viewImage(@PathVariable(name = "id", required = true) long id) throws IOException {
         log.info("Client Requested picture Id:" + id);
@@ -317,8 +308,7 @@ public class WebController {
             httpMethod = "GET",
             value = "Download image from server",
             notes = "This url request to server for download image",
-            response = HttpEntity.class,
-            protocols = "http")
+            response = HttpEntity.class)
     @GetMapping(value = "/image/download/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public HttpEntity<byte[]> downloadImage(@PathVariable(name = "id", required = true) long id) throws IOException {
         log.info("Client Requested download picture Id:" + id);
@@ -339,8 +329,7 @@ public class WebController {
             value = "Add image to entity",
             notes = "This url request to server to add image",
             response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            protocols = "http")
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PostMapping(value = "/image/add", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public JResponseEntity<Object> addImage(@RequestParam(value = "key") String key, @RequestParam(value = "files") MultipartFile[] files) throws IOException {
         try {
@@ -393,8 +382,7 @@ public class WebController {
             value = "Delete image from server",
             notes = "This url request to server to delete image",
             response = JResponseEntity.class,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            protocols = "http")
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @GetMapping(value = "/image/delete/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public JResponseEntity<Object> deleteImage(@PathVariable(name = "id") long id) throws IOException {
         try {
