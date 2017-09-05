@@ -8,7 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>V-Printing-Access-Denied</title>
+    <link rel="icon" type="image/ico" href="./resources/img/icons/v_printing_logo.ico">
 </head>
 <body>
         <center><h1>Access Denied</h1></center>

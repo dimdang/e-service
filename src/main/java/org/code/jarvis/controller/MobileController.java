@@ -263,22 +263,4 @@ public class MobileController {
         return map;
     }
 
-    public static int[] RandomArray(int len) {
-        ArrayList<Integer> al = new ArrayList<Integer>(len);
-        for (int i = 1; i <= len; ++i) {    // initialize the ArrayList with values 1 to len
-            al.add(i);
-        }
-        Collections.shuffle(al);// shuffle to random order
-        System.out.println(al.toString());
-        int[] results = new int[len];
-        // switching return type to ArrayList could eliminate the following loop
-        for (int i = 0; i < len; ++i) {     // copy to array of ints
-            results[i] = al.get(i);         // note: create a subset by reducing
-        }                                  // the upper bound for this loop
-        return results;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(Arrays.toString(RandomArray(10)));
-    }
 }
