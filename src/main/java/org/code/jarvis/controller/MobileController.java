@@ -8,7 +8,9 @@ import org.code.jarvis.model.core.*;
 import org.code.jarvis.model.response.JResponseEntity;
 import org.code.jarvis.service.CustomerEntityService;
 import org.code.jarvis.service.ProductEntityService;
+import org.code.jarvis.util.AdvertisementUtil;
 import org.code.jarvis.util.ResponseFactory;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,21 +127,10 @@ public class MobileController {
             @ApiResponse(code = 500, message = "Internal Server Error")})
     @PostMapping(value = "/advertisement/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public JResponseEntity<Object> fetchAdvertisement() {
-        String sql = "SELECT adv_id,img_id FROM td_advertisement ORDER BY random()";
         List<Map<String, Object>> response = new ArrayList<>();
         try {
             log.info("Client mobile requested view advertisement");
-            log.info(sql);
-            ResultSet resultSet = productEntityService.executeQuery(sql);
-            if (resultSet != null) {
-                while (resultSet.next()) {
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("ID", resultSet.getLong("adv_id"));
-                    map.put("IMAGE", resultSet.getLong("img_id"));
-                    response.add(map);
-                }
-                resultSet.close();
-            }
+            response = AdvertisementUtil.getAdvertisement(productEntityService);
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
@@ -237,7 +228,7 @@ public class MobileController {
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public JResponseEntity<Object> registerClient(@RequestParam(value = "token") String token) {
         String sql = "INSERT INTO td_client(cli_token) VALUES('" + token + "') " +
-                "ON CONFLICT (cli_toke) DO UPDATE SET cli_token='" + token + "'";
+                "ON CONFLICT (cli_token) DO UPDATE SET cli_token='" + token + "'";
         try {
             log.info("Register client token:" + token);
             log.info(sql);
@@ -272,4 +263,22 @@ public class MobileController {
         return map;
     }
 
+    public static int[] RandomArray(int len) {
+        ArrayList<Integer> al = new ArrayList<Integer>(len);
+        for (int i = 1; i <= len; ++i) {    // initialize the ArrayList with values 1 to len
+            al.add(i);
+        }
+        Collections.shuffle(al);// shuffle to random order
+        System.out.println(al.toString());
+        int[] results = new int[len];
+        // switching return type to ArrayList could eliminate the following loop
+        for (int i = 0; i < len; ++i) {     // copy to array of ints
+            results[i] = al.get(i);         // note: create a subset by reducing
+        }                                  // the upper bound for this loop
+        return results;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(RandomArray(10)));
+    }
 }

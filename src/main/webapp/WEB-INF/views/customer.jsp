@@ -241,7 +241,7 @@
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li><a href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -431,7 +431,7 @@
                                         <label id="email"></label>
                                     </div>
                                     <div class="form-group">
-                                        <label><a id="fb" href="#">Facebook</a></label>
+                                        <label id="fb"></label>
                                     </div>
                                     <div class="form-group">
                                         <label><a id="map" href="#">Google Map</a></label>

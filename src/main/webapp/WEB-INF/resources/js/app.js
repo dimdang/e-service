@@ -359,7 +359,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
         $("#address").text("Address: " + customer.ADDRESS);
         $("#tel").text("Tel: " + customer.PHONE);
         $("#email").text("Email: " + customer.EMAIL);
-        $("#fb").attr({"href": customer.FACEBOOK, "target": "_blank"});
+        $("#fb").text("Facebook: " + customer.FACEBOOK);
         $("#map").attr({"href": customer.MAP, "target": "_blank"});
         $("#other").text("Other: " + customer.OTHER);
     }

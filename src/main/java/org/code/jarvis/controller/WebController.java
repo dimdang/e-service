@@ -10,15 +10,19 @@ import org.code.jarvis.model.response.JResponseEntity;
 import org.code.jarvis.service.CustomerEntityService;
 import org.code.jarvis.service.ProductEntityService;
 import org.code.jarvis.service.PromotionEntityService;
+import org.code.jarvis.util.AdvertisementUtil;
 import org.code.jarvis.util.ResponseFactory;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -45,6 +49,8 @@ public class WebController {
     private ObjectMapper objectMapper;
     @Autowired
     private JSONDeserializer<Map<String, Object>> jsonDeserializer;
+    @Autowired
+    private Environment environment;
 
 
     @ApiOperation(
@@ -277,6 +283,7 @@ public class WebController {
                     response.add(advertisement);
                 }
             }
+            pushNotification();
             return ResponseFactory.build("Submit advertisement successful", HttpStatus.OK, response);
         } catch (IOException e) {
             e.printStackTrace();
@@ -398,4 +405,36 @@ public class WebController {
         }
     }
 
+    private String pushNotification() {
+        try {
+            String androidFcmKey = environment.getProperty("fcm.server.key");
+            String url = "https://fcm.googleapis.com/fcm/send";
+
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.set("Authorization", "key=" + androidFcmKey);
+            httpHeaders.set("Content-Type", "application/json");
+
+            JSONObject body = new JSONObject();
+            JSONObject notification = new JSONObject();
+
+            body.put("to", "/topics/Testing");
+            body.put("priority", "high");
+
+            notification.put("title", "V-Printing");
+            notification.put("body", "New Advertisement");
+            notification.put("notificationType", "Advertisement");
+
+            body.put("notification", notification);
+            body.put("DATA", AdvertisementUtil.getAdvertisement(productEntityService));
+
+            HttpEntity<String> httpEntity = new HttpEntity(body.toString(), httpHeaders);
+            String response = restTemplate.postForObject(url, httpEntity, String.class);
+            log.info("======>>>> Push Notification FCM:" + response);
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

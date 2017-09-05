@@ -21,7 +21,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value = {"classpath:/config/database.properties",
-        "classpath:/config/hibernate.properties"})
+        "classpath:/config/hibernate.properties", "classpath:/fcm/fcm.properties"})
 public class WebConfiguration {
 
     @Autowired
@@ -54,7 +54,7 @@ public class WebConfiguration {
         return transactionManager;
     }
 
-    public Properties getHibernateProperties(){
+    public Properties getHibernateProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.put("hibernate.dialect", environment.getProperty("jarvis.hibernate.dialect"));
         hibernateProperties.put("hibernate.hbm2ddl.auto", environment.getProperty("jarvis.hibernate.hbm2ddl.auto"));
