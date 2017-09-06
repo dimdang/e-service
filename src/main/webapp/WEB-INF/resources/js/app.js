@@ -313,6 +313,7 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
                             $("#" + val.attr("name")).parent("div").remove();
                             val.parent(".img-wrap").remove();
                             msg = "Your advertisement has been deleted."
+                            $.get(baseUrl + "/notification");
                         }
                         alertify.log(msg, "success", 2000);
                         spinner.remove();

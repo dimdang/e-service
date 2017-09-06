@@ -169,7 +169,7 @@ public class WebController {
     @GetMapping(value = "/entity/delete", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public JResponseEntity<Object> deletePromotion(@RequestParam(value = "id") long id, @RequestParam(value = "type") String type) {
         try {
-            log.info("===>>> client request delete entity");
+            log.info("======>>>> client request delete entity");
             AbstractEntity entity = null;
             switch (type) {
                 case "CUS":
@@ -405,36 +405,39 @@ public class WebController {
         }
     }
 
-    private String pushNotification() {
+    @ApiOperation(
+            httpMethod = "GET",
+            value = "Push notification to client",
+            notes = "This url request to server to push notification to client")
+    @GetMapping(value = "/notification")
+    public void pushNotification() {
         try {
-            String androidFcmKey = environment.getProperty("fcm.server.key");
+            log.info("======>>>> Push notifcation to client");
+            String fcmServerKey = environment.getProperty("fcm.server.key");
             String url = "https://fcm.googleapis.com/fcm/send";
 
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.set("Authorization", "key=" + androidFcmKey);
+            httpHeaders.set("Authorization", "key=" + fcmServerKey);
             httpHeaders.set("Content-Type", "application/json");
 
             JSONObject body = new JSONObject();
-            JSONObject notification = new JSONObject();
+            JSONObject message = new JSONObject();
 
             body.put("to", "/topics/Testing");
-            body.put("priority", "high");
 
-            notification.put("title", "V-Printing");
-            notification.put("body", "New Advertisement");
-            notification.put("notificationType", "Advertisement");
+            message.put("title", "V-Printing");
+            message.put("body", "New Advertisement");
+            message.put("type", "Advertisement");
+            message.put("data", AdvertisementUtil.getAdvertisement(productEntityService));
 
-            body.put("notification", notification);
-            body.put("DATA", AdvertisementUtil.getAdvertisement(productEntityService));
+            body.put("data", message);
 
             HttpEntity<String> httpEntity = new HttpEntity(body.toString(), httpHeaders);
             String response = restTemplate.postForObject(url, httpEntity, String.class);
             log.info("======>>>> Push Notification FCM:" + response);
-            return response;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
     }
 }
