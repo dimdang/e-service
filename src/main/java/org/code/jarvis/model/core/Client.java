@@ -16,19 +16,19 @@ public class Client extends AbstractEntity {
     @Column(name = "cli_id")
     @Override
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     @Column(name = "cli_code")
     @Override
     public String getCode() {
-        return code;
+        return this.code;
     }
 
     @Column(name = "cli_desc")
     @Override
     public String getDesc() {
-        return desc;
+        return this.desc;
     }
 
     @Column(name = "cli_token", unique = true, nullable = false)
