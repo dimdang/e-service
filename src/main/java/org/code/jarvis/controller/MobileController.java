@@ -227,7 +227,7 @@ public class MobileController {
             @ApiResponse(code = 500, message = "Internal Server Error")})
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public JResponseEntity<Object> registerClient(@RequestParam(value = "token") String token) {
-        String sql = "INSERT INTO td_client(cli_token) VALUES('" + token + "') " +
+        String sql = "INSERT INTO td_client_token(cli_token) VALUES('" + token + "') " +
                 "ON CONFLICT (cli_token) DO UPDATE SET cli_token='" + token + "'";
         try {
             log.info("Register client token:" + token);

@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by KimChheng on 9/3/2017.
  */
 @Entity
-@Table(name = "td_client")
+@Table(name = "td_client_token")
 public class Client extends AbstractEntity {
 
     private String token;
