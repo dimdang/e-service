@@ -2,7 +2,8 @@ var arrayFile = [];//array image upload
 var arrayImage = [];//array image for view and upload
 var images;//array id image from server
 var advertisements = [];
-var baseUrl = "https://e-service-application.herokuapp.com/api/web";//base url
+//var baseUrl = "https://e-service-application.herokuapp.com/api/web";//base url
+var baseUrl = "http://localhost:8080/api/web"
 var imageUrl = baseUrl + "/image";//base image url
 var spinner = $("<div id='progress'> <div class='content'><img src='./resources/img/spinner.gif' /></div> </div>");
 $(document).ready(function () {

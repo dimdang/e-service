@@ -1,16 +1,12 @@
 package org.code.jarvis.configuration;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 /**
  * Created by KimChheng on 5/8/2017.
  */
 @Configuration
-//@EnableWebMvc
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
@@ -28,12 +24,10 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
+        registry.addMapping("*")
                 .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH")
-                //.allowedHeaders("*")
                 .allowedHeaders("Origin", "Authorization", "Content-Type", "Accept", "x-requested-with", "Cache-Control")
-                //.exposedHeaders("header1", "header2")
                 .allowCredentials(true).maxAge(3600);
     }
 
