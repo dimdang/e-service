@@ -13,13 +13,15 @@ app.controller('ngCtrl', ['$scope', '$http', function ($scope, $http) {
     }
 
     $scope.fetchProduct = function () {
+        var page = 2;
+        var size = 10;
         spinner.appendTo("body");
         $http({
             method: 'POST',
-            url: baseUrl + '/product/fetch',
+            url: baseUrl + '/products/fetch?page=' + page + '&size=' + size,
         }).then(function (response) {
-            console.log(response.data["DATA"]);
-            $scope.products = response.data["DATA"];
+            console.log(response.data.content);
+            $scope.products = response.data.content;
             spinner.remove();
         }, function (response) {
             console.log(response);

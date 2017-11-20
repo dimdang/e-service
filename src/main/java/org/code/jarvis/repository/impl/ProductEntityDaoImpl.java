@@ -3,8 +3,11 @@ package org.code.jarvis.repository.impl;
 import org.code.jarvis.model.core.*;
 import org.code.jarvis.repository.ProductEntityDao;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
@@ -78,5 +81,4 @@ public class ProductEntityDaoImpl extends AbstractEntityDao implements ProductEn
         criteria.setMaxResults(limit);
         return criteria.list();
     }
-
 }

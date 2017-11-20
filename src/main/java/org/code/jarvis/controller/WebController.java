@@ -9,6 +9,7 @@ import org.code.jarvis.model.core.*;
 import org.code.jarvis.model.response.JResponseEntity;
 import org.code.jarvis.service.CustomerEntityService;
 import org.code.jarvis.service.ProductEntityService;
+import org.code.jarvis.service.ProductService;
 import org.code.jarvis.service.PromotionEntityService;
 import org.code.jarvis.util.AdvertisementUtil;
 import org.code.jarvis.util.ResponseFactory;
@@ -17,10 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,6 +51,9 @@ public class WebController {
     private JSONDeserializer<Map<String, Object>> jsonDeserializer;
     @Autowired
     private Environment environment;
+
+    @Autowired
+    private ProductService productService;
 
 
     @ApiOperation(
@@ -439,5 +442,24 @@ public class WebController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @ApiOperation(
+            httpMethod = "POST",
+            value = "Fetch all products",
+            notes = "This url does fetch all products",
+            response = JResponseEntity.class,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @PostMapping(value = "/products/fetch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Page<Product>> getUsers(
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "10", required = false) int size) {
+        Page<Product> products = productService.findAll(new PageRequest(page, size));
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }
